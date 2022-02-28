@@ -42,7 +42,7 @@ const allEnvs = {
     "windows": {
         "file": "start.bat",
         "standard": stripIndent`
-            %flags %gui
+            %flags
         `,
         get "autorestart"() {
             return stripIndent`
