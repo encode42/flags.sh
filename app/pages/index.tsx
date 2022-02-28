@@ -1,9 +1,9 @@
 import Layout from "../core/layouts/Layout";
-import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Code, Button } from "@mantine/core";
+import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Code, ActionIcon } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Prism } from "@mantine/prism";
 import { stripIndent } from "common-tags";
-import { AlertCircle, Archive, BrandDebian, BrandWindows } from "tabler-icons-react";
+import { AlertCircle, Archive, BrandDebian, BrandWindows, Download } from "tabler-icons-react";
 import FileSaver from "file-saver";
 
 // TODO: API
@@ -220,7 +220,7 @@ function Home() {
                         <Space />
 
                         <Group>
-                            <Button onClick={() => {
+                            <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
                                 // TODO: de-dupe
                                 // Get the tabbed script
                                 const currentKey = Object.keys(allEnvs)[activeTab];
@@ -231,8 +231,8 @@ function Home() {
                                 const blob = new Blob([result], { "type": "text/plain" });
                                 FileSaver.saveAs(blob, allEnvs[currentKey].file);
                             }}>
-                                Download
-                            </Button>
+                                <Download />
+                            </ActionIcon>
 
                             <Group spacing="xs" sx={{
                                 "display": memory < 4 ? "" : "none"
