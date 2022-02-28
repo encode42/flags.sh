@@ -208,7 +208,15 @@ function Home() {
 
                     <Space h="lg" />
                     <Text size="xl" weight={700}>Result</Text>
-                    <Prism.Tabs onTabChange={active => {
+                    <Prism.Tabs styles={theme => ({
+                        "copy": {
+                            "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0],
+                            "borderRadius": theme.radius.xs
+                        },
+                        "line": {
+                            "overflow": "wrap"
+                        }
+                    })} onTabChange={active => {
                         setActiveTab(active);
                     }}>
                         <Prism.Tab key="linux" label="Linux / Mac" language="bash" icon={<BrandDebian />}>
