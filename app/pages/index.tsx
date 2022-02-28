@@ -1,10 +1,11 @@
 import Layout from "../core/layouts/Layout";
-import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Code, ActionIcon } from "@mantine/core";
+import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Code, ActionIcon, useMantineColorScheme, Portal } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Prism } from "@mantine/prism";
 import { stripIndent } from "common-tags";
-import { AlertCircle, Archive, BrandDebian, BrandWindows, Download } from "tabler-icons-react";
+import { AlertCircle, Archive, BrandDebian, BrandWindows, Download, Moon, Sun } from "tabler-icons-react";
 import FileSaver from "file-saver";
+import { dark } from "@mantine/prism/lib/prism-theme";
 
 // TODO: API
 
@@ -87,6 +88,9 @@ function process(input: string, placeholders: Placeholders): string {
  * The homepage of the site.
  */
 function Home() {
+    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+    const isDark = colorScheme === "dark";
+
     const defaultFilename = "server.jar";
     const maxMemory = 24;
     const [filename, setFileName] = useState<string>(defaultFilename);
@@ -161,10 +165,12 @@ function Home() {
             }}>
                 <Paper padding="md" shadow="sm" withBorder sx={theme => ({
                     "width": "100%",
-                    "backgroundColor": theme.colors.dark[6]
+                    "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0]
                 })}>
                     <Title>LaunchMC</Title>
-                    <Group grow>
+                    <Group grow sx={{
+                        "flexAlign": "start"
+                    }}>
                         <Group direction="column" grow>
                             {/* TODO: Reset value on refresh */}
                             <TextInput required label="Filename" defaultValue={defaultFilename} icon={<Archive />} error={invalidFilename} onChange={event => {
@@ -232,6 +238,12 @@ function Home() {
                                 FileSaver.saveAs(blob, allEnvs[currentKey].file);
                             }}>
                                 <Download />
+                            </ActionIcon>
+
+                            <ActionIcon color="green" variant="filled" size="lg" title={`Switch to ${isDark === "dark" ? "light" : "dark"} mode`} onClick={() => {
+                                toggleColorScheme();
+                            }}>
+                                {isDark ? <Sun /> : <Moon />}
                             </ActionIcon>
 
                             <Group spacing="xs" sx={{

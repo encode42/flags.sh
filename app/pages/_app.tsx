@@ -1,26 +1,28 @@
 import { AppProps, ErrorBoundary, ErrorComponent, AuthorizationError, ErrorFallbackProps, useQueryErrorResetBoundary } from "blitz";
-import { MantineProvider, useMantineTheme } from "@mantine/core";
+import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import "./_app.scss";
-import ColorScheme from "../util/ColorScheme";
+import { useColorScheme, useLocalStorageValue } from "@mantine/hooks";
 
 export default function App({ Component, pageProps }: AppProps) {
-    // Create the color scheme
-    const colorScheme = new ColorScheme(useMantineTheme(), "green");
-    const defaultColor = colorScheme.getDefault();
+    const preferredColorScheme = useColorScheme();
+    const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>(preferredColorScheme);
+
+    function toggleColorScheme(value?: ColorScheme) {
+        setColorScheme(value ?? (colorScheme === "dark" ? "light" : "dark"));
+    }
 
     const getLayout = Component.getLayout || (page => page);
 
     return (
         <ErrorBoundary FallbackComponent={RootErrorFallback} onReset={useQueryErrorResetBoundary().reset}>
-            <MantineProvider withGlobalStyles withNormalizeCSS theme={{
-                "colorScheme": "dark",
-                "colors": {
-                    "brand": defaultColor.colors
-                },
-                "primaryColor": defaultColor.name
-            }}>
-                {getLayout(<Component {...pageProps} />)}
-            </MantineProvider>
+            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+                <MantineProvider withGlobalStyles withNormalizeCSS theme={{
+                    "primaryColor": "green",
+                    colorScheme
+                }}>
+                    {getLayout(<Component {...pageProps} />)}
+                </MantineProvider>
+            </ColorSchemeProvider>
         </ErrorBoundary>
     );
 }

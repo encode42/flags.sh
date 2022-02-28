@@ -21,7 +21,6 @@
     "react": "18.0.0-beta-149b420f6-20211119",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
     "react-hook-form": "7.27.1",
-    "react-persistent-state": "1.1.6",
     "sass": "^1.49.9",
     "tabler-icons-react": "^1.37.0",
     "zod": "3.12.0"
