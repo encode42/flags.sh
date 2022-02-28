@@ -1,5 +1,7 @@
 import { BlitzConfig } from "blitz";
 
+const isProd = process.env.NODE_ENV === "production";
+
 const config: BlitzConfig = {
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
         config.resolve.fallback = {
@@ -9,6 +11,7 @@ const config: BlitzConfig = {
 
         return config;
     },
+    "assetPrefix": isProd ? "/LaunchMC/" : ""
 };
 
 module.exports = config;
