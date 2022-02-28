@@ -5,7 +5,6 @@ import { Prism } from "@mantine/prism";
 import { stripIndent } from "common-tags";
 import { AlertCircle, Archive, BrandDebian, BrandWindows, Download, Moon, Sun } from "tabler-icons-react";
 import FileSaver from "file-saver";
-import { dark } from "@mantine/prism/lib/prism-theme";
 
 // TODO: API
 
@@ -168,9 +167,7 @@ function Home() {
                     "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0]
                 })}>
                     <Title>LaunchMC</Title>
-                    <Group grow sx={{
-                        "flexAlign": "start"
-                    }}>
+                    <Group grow>
                         <Group direction="column" grow>
                             {/* TODO: Reset value on refresh */}
                             <TextInput required label="Filename" defaultValue={defaultFilename} icon={<Archive />} error={invalidFilename} onChange={event => {
@@ -240,7 +237,7 @@ function Home() {
                                 <Download />
                             </ActionIcon>
 
-                            <ActionIcon color="green" variant="filled" size="lg" title={`Switch to ${isDark === "dark" ? "light" : "dark"} mode`} onClick={() => {
+                            <ActionIcon color="green" variant="filled" size="lg" title={`Switch to ${isDark ? "light" : "dark"} mode`} onClick={() => {
                                 toggleColorScheme();
                             }}>
                                 {isDark ? <Sun /> : <Moon />}

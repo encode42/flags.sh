@@ -5,7 +5,10 @@ import { useColorScheme, useLocalStorageValue } from "@mantine/hooks";
 
 export default function App({ Component, pageProps }: AppProps) {
     const preferredColorScheme = useColorScheme();
-    const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>(preferredColorScheme);
+    const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>({
+        "key": "mantine-color-scheme",
+        "defaultValue": preferredColorScheme
+    });
 
     function toggleColorScheme(value?: ColorScheme) {
         setColorScheme(value ?? (colorScheme === "dark" ? "light" : "dark"));
