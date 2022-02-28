@@ -1,0 +1,34 @@
+{
+  "name": "launchmc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "blitz dev",
+    "build": "blitz build",
+    "export": "blitz build && blitz export",
+    "start": "blitz start"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "2.8.8",
+    "@mantine/core": "^3.6.11",
+    "@mantine/dropzone": "^3.6.11",
+    "@mantine/hooks": "^3.6.11",
+    "@mantine/next": "3.6.11",
+    "@mantine/notifications": "3.6.11",
+    "@mantine/prism": "^3.6.11",
+    "blitz": "0.45.3",
+    "common-tags": "^1.8.2",
+    "react": "18.0.0-beta-149b420f6-20211119",
+    "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
+    "react-hook-form": "7.27.1",
+    "react-persistent-state": "1.1.6",
+    "sass": "^1.49.9",
+    "tabler-icons-react": "^1.37.0",
+    "zod": "3.12.0"
+  },
+  "devDependencies": {
+    "@types/react": "17.0.39",
+    "@types/sortablejs": "^1.10.7",
+    "typescript": "~4.5"
+  }
+}
