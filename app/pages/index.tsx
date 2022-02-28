@@ -1,9 +1,9 @@
 import Layout from "../core/layouts/Layout";
-import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title } from "@mantine/core";
+import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Popover, Code } from "@mantine/core";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Prism } from "@mantine/prism";
 import { stripIndent } from "common-tags";
-import { Archive, BrandDebian, BrandWindows } from "tabler-icons-react";
+import { AlertCircle, Archive, BrandDebian, BrandWindows } from "tabler-icons-react";
 
 // TODO: API
 
@@ -94,6 +94,7 @@ function Home() {
     const [autorestart, setAutorestart] = useState(false);
     const [pterodactyl, setPterodactyl] = useState(false);
 
+    const [alertOpened, setAlertOpened] = useState(false);
     const [activeTab, setActiveTab] = useState(0);
     const [result, setResult] = useState<string>("Empty");
 
@@ -168,9 +169,7 @@ function Home() {
 
                             <label>
                                 <Text size={"sm"}>Memory</Text>
-                                <Slider step={0.5} min={0.5} max={maxMemory} defaultValue={memory} marks={sliderMarks} sx={{
-                                    "width": "100%"
-                                }} label={value => {
+                                <Slider step={0.5} min={0.5} max={maxMemory} defaultValue={memory} marks={sliderMarks} label={value => {
                                     return `${value.toFixed(1)} GB`;
                                 }} onChange={value => {
                                     setMemory(value);
@@ -202,6 +201,15 @@ function Home() {
                             {result}
                         </Prism.Tab>
                     </Prism.Tabs>
+                    <Group direction="column" sx={{
+                        "display": memory < 4 ? "" : "none"
+                    }}>
+                        <Space />
+                        <Group>
+                            <AlertCircle />
+                            <Text>Recommended to allocate at least <Code>4GB</Code> of memory.</Text>
+                        </Group>
+                    </Group>
                 </Paper>
             </Center>
         </>

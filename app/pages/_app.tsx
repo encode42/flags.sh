@@ -1,4 +1,4 @@
-import { AppProps, ErrorBoundary, ErrorComponent, AuthenticationError, AuthorizationError, ErrorFallbackProps, useQueryErrorResetBoundary } from "blitz";
+import { AppProps, ErrorBoundary, ErrorComponent, AuthorizationError, ErrorFallbackProps, useQueryErrorResetBoundary } from "blitz";
 import { MantineProvider, useMantineTheme } from "@mantine/core";
 import "./_app.scss";
 import ColorScheme from "../util/ColorScheme";
@@ -26,13 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
-    if (error instanceof AuthorizationError) {
-        return (
-            <ErrorComponent statusCode={error.statusCode} title="Sorry, you are not authorized to access this"/>
-        );
-    } else {
-        return (
-            <ErrorComponent statusCode={error.statusCode || 400} title={error.message || error.name} />
-        );
-    }
+    return error instanceof AuthorizationError ? (
+        <ErrorComponent statusCode={error.statusCode} title="Sorry, you are not authorized to access this"/>
+    ) : (
+        <ErrorComponent statusCode={error.statusCode || 400} title={error.message || error.name} />
+    );
 }

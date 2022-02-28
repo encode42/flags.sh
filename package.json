@@ -14,7 +14,6 @@
     "@mantine/dropzone": "^3.6.11",
     "@mantine/hooks": "^3.6.11",
     "@mantine/next": "3.6.11",
-    "@mantine/notifications": "3.6.11",
     "@mantine/prism": "^3.6.11",
     "blitz": "0.45.3",
     "common-tags": "^1.8.2",
