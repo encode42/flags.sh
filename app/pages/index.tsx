@@ -234,7 +234,7 @@ function Home() {
                                 Download
                             </Button>
 
-                            <Group sx={{
+                            <Group spacing="xs" sx={{
                                 "display": memory < 4 ? "" : "none"
                             }}>
                                 <AlertCircle />
