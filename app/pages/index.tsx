@@ -214,15 +214,15 @@ function Home() {
                             "borderRadius": theme.radius.xs
                         },
                         "line": {
-                            "overflow": "wrap"
+                            "white-space": "pre-wrap"
                         }
                     })} onTabChange={active => {
                         setActiveTab(active);
                     }}>
-                        <Prism.Tab key="linux" label="Linux / Mac" language="bash" icon={<BrandDebian />}>
+                        <Prism.Tab key="linux" label="Linux / Mac" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandDebian />}>
                             {result}
                         </Prism.Tab>
-                        <Prism.Tab key="windows" label="Windows" language="bash" icon={<BrandWindows />}>
+                        <Prism.Tab key="windows" label="Windows" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandWindows />}>
                             {result}
                         </Prism.Tab>
                     </Prism.Tabs>
