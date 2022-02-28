@@ -5,7 +5,7 @@ import ColorScheme from "../util/ColorScheme";
 
 export default function App({ Component, pageProps }: AppProps) {
     // Create the color scheme
-    const colorScheme = new ColorScheme(useMantineTheme(), "red");
+    const colorScheme = new ColorScheme(useMantineTheme(), "green");
     const defaultColor = colorScheme.getDefault();
 
     const getLayout = Component.getLayout || (page => page);
