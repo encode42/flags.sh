@@ -12,6 +12,7 @@ import SideBySide from "../core/components/SideBySide";
 
 // TODO: API
 // TODO: Inconsistent states (filename is preserved through refresh, but not toggles)
+// TODO: Save values in URL
 
 // TODO: Use this to generate tabs dynamically
 const allEnvs = {
@@ -130,7 +131,7 @@ function Home() {
             targetMem = (85 / 100) * targetMem;
         }
 
-        const flags = flagType.result({ "memory": targetMem, filename, gui, modernJava });
+        const flags = flagType.result({ "memory": targetMem, filename, "gui": !pterodactyl && gui, modernJava });
         const script = envType.result({ flags, autorestart });
 
         setResult(script);
@@ -178,10 +179,10 @@ function Home() {
                                 "value": "aikars",
                                 "label": "Aikar's Flags"
                             }]} />
-                            <Switch label="GUI" checked={gui} onChange={event => {
+                            <Switch label="GUI" checked={!pterodactyl && gui} disabled={pterodactyl} onChange={event => {
                                 setGUI(event.target.checked);
                             }} />
-                            <Switch label="Autorestart" checked={autorestart} disabled={disableAutorestart} onChange={event => {
+                            <Switch label="Autorestart" checked={!disableAutorestart && autorestart} disabled={disableAutorestart} onChange={event => {
                                 setAutorestart(event.target.checked);
                             }} />
                             <Switch label="Java 17+" checked={modernJava} onChange={event => {
