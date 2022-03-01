@@ -127,11 +127,11 @@ function Home() {
 
         // Get the target memory
         let targetMem = memory;
-        if (pterodactyl) {
+        if (activeTab === "java" && pterodactyl) {
             targetMem = (85 / 100) * targetMem;
         }
 
-        const flags = flagType.result({ "memory": targetMem, filename, "gui": !pterodactyl && gui, modernJava });
+        const flags = flagType.result({ "memory": targetMem, "filename": filename.replaceAll(/\s/g, "\\ "), "gui": !pterodactyl && gui, modernJava });
         const script = envType.result({ flags, autorestart });
 
         setResult(script);
@@ -239,7 +239,7 @@ function Home() {
                     <SideBySide leftSide={
                         <Group noWrap>
                             <ActionIcon color="green" variant="filled" size="lg" title="Download current script" disabled={invalidDownload} onClick={() => {
-                                saveText(result, allEnvs[activeTab].file);
+                                saveText(result, allEnvs.types[activeTab].file);
                             }}>
                                 <Download />
                             </ActionIcon>
