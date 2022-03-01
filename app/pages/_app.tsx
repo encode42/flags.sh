@@ -1,6 +1,5 @@
 import { AppProps, ErrorBoundary, ErrorComponent, AuthorizationError, ErrorFallbackProps, useQueryErrorResetBoundary } from "blitz";
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
-import "./_app.scss";
 import { useColorScheme, useLocalStorageValue } from "@mantine/hooks";
 
 export default function App({ Component, pageProps }: AppProps) {

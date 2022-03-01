@@ -1,10 +1,11 @@
 import Layout from "../core/layouts/Layout";
-import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Code, ActionIcon, useMantineColorScheme, Portal } from "@mantine/core";
+import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Code, ActionIcon, useMantineColorScheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Prism } from "@mantine/prism";
 import { stripIndent } from "common-tags";
 import { AlertCircle, Archive, BrandDebian, BrandWindows, Download, Moon, Sun } from "tabler-icons-react";
 import FileSaver from "file-saver";
+import Logo from "../assets/Logo";
 
 // TODO: API
 
@@ -47,7 +48,7 @@ const allEnvs = {
         get "autorestart"() {
             return stripIndent`
                 :start
-                ${this.standard}
+                %flags
                 
                 echo "Server restarting..."
                 goto :start
@@ -101,7 +102,7 @@ function Home() {
     const [modernJava, setModernJava] = useState(false);
     const [pterodactyl, setPterodactyl] = useState(false);
 
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState<string>("linux");
     const [result, setResult] = useState<string>("Empty");
 
     // Generate a marker every 4 GB
@@ -137,13 +138,7 @@ function Home() {
             targetMem = (85 / 100) * targetMem;
         }
 
-        // Get the tabbed script
-        const currentKey = Object.keys(allEnvs)[activeTab];
-        if (!currentKey) {
-            return;
-        }
-
-        const script = allEnvs[currentKey];
+        const script = allEnvs[activeTab];
 
         // Replace the placeholders
         const memResult = `${targetMem?.toFixed(1)}G`;
@@ -166,11 +161,16 @@ function Home() {
                     "width": "100%",
                     "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0]
                 })}>
-                    <Title>LaunchMC</Title>
+                    <Group>
+                        <ActionIcon size="xl" radius="xs" variant="transparent">
+                            <Logo />
+                        </ActionIcon>
+                        <Title>flags.sh</Title>
+                    </Group>
                     <Group grow>
                         <Group direction="column" grow>
                             {/* TODO: Reset value on refresh */}
-                            <TextInput required label="Filename" defaultValue={defaultFilename} icon={<Archive />} error={invalidFilename} onChange={event => {
+                            <TextInput label="Filename" defaultValue={defaultFilename} icon={<Archive />} error={invalidFilename} onChange={event => {
                                 const value = event.target.value;
 
                                 if (!value.includes(".jar")) {
@@ -183,7 +183,7 @@ function Home() {
 
                             <label>
                                 <Text size={"sm"}>Memory</Text>
-                                <Slider step={0.5} min={0.5} max={maxMemory} defaultValue={memory} marks={sliderMarks} label={value => {
+                                <Slider step={0.5} min={0.5} max={maxMemory} defaultValue={memory} marks={sliderMarks} thumbLabel="Memory allocation slider" label={value => {
                                     return `${value.toFixed(1)} GB`;
                                 }} onChange={value => {
                                     setMemory(value);
@@ -214,10 +214,16 @@ function Home() {
                             "borderRadius": theme.radius.xs
                         },
                         "line": {
-                            "white-space": "pre-wrap"
+                            "whiteSpace": "pre-wrap"
                         }
                     })} onTabChange={active => {
-                        setActiveTab(active);
+                        // Get the tabbed script
+                        const currentKey = Object.keys(allEnvs)[active];
+                        if (!currentKey) {
+                            return;
+                        }
+
+                        setActiveTab(currentKey);
                     }}>
                         <Prism.Tab key="linux" label="Linux / Mac" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandDebian />}>
                             {result}
@@ -232,15 +238,8 @@ function Home() {
 
                         <Group>
                             <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
-                                // TODO: de-dupe
-                                // Get the tabbed script
-                                const currentKey = Object.keys(allEnvs)[activeTab];
-                                if (!currentKey) {
-                                    return;
-                                }
-
                                 const blob = new Blob([result], { "type": "text/plain" });
-                                FileSaver.saveAs(blob, allEnvs[currentKey].file);
+                                FileSaver.saveAs(blob, allEnvs[activeTab].file);
                             }}>
                                 <Download />
                             </ActionIcon>
