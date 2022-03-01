@@ -10,7 +10,7 @@ import FooterRow from "../core/components/actionButtons/FooterRow";
 import SideBySide from "../core/components/SideBySide";
 import { Flags } from "../data/Flags";
 import { Environments } from "../data/Environments";
-import { EnvironmentsTypeInterface } from "../data/interface/EnvironmentsInterface";
+import { EnvironmentType } from "../data/interface/EnvironmentsInterface";
 
 // TODO: API
 // TODO: Inconsistent states (filename is preserved through refresh, but not toggles)
@@ -38,7 +38,7 @@ function Home() {
 
     const [result, setResult] = useState<string>("Loading...");
 
-    const [environment, setEnvironment] = useState<EnvironmentsTypeInterface>(Object.values(Environments.types)[0]);
+    const [environment, setEnvironment] = useState<EnvironmentType>(Environments.default);
     const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
 
     // An option has been changed

@@ -51,7 +51,7 @@ interface RequiresOptions {
 /**
  * An environment type.
  */
-export interface EnvironmentsTypeInterface {
+export interface EnvironmentType {
     /**
      * The name of the exported file.
      */
@@ -78,9 +78,14 @@ export interface EnvironmentsTypeInterface {
  */
 export default interface EnvironmentsInterface {
     /**
+     * The default environment.
+     */
+    "default": EnvironmentType,
+
+    /**
      * Environment types.
      */
     "types": {
-        [key: string]: EnvironmentsTypeInterface
+        [key: string]: EnvironmentType
     }
 };

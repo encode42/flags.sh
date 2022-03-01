@@ -10,6 +10,9 @@ const linuxHeader = "#!/bin/bash";
  * The environments that are available to the app.
  */
 export const Environments: EnvironmentsInterface = {
+    get "default"() {
+        return this.types.linux;
+    },
     "types": {
         "linux": {
             "file": "start.sh",
