@@ -34,14 +34,14 @@ function Home() {
         "autoRestart": false,
         "pterodactyl": false,
         "modernJava": true
-    })
+    });
 
     const [result, setResult] = useState<string>("Loading...");
 
     const [environment, setEnvironment] = useState<EnvironmentsTypeInterface>(Object.values(Environments.types)[0]);
     const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
 
-    // Option has been changed
+    // An option has been changed
     useEffect(() => {
         // Get the applicable flags
         const flag = Flags.types[selectedFlags];
@@ -55,6 +55,7 @@ function Home() {
             targetMem = (85 / 100) * targetMem;
         }
 
+        // Create the script
         const flags = flag.result({
             "memory": targetMem,
             "filename": filename.replaceAll(/\s/g, "\\ "),
@@ -66,13 +67,16 @@ function Home() {
         setResult(script);
     }, [filename, memory, selectedFlags, toggles, environment]);
 
+    // The environment's toggles have changed
     useEffect(() => {
         if (!environment.requires) {
             return;
         }
 
+        // Iterate each requirement
         for (const [key, value] of Object.entries(environment.requires)) {
             if (value.excludes) {
+                // Disable toggles if required
                 for (const exclude of value.excludes) {
                     environment.disabled[key] = !!toggles[exclude];
                 }

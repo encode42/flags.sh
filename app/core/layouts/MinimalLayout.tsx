@@ -37,6 +37,9 @@ export interface MinimalLayoutProps {
     "children": ReactChildren
 }
 
+/**
+ * A minimal layout for ease-of-use.
+ */
 export default function MinimalLayout({ title, description, prefixed = true, containerize = true, children }: MinimalLayoutProps) {
     const width = "100vw";
     const height = "100vh";

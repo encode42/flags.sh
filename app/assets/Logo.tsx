@@ -1,3 +1,6 @@
+/**
+ * The brand's logo.
+ */
 export default function Logo() {
     return (
         <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1600" width="1600" height="1600">

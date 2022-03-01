@@ -33,6 +33,9 @@ export default function App({ Component, pageProps }: AppProps) {
     );
 }
 
+/**
+ * The fallback error page.
+ */
 function RootErrorFallback({ error }: ErrorFallbackProps) {
     return error instanceof AuthorizationError ? (
         <ErrorComponent statusCode={error.statusCode} title="Sorry, you are not authorized to access this"/>

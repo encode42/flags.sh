@@ -1,8 +1,14 @@
 import { stripIndent } from "common-tags";
 import EnvironmentsInterface from "./interface/EnvironmentsInterface";
 
+/**
+ * The header used in Linux scripts/
+ */
 const linuxHeader = "#!/bin/bash";
 
+/**
+ * The environments that are available to the app.
+ */
 export const Environments: EnvironmentsInterface = {
     "types": {
         "linux": {

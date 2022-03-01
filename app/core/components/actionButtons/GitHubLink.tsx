@@ -2,12 +2,10 @@ import { siteDetails } from "../../../util/util";
 import { ReactElement } from "react";
 import { ActionIcon, Anchor } from "@mantine/core";
 import { BrandGithub } from "tabler-icons-react";
-import ActionButtonOptions from "./interfaces/ActionButtonOptions";
+import ActionButtonOptions from "./interface/ActionButtonOptions";
 
 /**
- * A component that links to flag.sh's GitHub repository.
- *
- * @param filled Whether the button should be filled
+ * A component that links to the app's GitHub repository.
  */
 export function GitHubLink({ filled = false }: ActionButtonOptions): ReactElement {
     return (

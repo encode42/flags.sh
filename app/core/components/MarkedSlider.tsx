@@ -1,6 +1,9 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Slider, SliderProps } from "@mantine/core";
 
+/**
+ * A marker for the slider.
+ */
 interface SliderMarker {
     "value": number,
     "label": string
