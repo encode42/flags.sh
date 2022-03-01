@@ -39,7 +39,8 @@ const allEnvs = {
                 while [ true ]; do
                     %flags
                 
-                    echo "Server restarting..."
+                    echo Server restarting...
+                    echo Press CTRL + C to stop.
                 done
             `;
         }
@@ -56,7 +57,8 @@ const allEnvs = {
                 :start
                 %flags
                 
-                echo "Server restarting..."
+                echo Server restarting...
+                echo Press CTRL + C to stop.
                 goto :start
             `;
         }
