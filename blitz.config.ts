@@ -11,7 +11,7 @@ const config: BlitzConfig = {
 
         return config;
     },
-    "assetPrefix": isProd ? "/LaunchMC/" : ""
+    "assetPrefix": isProd ? "/flags.sh/" : ""
 };
 
 module.exports = config;
