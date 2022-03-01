@@ -1,7 +1,7 @@
 import { saveText } from "../util/util";
 import { stripIndent } from "common-tags";
 import { useEffect, useState } from "react";
-import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Select } from "@mantine/core";
 import { AlertCircle, Archive, BrandDebian, BrandWindows, Download } from "tabler-icons-react";
 import { Prism } from "@mantine/prism";
 import Layout from "../core/layouts/Layout";
@@ -11,15 +11,9 @@ import FooterRow from "../core/components/actionButtons/FooterRow";
 import SideBySide from "../core/components/SideBySide";
 
 // TODO: API
-// TODO: Ability to disable aikar's flags
-
-// TODO: Make this less repetitive
-const allFlags = {
-    "aikars": "java -Xms%mem -Xmx%mem %incVectors -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar %filename %gui",
-    "aikars12G": "java -Xms%mem -Xmx%mem %incVectors -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=40 -XX:G1MaxNewSizePercent=50 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=15 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=20 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar %filename %gui"
-};
 
 // TODO: Use this to generate tabs dynamically
+// TODO: Use functional objects for this as well
 const allEnvs = {
     "linux": {
         "file": "start.sh",
@@ -65,6 +59,33 @@ const allEnvs = {
     }
 };
 
+const flags = {
+    "types": {
+        "none": {
+            "result": ({ memory, filename, gui, modernJava }) => {
+                return `${flags.prefix({ memory, modernJava })} ${flags.suffix({ filename, gui })}`;
+            }
+        },
+        "aikars": {
+            "result": ({ memory, filename, gui, modernJava }) => {
+                const base = `${flags.types.aikars.base} ${memory >= 12 ? flags.types.aikars[">12G"] : flags.types.aikars["<12G"]}`;
+                return `${flags.prefix({ memory, modernJava })} ${base} ${flags.suffix({ filename, gui })}`;
+            },
+            "base": "-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true",
+            "<12G": "-XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20",
+            ">12G": "-XX:G1NewSizePercent=40 -XX:G1MaxNewSizePercent=50 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=15"
+        }
+    },
+    "prefix": ({ memory, modernJava }) => {
+        const targetMem = memory * 1024;
+        const displayMemory = `${targetMem?.toFixed(0)}M`;
+        return `java -Xms${displayMemory} -Xmx${displayMemory} ${modernJava ? "--add-modules=jdk.incubator.vector" : ""}`.trim();
+    },
+    "suffix": ({ filename, gui }) => {
+        return `-jar ${filename} ${!gui ? "--nogui" : ""}`.trim();
+    }
+}
+
 interface Placeholders {
     /**
      * Key is the placeholder to replace (without "%"), value is the replacement.
@@ -98,6 +119,7 @@ function Home() {
     const maxMemory = 24;
     const [filename, setFileName] = useState<string>(defaultFilename);
     const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
+    const [selectedFlags, setSelectedFlags] = useState<string>("aikars");
     const [memory, setMemory] = useState<number>(4);
 
     const [gui, setGUI] = useState(false);
@@ -111,9 +133,10 @@ function Home() {
     // Option has been changed
     useEffect(() => {
         // Get the applicable flags
-        let flags = allFlags.aikars;
-        if (memory >= 12) {
-            flags = allFlags.aikars12G;
+        const targetFlags = flags.types[selectedFlags];
+
+        if (!targetFlags) {
+            return;
         }
 
         // Get the target memory
@@ -121,21 +144,14 @@ function Home() {
         if (pterodactyl) {
             targetMem = (85 / 100) * targetMem;
         }
-        targetMem *= 1024;
 
         const script = allEnvs[activeTab];
 
         // Replace the placeholders
-        const memResult = `${targetMem?.toFixed(0)}M`;
         setResult(process(autorestart ? script.autorestart : script.standard, {
-            "flags": process(flags, {
-                "mem": memResult,
-                "incVectors": modernJava ? "--add-modules=jdk.incubator.vector" : "",
-                "gui": gui ? "" : "--nogui"
-            }).replaceAll(/\s+/g," "),
-            "filename": filename.replaceAll(/\s/g, "\\ "),
+            "flags": targetFlags.result({ "memory": targetMem, filename, gui, modernJava })
         }));
-    }, [filename, memory, gui, autorestart, modernJava, pterodactyl, activeTab]);
+    }, [filename, memory, selectedFlags, gui, autorestart, modernJava, pterodactyl, activeTab]);
 
     return (
         <>
@@ -171,6 +187,15 @@ function Home() {
                             </label>
                         </Group>
                         <Group direction="column" grow>
+                            <Select value={selectedFlags} onChange={value => {
+                                setSelectedFlags(value ?? selectedFlags);
+                            }} data={[{
+                                "value": "none",
+                                "label": "None"
+                            }, {
+                                "value": "aikars",
+                                "label": "Aikar's Flags"
+                            }]} />
                             <Switch label="GUI" checked={gui} onChange={event => {
                                 setGUI(event.target.checked);
                             }} />
