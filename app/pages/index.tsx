@@ -13,6 +13,7 @@ import SideBySide from "../core/components/SideBySide";
 // TODO: API
 // TODO: Inconsistent states (filename is preserved through refresh, but not toggles)
 // TODO: Save values in URL
+// TODO: Share button
 
 // TODO: Use this to generate tabs dynamically
 const allEnvs = {
@@ -188,7 +189,7 @@ function Home() {
                             <Switch label="Java 17+" checked={modernJava} onChange={event => {
                                 setModernJava(event.target.checked);
                             }} />
-                            <Switch label="Pterodactyl" checked={pterodactyl} disabled={activeTab !== "java"} onChange={event => {
+                            <Switch label="Pterodactyl" checked={activeTab === "java" && pterodactyl} disabled={activeTab !== "java"} onChange={event => {
                                 setPterodactyl(event.target.checked);
                             }} />
                         </Group>
