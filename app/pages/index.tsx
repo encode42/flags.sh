@@ -188,7 +188,7 @@ function Home() {
                             <Switch label="Java 17+" checked={modernJava} onChange={event => {
                                 setModernJava(event.target.checked);
                             }} />
-                            <Switch label="Pterodactyl" checked={pterodactyl} onChange={event => {
+                            <Switch label="Pterodactyl" checked={pterodactyl} disabled={activeTab !== "java"} onChange={event => {
                                 setPterodactyl(event.target.checked);
                             }} />
                         </Group>
