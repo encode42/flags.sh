@@ -1,8 +1,8 @@
 import { saveText } from "../util/util";
 import { stripIndent } from "common-tags";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Select } from "@mantine/core";
-import { AlertCircle, Archive, BrandDebian, BrandWindows, Download } from "tabler-icons-react";
+import { AlertCircle, Archive, BrandDebian, BrandWindows, Download, Terminal } from "tabler-icons-react";
 import { Prism } from "@mantine/prism";
 import Layout from "../core/layouts/Layout";
 import PageTitle from "../core/components/PageTitle";
@@ -11,65 +11,69 @@ import FooterRow from "../core/components/actionButtons/FooterRow";
 import SideBySide from "../core/components/SideBySide";
 
 // TODO: API
+// TODO: Inconsistent states (filename is preserved through refresh, but not toggles)
 
 // TODO: Use this to generate tabs dynamically
-// TODO: Use functional objects for this as well
 const allEnvs = {
-    "linux": {
-        "file": "start.sh",
-        "header": stripIndent`
-            #!/bin/bash
-        `,
-        get "standard"() {
-            return stripIndent`
-                ${this.header}
-                
-                %flags
-            `;
+    "types": {
+        "linux": {
+            "file": "start.sh",
+            "result": ({ flags, autorestart }) => {
+                return stripIndent(!autorestart ? `
+                    ${allEnvs.types.linux.header}
+
+                    ${flags}
+                `: `
+                    ${allEnvs.types.linux.header}
+                    
+                    while [ true ]; do
+                        ${flags}
+                    
+                        echo Server restarting...
+                        echo Press CTRL + C to stop.
+                    done
+                `)
+            },
+            "header": "#!/bin/bash"
         },
-        get "autorestart"() {
-            return stripIndent`
-                ${this.header}
-                while [ true ]; do
-                    %flags
-                
+        "windows": {
+            "file": "start.bat",
+            "result": ({ flags, autorestart }) => {
+                return stripIndent(!autorestart ? `
+                    ${flags}
+                ` : `
+                    :start
+                    ${flags}
+                    
                     echo Server restarting...
                     echo Press CTRL + C to stop.
-                done
-            `;
-        }
-    },
-    "windows": {
-        "file": "start.bat",
-        "standard": stripIndent`
-            %flags
-            
-            pause
-        `,
-        get "autorestart"() {
-            return stripIndent`
-                :start
-                %flags
-                
-                echo Server restarting...
-                echo Press CTRL + C to stop.
-                goto :start
-            `;
+                    goto :start
+                `);
+            }
+        },
+        "java": {
+            "file": false,
+            "result": ({ flags }) => {
+                return stripIndent`
+                    ${flags}
+                `
+            }
         }
     }
-};
+}
 
-const flags = {
+// TODO: Use this to dynamically generate flag type select
+const allFlags = {
     "types": {
         "none": {
             "result": ({ memory, filename, gui, modernJava }) => {
-                return `${flags.prefix({ memory, modernJava })} ${flags.suffix({ filename, gui })}`;
+                return `${allFlags.prefix({ memory, modernJava })} ${allFlags.suffix({ filename, gui })}`;
             }
         },
         "aikars": {
             "result": ({ memory, filename, gui, modernJava }) => {
-                const base = `${flags.types.aikars.base} ${memory >= 12 ? flags.types.aikars[">12G"] : flags.types.aikars["<12G"]}`;
-                return `${flags.prefix({ memory, modernJava })} ${base} ${flags.suffix({ filename, gui })}`;
+                const base = `${allFlags.types.aikars.base} ${memory >= 12 ? allFlags.types.aikars[">12G"] : allFlags.types.aikars["<12G"]}`;
+                return `${allFlags.prefix({ memory, modernJava })} ${base} ${allFlags.suffix({ filename, gui })}`;
             },
             "base": "-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true",
             "<12G": "-XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20",
@@ -86,28 +90,6 @@ const flags = {
     }
 }
 
-interface Placeholders {
-    /**
-     * Key is the placeholder to replace (without "%"), value is the replacement.
-     */
-    [key: string]: string
-}
-
-/**
- * Process placeholders for a string.
- *
- * Placeholders are prefixed with "%"
- */
-function process(input: string, placeholders: Placeholders): string {
-    let result = input;
-
-    for (const [key, value] of Object.entries(placeholders)) {
-        result = result.replaceAll(`%${key}`, value);
-    }
-
-    return result;
-}
-
 /**
  * The homepage of the site.
  */
@@ -118,7 +100,6 @@ function Home() {
     const defaultFilename = "server.jar";
     const maxMemory = 24;
     const [filename, setFileName] = useState<string>(defaultFilename);
-    const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
     const [selectedFlags, setSelectedFlags] = useState<string>("aikars");
     const [memory, setMemory] = useState<number>(4);
 
@@ -130,12 +111,16 @@ function Home() {
     const [activeTab, setActiveTab] = useState<string>("linux");
     const [result, setResult] = useState<string>("Empty");
 
+    const [disableAutorestart, setDisableAutorestart] = useState<boolean>(false);
+    const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
+    const [invalidDownload, setInvalidDownload] = useState<boolean>(false);
+
     // Option has been changed
     useEffect(() => {
         // Get the applicable flags
-        const targetFlags = flags.types[selectedFlags];
-
-        if (!targetFlags) {
+        let flagType = allFlags.types[selectedFlags];
+        let envType = allEnvs.types[activeTab];
+        if (!flagType || !envType) {
             return;
         }
 
@@ -145,12 +130,10 @@ function Home() {
             targetMem = (85 / 100) * targetMem;
         }
 
-        const script = allEnvs[activeTab];
+        const flags = flagType.result({ "memory": targetMem, filename, gui, modernJava });
+        const script = envType.result({ flags, autorestart });
 
-        // Replace the placeholders
-        setResult(process(autorestart ? script.autorestart : script.standard, {
-            "flags": targetFlags.result({ "memory": targetMem, filename, gui, modernJava })
-        }));
+        setResult(script);
     }, [filename, memory, selectedFlags, gui, autorestart, modernJava, pterodactyl, activeTab]);
 
     return (
@@ -165,7 +148,6 @@ function Home() {
                     <PageTitle />
                     <Group grow>
                         <Group direction="column" grow>
-                            {/* TODO: Reset value on refresh */}
                             <TextInput label="Filename" defaultValue={defaultFilename} icon={<Archive />} error={invalidFilename} onChange={event => {
                                 const value = event.target.value;
 
@@ -187,7 +169,7 @@ function Home() {
                             </label>
                         </Group>
                         <Group direction="column" grow>
-                            <Select value={selectedFlags} onChange={value => {
+                            <Select value={selectedFlags} label="Flags" onChange={value => {
                                 setSelectedFlags(value ?? selectedFlags);
                             }} data={[{
                                 "value": "none",
@@ -199,7 +181,7 @@ function Home() {
                             <Switch label="GUI" checked={gui} onChange={event => {
                                 setGUI(event.target.checked);
                             }} />
-                            <Switch label="Autorestart" checked={autorestart} onChange={event => {
+                            <Switch label="Autorestart" checked={autorestart} disabled={disableAutorestart} onChange={event => {
                                 setAutorestart(event.target.checked);
                             }} />
                             <Switch label="Java 17+" checked={modernJava} onChange={event => {
@@ -222,18 +204,31 @@ function Home() {
                             "whiteSpace": "pre-wrap"
                         }
                     })} onTabChange={active => {
-                        // Get the tabbed script
-                        const currentKey = Object.keys(allEnvs)[active];
-                        if (!currentKey) {
+                        // Get the selected type from the tab
+                        const key = Object.keys(allEnvs.types)[active]; // TODO: This is unreliable, but tabKey does not work
+                        if (!key) {
                             return;
                         }
 
-                        setActiveTab(currentKey);
+                        // Toggle the non-applicable components
+                        const env = allEnvs.types[key];
+                        if (env.file === false) {
+                            setInvalidDownload(true);
+                            setDisableAutorestart(true);
+                        } else {
+                            setInvalidDownload(false);
+                            setDisableAutorestart(false);
+                        }
+
+                        setActiveTab(key);
                     }}>
                         <Prism.Tab key="linux" label="Linux / Mac" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandDebian />}>
                             {result}
                         </Prism.Tab>
                         <Prism.Tab key="windows" label="Windows" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandWindows />}>
+                            {result}
+                        </Prism.Tab>
+                        <Prism.Tab key="java" label="Java Command" withLineNumbers scrollAreaComponent="div" language="bash" icon={<Terminal />}>
                             {result}
                         </Prism.Tab>
                     </Prism.Tabs>
@@ -242,7 +237,7 @@ function Home() {
 
                     <SideBySide leftSide={
                         <Group noWrap>
-                            <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
+                            <ActionIcon color="green" variant="filled" size="lg" title="Download current script" disabled={invalidDownload} onClick={() => {
                                 saveText(result, allEnvs[activeTab].file);
                             }}>
                                 <Download />
