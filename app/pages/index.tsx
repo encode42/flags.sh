@@ -209,22 +209,24 @@ function Home() {
 
                     <Space h="md" />
 
-                    <Group>
-                        <Group>
+                    <Group noWrap>
+                        <Group noWrap>
                             <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
                                 saveText(result, allEnvs[activeTab].file);
                             }}>
                                 <Download />
                             </ActionIcon>
 
-                            <Group spacing="xs" sx={{
+                            <Group spacing="xs" noWrap sx={{
                                 "display": memory < 4 ? "" : "none"
                             }}>
                                 <AlertCircle />
-                                <Text>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
+                                <Text sx={{
+                                    "whiteSpace": "pre-wrap"
+                                }}>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
                             </Group>
                         </Group>
-                        <Group sx={{
+                        <Group noWrap sx={{
                             "marginLeft": "auto"
                         }}>
                             <ThemeToggle />
