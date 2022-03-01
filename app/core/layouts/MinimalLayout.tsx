@@ -1,6 +1,7 @@
 import { ReactChildren } from "react";
 import { Head } from "blitz";
 import { Container, useMantineTheme } from "@mantine/core";
+import { siteDetails } from "../../util/util";
 
 /**
  * The properties for this layout.
@@ -35,12 +36,6 @@ export interface MinimalLayoutProps {
      */
     "children": ReactChildren
 }
-
-// The base site details
-export const siteDetails = {
-    "title": "flags.sh",
-    "description": "A simple script generator to start your Minecraft servers with optimal flags."
-};
 
 export default function MinimalLayout({ title, description, prefixed = true, containerize = true, children }: MinimalLayoutProps) {
     const width = "100vw";

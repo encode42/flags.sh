@@ -1,3 +1,4 @@
+import { siteDetails } from "../../../util/util";
 import { ReactElement } from "react";
 import { Link } from "blitz";
 import { ActionIcon } from "@mantine/core";
@@ -11,7 +12,7 @@ import ActionButtonOptions from "./interfaces/ActionButtonOptions";
  */
 export function GitHubLink({ filled = false }: ActionButtonOptions): ReactElement {
     return (
-        <Link href={"https://github.com/Encode42/flags.sh"}>
+        <Link href={siteDetails.links.github}>
             <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"} title="Visit the GitHub repository">
                 <BrandGithub />
             </ActionIcon>

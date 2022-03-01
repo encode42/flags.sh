@@ -1,3 +1,4 @@
+import { siteDetails } from "../util/util";
 import { Center, Paper, Title, Text, useMantineColorScheme, Group, Space, Anchor } from "@mantine/core";
 import Layout from "../core/layouts/Layout";
 import PageTitle from "../core/components/PageTitle";
@@ -33,11 +34,11 @@ function About() {
                         </Group>
                         <Group direction="column" spacing="xs">
                             <Title order={2}>Support</Title>
-                            <Text>You can join the <Anchor href="https://encode42.dev/support">Discord server</Anchor> if you're running into issues.</Text>
+                            <Text>You can join the <Anchor href={siteDetails.links.support}>Discord server</Anchor> if you're running into issues.</Text>
                         </Group>
                         <Group direction="column" spacing="xs">
                             <Title order={2}>Contribute</Title>
-                            <Text>If you have found an issue or have a feature request, head to the <Anchor href="https://github.com/Encode42/flags.sh">GitHub</Anchor> repository.</Text>
+                            <Text>If you have found an issue or have a feature request, head to the <Anchor href={siteDetails.links.github}>GitHub</Anchor> repository.</Text>
                         </Group>
                     </Group>
 
@@ -54,6 +55,6 @@ function About() {
     );
 }
 
-About.getLayout = page => <Layout>{page}</Layout>;
+About.getLayout = page => <Layout title="About">{page}</Layout>;
 
 export default About;

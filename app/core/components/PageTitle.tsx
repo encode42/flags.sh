@@ -1,3 +1,4 @@
+import { siteDetails } from "../../util/util";
 import { ReactElement } from "react";
 import { Link, Routes } from "blitz";
 import { ActionIcon, Group, Title } from "@mantine/core";
@@ -16,7 +17,7 @@ export default function PageTitle(): ReactElement {
                     <Logo />
                 </ActionIcon>
             </Link>
-            <Title>flags.sh</Title>
+            <Title>{siteDetails.title}</Title>
         </Group>
     );
 }
