@@ -9,6 +9,9 @@ import ThemeToggle from "../core/components/actionButtons/ThemeToggle";
 import MarkedSlider from "../core/components/MarkedSlider";
 import { saveText } from "../util/util";
 import { GitHubLink } from "../core/components/actionButtons/GitHubLink";
+import { AboutLink } from "../core/components/actionButtons/AboutLink";
+import FooterRow from "../core/components/actionButtons/FooterRow";
+import SideBySide from "../core/components/SideBySide";
 
 // TODO: API
 
@@ -140,7 +143,7 @@ function Home() {
                     "width": "100%",
                     "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0]
                 })}>
-                    <PageTitle />
+                    <PageTitle isHome />
                     <Group grow>
                         <Group direction="column" grow>
                             {/* TODO: Reset value on refresh */}
@@ -209,7 +212,7 @@ function Home() {
 
                     <Space h="md" />
 
-                    <Group noWrap>
+                    <SideBySide leftSide={
                         <Group noWrap>
                             <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
                                 saveText(result, allEnvs[activeTab].file);
@@ -226,13 +229,9 @@ function Home() {
                                 }}>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
                             </Group>
                         </Group>
-                        <Group noWrap sx={{
-                            "marginLeft": "auto"
-                        }}>
-                            <ThemeToggle />
-                            <GitHubLink />
-                        </Group>
-                    </Group>
+                    } rightSide={
+                        <FooterRow />
+                    } />
                 </Paper>
             </Center>
         </>

@@ -5,7 +5,7 @@ import ActionButtonOptions from "./interfaces/ActionButtonOptions";
 
 export function GitHubLink({ filled = false }: ActionButtonOptions): ReactElement {
     return (
-        <ActionIcon color="green" size="lg" component={Anchor}
+        <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"} component={Anchor}
             // @ts-ignore
             href="https://github.com/Encode42/flags.sh"
 
