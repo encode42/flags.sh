@@ -1,16 +1,20 @@
-import { AppProps, ErrorBoundary, ErrorComponent, AuthorizationError, ErrorFallbackProps, useQueryErrorResetBoundary } from "blitz";
+import { AppProps, AuthorizationError, ErrorBoundary, ErrorComponent, ErrorFallbackProps, useQueryErrorResetBoundary } from "blitz";
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
-import { useColorScheme, useLocalStorageValue } from "@mantine/hooks";
+import { useLocalStorageValue } from "@mantine/hooks";
 
+/**
+ * The standard app template for Blitz.js and Mantine UI.
+ */
 export default function App({ Component, pageProps }: AppProps) {
-    const preferredColorScheme = useColorScheme();
     const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>({
         "key": "mantine-color-scheme",
-        "defaultValue": preferredColorScheme
+        "defaultValue": "dark"
     });
 
+    // Toggle between light and dark themes
     function toggleColorScheme(value?: ColorScheme) {
-        setColorScheme(value ?? (colorScheme === "dark" ? "light" : "dark"));
+        const targetScheme = value ?? (colorScheme === "dark" ? "light" : "dark");
+        setColorScheme(targetScheme);
     }
 
     const getLayout = Component.getLayout || (page => page);

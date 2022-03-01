@@ -1,11 +1,13 @@
 import Layout from "../core/layouts/Layout";
-import { Center, Group, Paper, Slider, Space, Text, TextInput, Switch, Title, Code, ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Prism } from "@mantine/prism";
 import { stripIndent } from "common-tags";
-import { AlertCircle, Archive, BrandDebian, BrandWindows, Download, Moon, Sun } from "tabler-icons-react";
-import FileSaver from "file-saver";
-import Logo from "../assets/Logo";
+import { AlertCircle, Archive, BrandDebian, BrandWindows, Download } from "tabler-icons-react";
+import PageTitle from "../core/components/PageTitle";
+import ThemeToggle from "../core/components/ThemeToggle";
+import MarkedSlider from "../core/components/MarkedSlider";
+import { saveText } from "../util/util";
 
 // TODO: API
 
@@ -64,11 +66,6 @@ interface Placeholders {
     [key: string]: string
 }
 
-interface SliderMarker {
-    "value": number,
-    "label": string
-}
-
 /**
  * Process placeholders for a string.
  *
@@ -88,7 +85,7 @@ function process(input: string, placeholders: Placeholders): string {
  * The homepage of the site.
  */
 function Home() {
-    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+    const { colorScheme } = useMantineColorScheme();
     const isDark = colorScheme === "dark";
 
     const defaultFilename = "server.jar";
@@ -104,25 +101,6 @@ function Home() {
 
     const [activeTab, setActiveTab] = useState<string>("linux");
     const [result, setResult] = useState<string>("Empty");
-
-    // Generate a marker every 4 GB
-    const [sliderMarks, setSliderMarks] = useState<SliderMarker[]>([]);
-    useEffect(() => {
-        const newSliderMarks: SliderMarker[] = [];
-
-        // Iterate each GB between min and max
-        for (let i = 1; i < maxMemory; i++) {
-            if (i % 4 === 0) {
-                // Current GB is divisible by 4
-                newSliderMarks.push({
-                    "value": i,
-                    "label": `${i} GB`
-                });
-            }
-        }
-
-        setSliderMarks(newSliderMarks);
-    }, []);
 
     // Option has been changed
     useEffect(() => {
@@ -161,12 +139,7 @@ function Home() {
                     "width": "100%",
                     "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0]
                 })}>
-                    <Group>
-                        <ActionIcon size="xl" radius="xs" variant="transparent">
-                            <Logo />
-                        </ActionIcon>
-                        <Title>flags.sh</Title>
-                    </Group>
+                    <PageTitle />
                     <Group grow>
                         <Group direction="column" grow>
                             {/* TODO: Reset value on refresh */}
@@ -183,7 +156,7 @@ function Home() {
 
                             <label>
                                 <Text size={"sm"}>Memory</Text>
-                                <Slider step={0.5} min={0.5} max={maxMemory} defaultValue={memory} marks={sliderMarks} thumbLabel="Memory allocation slider" label={value => {
+                                <MarkedSlider interval={4} step={0.5} min={0.5} max={maxMemory} defaultValue={memory} thumbLabel="Memory allocation slider" label={value => {
                                     return `${value.toFixed(1)} GB`;
                                 }} onChange={value => {
                                     setMemory(value);
@@ -233,29 +206,22 @@ function Home() {
                         </Prism.Tab>
                     </Prism.Tabs>
 
-                    <Group direction="column">
-                        <Space />
+                    <Space h="md" />
 
-                        <Group>
-                            <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
-                                const blob = new Blob([result], { "type": "text/plain" });
-                                FileSaver.saveAs(blob, allEnvs[activeTab].file);
-                            }}>
-                                <Download />
-                            </ActionIcon>
+                    <Group>
+                        <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
+                            saveText(result, allEnvs[activeTab].file);
+                        }}>
+                            <Download />
+                        </ActionIcon>
 
-                            <ActionIcon color="green" variant="filled" size="lg" title={`Switch to ${isDark ? "light" : "dark"} mode`} onClick={() => {
-                                toggleColorScheme();
-                            }}>
-                                {isDark ? <Sun /> : <Moon />}
-                            </ActionIcon>
+                        <ThemeToggle />
 
-                            <Group spacing="xs" sx={{
-                                "display": memory < 4 ? "" : "none"
-                            }}>
-                                <AlertCircle />
-                                <Text>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
-                            </Group>
+                        <Group spacing="xs" sx={{
+                            "display": memory < 4 ? "" : "none"
+                        }}>
+                            <AlertCircle />
+                            <Text>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
                         </Group>
                     </Group>
                 </Paper>

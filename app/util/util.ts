@@ -1,3 +1,5 @@
+import FileSaver from "file-saver";
+
 /**
  * Wrap an object in an array if not already an array.
  *
@@ -11,4 +13,15 @@ export function arrayify(object: any): any[] {
     }
 
     return array;
+}
+
+/**
+ * Save text to a file.
+ *
+ * @param contents Contents of the file
+ * @param filename Name of the file
+ */
+export function saveText(contents: string, filename: string): void {
+    const blob = new Blob([contents], { "type": "text/plain" });
+    FileSaver.saveAs(blob, filename);
 }

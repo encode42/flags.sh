@@ -83,7 +83,9 @@
         "unicorn/no-static-only-class": "off",
         "react/react-in-jsx-scope": "off",
         "jsdoc/require-param": "off",
-        "jsdoc/require-returns": "off"
+        "jsdoc/require-returns": "off",
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-jsdoc": "off"
     },
     "settings": {
         "import/parsers": {
