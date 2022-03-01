@@ -1,17 +1,14 @@
 import { BlitzConfig } from "blitz";
 
-const isProd = process.env.NODE_ENV === "production";
-
 const config: BlitzConfig = {
-    "webpack": (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    "webpack": config => {
         config.resolve.fallback = {
             ...config.resolve.fallback,
             "fs": false
         };
 
         return config;
-    },
-    "assetPrefix": isProd ? "/flags.sh/" : ""
+    }
 };
 
 module.exports = config;

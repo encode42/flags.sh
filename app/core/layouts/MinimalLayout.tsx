@@ -35,6 +35,7 @@ const MinimalLayout: BlitzLayout<MinimalLayoutProps> = ({ title, description, pr
                 <meta property="og:title" content={targetTitle} />
                 <meta property="twitter:title" content={targetTitle} />
 
+                <meta name="description" content={targetDescription} />
                 <meta property="og:description" content={targetDescription} />
                 <meta property="twitter:description" content={targetDescription} />
 
