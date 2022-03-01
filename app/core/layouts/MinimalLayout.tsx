@@ -69,6 +69,8 @@ export default function MinimalLayout({ title, description, prefixed = true, con
 
                 <meta name="theme-color" content={theme.colors[theme.primaryColor]?.[5]} />
 
+                <meta property="twitter:image" content="/assets/banner.jpg" />
+                <meta property="og:image" content="/assets/logo.png" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 

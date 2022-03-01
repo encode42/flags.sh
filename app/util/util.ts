@@ -26,7 +26,9 @@ export function saveText(contents: string, filename: string): void {
     FileSaver.saveAs(blob, filename);
 }
 
-// The base site details
+/**
+ * The website's details and links.
+ */
 export const siteDetails = {
     "title": "flags.sh",
     "description": "A simple script generator to start your Minecraft servers with optimal flags.",
