@@ -11,6 +11,7 @@ import FooterRow from "../core/components/actionButtons/FooterRow";
 import SideBySide from "../core/components/SideBySide";
 
 // TODO: API
+// TODO: Ability to disable aikar's flags
 
 // TODO: Make this less repetitive
 const allFlags = {
