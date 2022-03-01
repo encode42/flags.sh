@@ -11,11 +11,27 @@ import SideBySide from "../core/components/SideBySide";
 import { Flags } from "../data/Flags";
 import { Environments } from "../data/Environments";
 import { EnvironmentType } from "../data/interface/EnvironmentsInterface";
+import { FlagType } from "../data/interface/FlagsInterface";
 
 // TODO: API
 // TODO: Inconsistent states (filename is preserved through refresh, but not toggles)
 // TODO: Share button
 // TODO: Use data objects to generate tabs and flags select dynamically
+
+/**
+ * Data for a flag in the selector.
+ */
+interface FlagSelector {
+    /**
+     * Key of the entry.
+     */
+    "value": string,
+
+    /**
+     * Label of the entry.
+     */
+    "label": string
+};
 
 /**
  * The homepage of the site.
@@ -27,7 +43,6 @@ function Home() {
     const defaultFilename = "server.jar";
     const [filename, setFileName] = useState<string>(defaultFilename);
     const [memory, setMemory] = useState<number>(4);
-    const [selectedFlags, setSelectedFlags] = useState<string>("aikars");
 
     const [toggles, setToggles] = useState({
         "gui": false,
@@ -38,17 +53,26 @@ function Home() {
 
     const [result, setResult] = useState<string>("Loading...");
 
+    const [flagSelector, setFlagSelector] = useState<FlagSelector[]>([]);
+    const [selectedFlags, setSelectedFlags] = useState<FlagType>(Flags.default);
     const [environment, setEnvironment] = useState<EnvironmentType>(Environments.default);
     const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
 
-    // An option has been changed
     useEffect(() => {
-        // Get the applicable flags
-        const flag = Flags.types[selectedFlags];
-        if (!flag) {
-            return;
+        const flags: FlagSelector[] = [];
+
+        for (const value of Object.values(Flags.types)) {
+            flags.push({
+                "value": value.key,
+                "label": value.label
+            });
         }
 
+        setFlagSelector(flags);
+    }, [flagSelector]);
+
+    // An option has been changed
+    useEffect(() => {
         // Get the target memory
         let targetMem = memory;
         if (!environment.disabled.pterodactyl && toggles.pterodactyl) {
@@ -56,7 +80,7 @@ function Home() {
         }
 
         // Create the script
-        const flags = flag.result({
+        const flags = selectedFlags.result({
             "memory": targetMem,
             "filename": filename.replaceAll(/\s/g, "\\ "),
             "gui": !environment.disabled.gui && toggles.gui,
@@ -118,15 +142,13 @@ function Home() {
                             </label>
                         </Group>
                         <Group direction="column" grow>
-                            <Select value={selectedFlags} label="Flags" onChange={value => {
-                                setSelectedFlags(value ?? selectedFlags);
-                            }} data={[{
-                                "value": "none",
-                                "label": "None"
-                            }, {
-                                "value": "aikars",
-                                "label": "Aikar's Flags"
-                            }]} />
+                            <Select value={selectedFlags.key} label="Flags" onChange={value => {
+                                if (!value) {
+                                    return;
+                                }
+
+                                setSelectedFlags(Flags.types[value] ?? selectedFlags);
+                            }} data={flagSelector} />
                             <Switch label="GUI" checked={!environment.disabled.gui && toggles.gui} disabled={environment.disabled.gui} onChange={event => {
                                 setToggles({ ...toggles, "gui": event.target.checked });
                             }} />

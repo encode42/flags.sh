@@ -13,17 +13,32 @@ const aikars = {
  * The flags that are available to the app.
  */
 export const Flags: FlagsInterface = {
+    get "default"() {
+        return this.types.aikars;
+    },
     "types": {
         "none": {
+            "key": "none",
+            "label": "None",
             "result": ({ memory, filename, gui, modernJava }) => {
                 return `${Flags.prefix({ memory, modernJava })} ${Flags.suffix({ filename, gui })}`;
             }
         },
         "aikars": {
+            "key": "aikars",
+            "label": "Aikar's Flags",
             "result": ({ memory, filename, gui, modernJava }) => {
                 const base = `${aikars.base} ${memory >= 12 ? aikars.large : aikars.standard}`;
                 return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
             },
+        },
+        "velocity": {
+            "key": "velocity",
+            "label": "Velocity & Waterfall",
+            "result": ({ memory, filename, gui, modernJava }) => {
+                const base = "-XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15";
+                return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
+            }
         }
     },
     "prefix": ({ memory, modernJava }) => {

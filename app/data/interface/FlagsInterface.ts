@@ -34,19 +34,39 @@ interface SuffixOptions {
 }
 
 /**
+ * A flag type.
+ */
+export interface FlagType {
+    /**
+     * The key utilized in the flag selector.
+     */
+    "key": string,
+
+    /**
+     * The label to use in the flag selector.
+     */
+    "label": string,
+
+    /**
+     * The function used to get the results.
+     */
+    "result": ({ memory, filename, gui, modernJava }: ResultOptions) => string
+}
+
+/**
  * Interface for the Flags object.
  */
 export default interface FlagsInterface {
     /**
+     * The default flags.
+     */
+    "default": FlagType,
+
+    /**
      * Flag types.
      */
     "types": {
-        [key: string]: {
-            /**
-             * The function used to get the results.
-             */
-            "result": ({ memory, filename, gui, modernJava }: ResultOptions) => string
-        }
+        [key: string]: FlagType
     },
 
     /**
