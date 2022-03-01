@@ -1,5 +1,9 @@
-import { Head, ErrorComponent } from "blitz";
+import { Head, Link, Routes } from "blitz";
+import { Center, Group, Title, Text, Anchor } from "@mantine/core";
 
+/**
+ * The standard 404 page for Blitz.js and Mantine UI.
+ */
 export default function Page404() {
     const statusCode = 404;
     const title = "This page could not be found";
@@ -10,7 +14,21 @@ export default function Page404() {
                     {statusCode}: {title}
                 </title>
             </Head>
-            <ErrorComponent statusCode={statusCode} title={title} />
+            <Center sx={{
+                "height": "100vh"
+            }}>
+                <Group direction="column" sx={{
+                    "alignItems": "center"
+                }}>
+                    <Group>
+                        <Title>{statusCode}</Title>
+                        <Text>{title}</Text>
+                    </Group>
+                    <Link href={Routes.Home()} passHref>
+                        <Anchor>Back Home</Anchor>
+                    </Link>
+                </Group>
+            </Center>
         </>
     );
 }
