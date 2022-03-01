@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Slider, SliderProps } from "@mantine/core";
 
 interface SliderMarker {
@@ -26,7 +26,7 @@ interface MarkedSliderOptions extends SliderProps {
  *
  * @see MarkedSliderOptions
  */
-export default function MarkedSlider({ interval = 1, includeEnds = false, step = 1, min = 0, max = 100, defaultValue = 0, thumbLabel, label, onChange }: MarkedSliderOptions) {
+export default function MarkedSlider({ interval = 1, includeEnds = false, step = 1, min = 0, max = 100, defaultValue = 0, thumbLabel, label, onChange }: MarkedSliderOptions): ReactElement {
     // Generate the markers
     const [marks, setMarks] = useState<SliderMarker[]>([]);
     useEffect(() => {

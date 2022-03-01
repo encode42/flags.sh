@@ -1,13 +1,14 @@
 import Layout from "../core/layouts/Layout";
-import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Anchor } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Prism } from "@mantine/prism";
 import { stripIndent } from "common-tags";
-import { AlertCircle, Archive, BrandDebian, BrandWindows, Download } from "tabler-icons-react";
+import { AlertCircle, Archive, BrandDebian, BrandGithub, BrandWindows, Download } from "tabler-icons-react";
 import PageTitle from "../core/components/PageTitle";
-import ThemeToggle from "../core/components/ThemeToggle";
+import ThemeToggle from "../core/components/actionButtons/ThemeToggle";
 import MarkedSlider from "../core/components/MarkedSlider";
 import { saveText } from "../util/util";
+import { GitHubLink } from "../core/components/actionButtons/GitHubLink";
 
 // TODO: API
 
@@ -209,19 +210,25 @@ function Home() {
                     <Space h="md" />
 
                     <Group>
-                        <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
-                            saveText(result, allEnvs[activeTab].file);
-                        }}>
-                            <Download />
-                        </ActionIcon>
+                        <Group>
+                            <ActionIcon color="green" variant="filled" size="lg" title="Download current script" onClick={() => {
+                                saveText(result, allEnvs[activeTab].file);
+                            }}>
+                                <Download />
+                            </ActionIcon>
 
-                        <ThemeToggle />
-
-                        <Group spacing="xs" sx={{
-                            "display": memory < 4 ? "" : "none"
+                            <Group spacing="xs" sx={{
+                                "display": memory < 4 ? "" : "none"
+                            }}>
+                                <AlertCircle />
+                                <Text>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
+                            </Group>
+                        </Group>
+                        <Group sx={{
+                            "marginLeft": "auto"
                         }}>
-                            <AlertCircle />
-                            <Text>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
+                            <ThemeToggle />
+                            <GitHubLink />
                         </Group>
                     </Group>
                 </Paper>
