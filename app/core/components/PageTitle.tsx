@@ -1,20 +1,21 @@
-import { ActionIcon, Group, Title, Anchor } from "@mantine/core";
-import Logo from "../../assets/Logo";
 import { ReactElement } from "react";
+import { Link, Routes } from "blitz";
+import { ActionIcon, Group, Title } from "@mantine/core";
+import Logo from "../../assets/Logo";
 
-interface PageTitleOptions {
-    "isHome"?: boolean
-}
-
-export default function PageTitle({ isHome = false }: PageTitleOptions): ReactElement {
+/**
+ * The title component.
+ *
+ * Includes logo and website name.
+ */
+export default function PageTitle(): ReactElement {
     return (
         <Group>
-            <ActionIcon size="xl" radius="xs" variant="transparent" component={Anchor}
-
-                // @ts-ignore
-                href={isHome ? "#" : "/"}>
-                <Logo />
-            </ActionIcon>
+            <Link href={Routes.Home()}>
+                <ActionIcon size="xl" radius="xs" variant="transparent" title="Return to the home page">
+                    <Logo />
+                </ActionIcon>
+            </Link>
             <Title>flags.sh</Title>
         </Group>
     );

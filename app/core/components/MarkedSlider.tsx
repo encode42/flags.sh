@@ -7,7 +7,7 @@ interface SliderMarker {
 }
 
 /**
- * Options for the marked slider.
+ * Options for the MarkedSlider component.
  */
 interface MarkedSliderOptions extends SliderProps {
     /**

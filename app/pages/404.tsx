@@ -1,10 +1,11 @@
+import { ReactElement } from "react";
 import { Head, Link, Routes, useRouter } from "blitz";
 import { Center, Group, Title, Text, Anchor } from "@mantine/core";
 
 /**
  * The standard 404 page for Blitz.js and Mantine UI.
  */
-export default function Page404() {
+export default function Page404(): ReactElement {
     const statusCode = 404;
     const title = "This page could not be found";
 

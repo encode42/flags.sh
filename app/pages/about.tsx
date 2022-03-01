@@ -1,8 +1,8 @@
+import { Center, Paper, Title, Text, useMantineColorScheme, Group, Space, Anchor } from "@mantine/core";
 import Layout from "../core/layouts/Layout";
-import { Center, Paper, Title, Text, useMantineColorScheme, Group, Space, Anchor, ActionIcon, Code } from "@mantine/core";
 import PageTitle from "../core/components/PageTitle";
-import FooterRow from "../core/components/actionButtons/FooterRow";
 import SideBySide from "../core/components/SideBySide";
+import FooterRow from "../core/components/actionButtons/FooterRow";
 import { HomeLink } from "../core/components/actionButtons/HomeLink";
 
 /**

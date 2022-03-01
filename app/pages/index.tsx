@@ -1,15 +1,12 @@
-import Layout from "../core/layouts/Layout";
-import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Anchor } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { Prism } from "@mantine/prism";
-import { stripIndent } from "common-tags";
-import { AlertCircle, Archive, BrandDebian, BrandGithub, BrandWindows, Download } from "tabler-icons-react";
-import PageTitle from "../core/components/PageTitle";
-import ThemeToggle from "../core/components/actionButtons/ThemeToggle";
-import MarkedSlider from "../core/components/MarkedSlider";
 import { saveText } from "../util/util";
-import { GitHubLink } from "../core/components/actionButtons/GitHubLink";
-import { AboutLink } from "../core/components/actionButtons/AboutLink";
+import { stripIndent } from "common-tags";
+import { useEffect, useState } from "react";
+import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { AlertCircle, Archive, BrandDebian, BrandWindows, Download } from "tabler-icons-react";
+import { Prism } from "@mantine/prism";
+import Layout from "../core/layouts/Layout";
+import PageTitle from "../core/components/PageTitle";
+import MarkedSlider from "../core/components/MarkedSlider";
 import FooterRow from "../core/components/actionButtons/FooterRow";
 import SideBySide from "../core/components/SideBySide";
 
@@ -143,7 +140,7 @@ function Home() {
                     "width": "100%",
                     "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0]
                 })}>
-                    <PageTitle isHome />
+                    <PageTitle />
                     <Group grow>
                         <Group direction="column" grow>
                             {/* TODO: Reset value on refresh */}

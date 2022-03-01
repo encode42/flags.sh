@@ -1,26 +1,54 @@
-import { Head, BlitzLayout } from "blitz";
-import { Container, useMantineTheme } from "@mantine/core";
 import { ReactChildren } from "react";
+import { Head } from "blitz";
+import { Container, useMantineTheme } from "@mantine/core";
 
+/**
+ * The properties for this layout.
+ */
 export interface MinimalLayoutProps {
+    /**
+     * Title of the page.
+     *
+     * Defaults to the site's name.
+     */
     "title"?: string,
+
+    /**
+     * Description of the page.
+     *
+     * Defaults to the site's description.
+     */
     "description"?: string,
+
+    /**
+     * Whether the page's title should be prefixed with the site's name.
+     */
     "prefixed"?: boolean,
+
+    /**
+     * Whether the layout should be containerized.
+     */
     "containerize"?: boolean,
+
+    /**
+     * The children of this layout.
+     */
     "children": ReactChildren
 }
 
-const base = {
+// The base site details
+export const siteDetails = {
     "title": "flags.sh",
     "description": "A simple script generator to start your Minecraft servers with optimal flags."
 };
 
-const MinimalLayout: BlitzLayout<MinimalLayoutProps> = ({ title, description, prefixed = true, containerize = true, children }: MinimalLayoutProps) => {
+export default function MinimalLayout({ title, description, prefixed = true, containerize = true, children }: MinimalLayoutProps) {
     const width = "100vw";
     const height = "100vh";
 
-    const targetTitle = prefixed && title ? `${base.title} | ${title}` : base.title;
-    const targetDescription = description ?? base.description;
+    // Process the title and description
+    const targetTitle = prefixed && title ? `${siteDetails.title} | ${title}` : siteDetails.title;
+    const targetDescription = description ?? siteDetails.description;
 
     const theme = useMantineTheme();
 
@@ -39,8 +67,8 @@ const MinimalLayout: BlitzLayout<MinimalLayoutProps> = ({ title, description, pr
                 <meta property="og:description" content={targetDescription} />
                 <meta property="twitter:description" content={targetDescription} />
 
-                <meta name="application-name" content={base.title} />
-                <meta property="og:site_name" content={base.title} />
+                <meta name="application-name" content={siteDetails.title} />
+                <meta property="og:site_name" content={siteDetails.title} />
                 <meta name="twitter:card" content="summary" />
                 <meta property="og:type" content="website" /> {/* https://ogp.me/#types */}
 
@@ -63,6 +91,4 @@ const MinimalLayout: BlitzLayout<MinimalLayoutProps> = ({ title, description, pr
             }
         </Container>
     );
-};
-
-export default MinimalLayout;
+}

@@ -86,7 +86,10 @@
         "jsdoc/require-returns": "off",
         "jsdoc/require-param-type": "off",
         "jsdoc/require-jsdoc": "off",
-        "@typescript-eslint/ban-ts-comment": "off"
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-extra-semi": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "react/no-unescaped-entities": "warn"
     },
     "settings": {
         "import/parsers": {

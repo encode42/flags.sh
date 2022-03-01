@@ -1,17 +1,20 @@
 import { ReactElement } from "react";
-import { ActionIcon, Anchor } from "@mantine/core";
+import { Link } from "blitz";
+import { ActionIcon } from "@mantine/core";
 import { BrandGithub } from "tabler-icons-react";
 import ActionButtonOptions from "./interfaces/ActionButtonOptions";
 
+/**
+ * A component that links to flag.sh's GitHub repository.
+ *
+ * @param filled Whether the button should be filled
+ */
 export function GitHubLink({ filled = false }: ActionButtonOptions): ReactElement {
     return (
-        <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"} component={Anchor}
-            // @ts-ignore
-            href="https://github.com/Encode42/flags.sh"
-
-            // @ts-ignore
-            target="_blank">
-            <BrandGithub />
-        </ActionIcon>
+        <Link href={"https://github.com/Encode42/flags.sh"}>
+            <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"} title="Visit the GitHub repository">
+                <BrandGithub />
+            </ActionIcon>
+        </Link>
     );
 }

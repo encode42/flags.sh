@@ -1,13 +1,18 @@
 import { ReactElement } from "react";
+import { Link, Routes } from "blitz";
 import { ActionIcon } from "@mantine/core";
 import { Home } from "tabler-icons-react";
 import ActionButtonOptions from "./interfaces/ActionButtonOptions";
-import { Link, Routes } from "blitz";
 
+/**
+ * A component that links to the site's homepage.
+ *
+ * @param filled Whether the button should be filled
+ */
 export function HomeLink({ filled = false }: ActionButtonOptions): ReactElement {
     return (
         <Link href={Routes.Home()}>
-            <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"}>
+            <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"} title="Return to the home page">
                 <Home />
             </ActionIcon>
         </Link>
