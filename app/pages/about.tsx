@@ -1,10 +1,10 @@
 import { siteDetails } from "../util/util";
 import { Center, Paper, Title, Text, useMantineColorScheme, Group, Space, Anchor } from "@mantine/core";
-import Layout from "../core/layouts/Layout";
+import Layout from "../core/layout/Layout";
 import PageTitle from "../core/components/PageTitle";
 import SideBySide from "../core/components/SideBySide";
-import FooterRow from "../core/components/actionButtons/FooterRow";
-import { HomeLink } from "../core/components/actionButtons/HomeLink";
+import FooterRow from "../core/components/actionButton/FooterRow";
+import { HomeLink } from "../core/components/actionButton/HomeLink";
 
 /**
  * The about page of the site.

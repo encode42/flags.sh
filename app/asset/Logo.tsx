@@ -3,7 +3,7 @@
  */
 export default function Logo() {
     return (
-        <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1600" width="1600" height="1600">
+        <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1600" width="50" height="50">
             <path d="m25 125c0-55.2 44.8-100 100-100h1350c55.2 0 100 44.8 100 100v1350c0 55.2-44.8 100-100 100h-1350c-55.2 0-100-44.8-100-100z" fill="#1a1b1e"/>
             <path d="m200 250c0-27.6 22.4-50 50-50h1100c27.6 0 50 22.4 50 50v1100c0 27.6-22.4 50-50 50h-1100c-27.6 0-50-22.4-50-50z" fill="#25262b"/>
             <path d="m320 666c0-41.4 33.6-75 75-75h250c41.4 0 75 33.6 75 75c0 41.4-33.6 75-75 75h-250c-41.4 0-75-33.6-75-75z" fill="#c1c2c5"/>

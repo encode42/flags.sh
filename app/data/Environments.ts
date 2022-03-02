@@ -1,10 +1,18 @@
 import { stripIndent } from "common-tags";
-import EnvironmentsInterface from "./interface/EnvironmentsInterface";
+import EnvironmentsInterface, { DisabledOptions } from "./interface/EnvironmentsInterface";
 
 /**
  * The header used in Linux scripts/
  */
 const linuxHeader = "#!/bin/bash";
+
+const defaultDisabledOptions: DisabledOptions = {
+    "autoRestart": false,
+    "download": false,
+    "gui": false,
+    "modernJava": false,
+    "pterodactyl": true
+};
 
 /**
  * The environments that are available to the app.
@@ -32,13 +40,7 @@ export const Environments: EnvironmentsInterface = {
                     done
                 `);
             },
-            "disabled": {
-                "gui": false,
-                "autoRestart": false,
-                "pterodactyl": true,
-                "modernJava": false,
-                "download": false
-            }
+            "disabled": { ...defaultDisabledOptions }
         },
         "windows": {
             "file": "start.bat",
@@ -54,23 +56,16 @@ export const Environments: EnvironmentsInterface = {
                     goto :start
                 `);
             },
-            "disabled": {
-                "gui": false,
-                "autoRestart": false,
-                "pterodactyl": true,
-                "modernJava": false,
-                "download": false
-            }
+            "disabled": { ...defaultDisabledOptions }
         },
         "java": {
             "result": ({ flags }) => {
                 return flags;
             },
             "disabled": {
-                "gui": false,
-                "autoRestart": true,
+                ...defaultDisabledOptions,
                 "pterodactyl": false,
-                "modernJava": false,
+                "autoRestart": true,
                 "download": true
             },
             "requires": {

@@ -29,7 +29,7 @@ interface MarkedSliderOptions extends SliderProps {
  *
  * @see MarkedSliderOptions
  */
-export default function MarkedSlider({ interval = 1, includeEnds = false, step = 1, min = 0, max = 100, defaultValue = 0, thumbLabel, label, onChange }: MarkedSliderOptions): ReactElement {
+export default function MarkedSlider({ interval = 1, includeEnds = false, step = 1, min = 0, max = 100, defaultValue = 0, value = 0, thumbLabel, label, onChange }: MarkedSliderOptions): ReactElement {
     // Generate the markers
     const [marks, setMarks] = useState<SliderMarker[]>([]);
     useEffect(() => {
@@ -55,6 +55,6 @@ export default function MarkedSlider({ interval = 1, includeEnds = false, step =
     }, [interval, includeEnds, step, min, max]);
 
     return (
-        <Slider marks={marks} step={step} min={min} max={max} defaultValue={defaultValue} thumbLabel={thumbLabel} label={label} onChange={onChange} />
+        <Slider marks={marks} step={step} min={min} max={max} defaultValue={defaultValue} value={value} thumbLabel={thumbLabel} label={label} onChange={onChange} />
     );
 }

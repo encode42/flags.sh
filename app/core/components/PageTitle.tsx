@@ -2,7 +2,7 @@ import { siteDetails } from "../../util/util";
 import { ReactElement } from "react";
 import { Link, Routes } from "blitz";
 import { ActionIcon, Group, Title } from "@mantine/core";
-import Logo from "../../assets/Logo";
+import Logo from "../../asset/Logo";
 
 /**
  * The title component.
