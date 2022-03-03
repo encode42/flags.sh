@@ -1,3 +1,5 @@
+import { DisabledOptions } from "./DisabledOptions";
+
 /**
  * Options for the flag results.
  */
@@ -48,9 +50,19 @@ export interface FlagType {
     "label": string,
 
     /**
+     * The description to use in the flag selector.
+     */
+    "description"?: string,
+
+    /**
      * The function used to get the results.
      */
-    "result": ({ memory, filename, gui, modernJava }: ResultOptions) => string
+    "result": ({ memory, filename, gui, modernJava }: ResultOptions) => string,
+
+    /**
+     * Options for the disabled components.
+     */
+    "disabled": DisabledOptions
 }
 
 /**

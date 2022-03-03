@@ -1,13 +1,14 @@
 import { saveText } from "../util/util";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Center, Group, Paper, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Select } from "@mantine/core";
-import { AlertCircle, Archive, BrandDebian, BrandWindows, Download, Terminal, Tool } from "tabler-icons-react";
+import { AlertCircle, Archive, Download, Tool } from "tabler-icons-react";
 import { Prism } from "@mantine/prism";
 import Layout from "../core/layout/Layout";
 import PageTitle from "../core/components/PageTitle";
 import MarkedSlider from "../core/components/MarkedSlider";
 import FooterRow from "../core/components/actionButton/FooterRow";
 import SideBySide from "../core/components/SideBySide";
+import SelectDescription from "../core/components/SelectDescription";
 import { Flags } from "../data/Flags";
 import { Environments } from "../data/Environments";
 import { EnvironmentType } from "../data/interface/EnvironmentsInterface";
@@ -22,8 +23,8 @@ import Label from "../core/components/label/Label";
 // TODO: API
 // TODO: Share button
 
-// TODO: Ability to disable toggles within a flag type
-// TODO: Control temporary variables within modals
+// BUG: Changing memory slider then going to advanced options yields incorrect value
+// BUG: Modern java toggle stays toggled while disabled
 
 /**
  * Data for a flag in the selector.
@@ -37,7 +38,12 @@ interface FlagSelector {
     /**
      * Label of the entry.
      */
-    "label": string
+    "label": string,
+
+    /**
+     * Description of the entry.
+     */
+    "description"?: string
 };
 
 /**
@@ -60,13 +66,17 @@ function Home() {
 
     const [result, setResult] = useState<string>("Loading...");
 
-    const [flagSelector, setFlagSelector] = useState<FlagSelector[]>([]);
-    const [selectedFlags, setSelectedFlags] = useState<FlagType>(Flags.default);
     const [environment, setEnvironment] = useState<EnvironmentType>(Environments.default);
+    const [selectedFlags, setSelectedFlags] = useState<FlagType>(Flags.default);
     const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
+
+    const [flagSelector, setFlagSelector] = useState<FlagSelector[]>([]);
+    const [environmentSelector, setEnvironmentSelector] = useState<ReactElement>();
 
     const [openMemoryModal, setOpenMemoryModal] = useState(false);
     const [openFlagModal, setOpenFlagModal] = useState(false);
+
+    const [disabled, setDisabled] = useState({ ...environment.disabled, ...selectedFlags.disabled });
 
     // Generate the flags selector
     useEffect(() => {
@@ -75,18 +85,68 @@ function Home() {
         for (const value of Object.values(Flags.types)) {
             flags.push({
                 "value": value.key,
-                "label": value.label
+                "label": value.label,
+                "description": value.description
             });
         }
 
         setFlagSelector(flags);
-    }, [flagSelector]);
+    }, []);
+
+    // Update the disabled components
+    useEffect(() => {
+        setDisabled({
+            ...environment.disabled,
+            ...selectedFlags.disabled
+        });
+    }, [environment.disabled, selectedFlags.disabled]);
+
+    // Generate the environments
+    useEffect(() => {
+        const environments: ReactElement[] = [];
+
+        for (const [key, value] of Object.entries(Environments.types)) {
+            environments.push(
+                <Prism.Tab key={key} label={value.label} withLineNumbers scrollAreaComponent="div" language="bash" icon={value.icon}>
+                    {result}
+                </Prism.Tab>
+            );
+        }
+
+        setEnvironmentSelector(
+            <Prism.Tabs styles={theme => ({
+                "copy": {
+                    "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0],
+                    "borderRadius": theme.radius.xs
+                },
+                "line": {
+                    "whiteSpace": "pre-wrap"
+                }
+            })} onTabChange={active => {
+                // Get the selected type from the tab
+                const key = Object.keys(Environments.types)[active]; // TODO: This is unreliable, but tabKey does not work
+                if (!key) {
+                    return;
+                }
+
+                // Toggle the non-applicable components
+                const env = Environments.types[key];
+                if (!env) {
+                    return;
+                }
+
+                setEnvironment(env);
+            }}>
+                {environments}
+            </Prism.Tabs>
+        );
+    }, [isDark, result]);
 
     // An option has been changed
     useEffect(() => {
         // Get the target memory
         let targetMem = memory;
-        if (!environment.disabled.pterodactyl && toggles.pterodactyl) {
+        if (!disabled.pterodactyl && toggles.pterodactyl) {
             targetMem = (85 / 100) * targetMem;
         }
 
@@ -94,13 +154,13 @@ function Home() {
         const flags = selectedFlags.result({
             "memory": targetMem,
             "filename": filename.replaceAll(/\s/g, "\\ "),
-            "gui": !environment.disabled.gui && toggles.gui,
-            "modernJava": !environment.disabled.modernJava && toggles.modernJava
+            "gui": !disabled.gui && toggles.gui,
+            "modernJava": !disabled.modernJava && toggles.modernJava
         });
         const script = environment.result({ flags, "autoRestart": toggles.autoRestart });
 
         setResult(script);
-    }, [filename, memory, selectedFlags, toggles, environment]);
+    }, [filename, memory, selectedFlags, toggles, environment, disabled]);
 
     // The environment's toggles have changed
     useEffect(() => {
@@ -110,7 +170,7 @@ function Home() {
 
         // Iterate each requirement
         for (const [key, value] of Object.entries(environment.requires)) {
-            const newDisabled = environment.disabled;
+            const newDisabled = disabled;
 
             if (value.excludes) {
                 // Disable toggles if required
@@ -119,12 +179,9 @@ function Home() {
                 }
             }
 
-            setEnvironment({
-                ...environment,
-                "disabled": newDisabled
-            });
+            setDisabled(newDisabled);
         }
-    }, [toggles, environment]);
+    }, [toggles, environment, disabled]);
 
     return (
         <>
@@ -142,7 +199,7 @@ function Home() {
                             {/* Left options */}
                             <Group direction="column" grow>
                                 {/* Filename selector */}
-                                <InputCaption text="The file used to launch the server.">
+                                <InputCaption text="The file used to launch the server. Located in the same directory as your configuration files.">
                                     <TextLabel label="Filename">
                                         <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<Archive />} onChange={event => {
                                             const value = event.target.value;
@@ -184,7 +241,11 @@ function Home() {
                                         <Tool />
                                     </ActionIcon>
                                 }>
-                                    <Select value={selectedFlags.key} onChange={value => {
+                                    <Select value={selectedFlags.key} itemComponent={SelectDescription} styles={theme => ({
+                                        "dropdown": {
+                                            "background": isDark ? theme.colors.dark[8] : theme.colors.gray[0]
+                                        }
+                                    })} onChange={value => {
                                         if (!value) {
                                             return;
                                         }
@@ -195,12 +256,12 @@ function Home() {
 
                                 {/* Misc toggles */}
                                 <InputCaption text="Enables the server's GUI control panel. Automatically disabled in environments without a desktop.">
-                                    <Switch label="GUI" checked={!environment.disabled.gui && toggles.gui} disabled={environment.disabled.gui} onChange={event => {
+                                    <Switch label="GUI" checked={!disabled.gui && toggles.gui} disabled={disabled.gui} onChange={event => {
                                         setToggles({ ...toggles, "gui": event.target.checked });
                                     }} />
                                 </InputCaption>
                                 <InputCaption text={`Automatically restarts the server after it crashes or is stopped. Press CTRL + C to exit the script.`}>
-                                    <Switch label="Auto-restart" checked={!environment.disabled.autoRestart && toggles.autoRestart} disabled={environment.disabled.autoRestart} onChange={event => {
+                                    <Switch label="Auto-restart" checked={!disabled.autoRestart && toggles.autoRestart} disabled={disabled.autoRestart} onChange={event => {
                                         setToggles({ ...toggles, "autoRestart": event.target.checked });
                                     }} />
                                 </InputCaption>
@@ -209,46 +270,14 @@ function Home() {
 
                         {/* Resulting flags */}
                         <Label label={<Text size="xl" weight={700}>Result</Text>}>
-                            <Prism.Tabs styles={theme => ({
-                                "copy": {
-                                    "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0],
-                                    "borderRadius": theme.radius.xs
-                                },
-                                "line": {
-                                    "whiteSpace": "pre-wrap"
-                                }
-                            })} onTabChange={active => {
-                                // Get the selected type from the tab
-                                const key = Object.keys(Environments.types)[active]; // TODO: This is unreliable, but tabKey does not work
-                                if (!key) {
-                                    return;
-                                }
-
-                                // Toggle the non-applicable components
-                                const env = Environments.types[key];
-                                if (!env) {
-                                    return;
-                                }
-
-                                setEnvironment(env);
-                            }}>
-                                <Prism.Tab key="linux" label="Linux / Mac" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandDebian />}>
-                                    {result}
-                                </Prism.Tab>
-                                <Prism.Tab key="windows" label="Windows" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandWindows />}>
-                                    {result}
-                                </Prism.Tab>
-                                <Prism.Tab key="java" label="Java Command" withLineNumbers scrollAreaComponent="div" language="bash" icon={<Terminal />}>
-                                    {result}
-                                </Prism.Tab>
-                            </Prism.Tabs>
+                            {environmentSelector}
                         </Label>
 
                         {/* Footer links */}
                         <SideBySide leftSide={
                             <Group noWrap>
                                 {/* Download button */}
-                                <ActionIcon color="green" variant="filled" size="lg" title="Download current script" disabled={environment.disabled.download} onClick={() => {
+                                <ActionIcon color="green" variant="filled" size="lg" title="Download current script" disabled={disabled.download} onClick={() => {
                                     if (environment.file) {
                                         saveText(result, environment.file);
                                     }
@@ -282,22 +311,22 @@ function Home() {
                 "value": memory,
                 "set": setMemory
             }} pterodactyl={{
-                "value": !environment.disabled.pterodactyl && toggles.pterodactyl,
+                "value": !disabled.pterodactyl && toggles.pterodactyl,
                 "set": value => {
                     setToggles({ ...toggles, "pterodactyl": value });
                 },
-                "disabled": environment.disabled.pterodactyl ?? false
+                "disabled": disabled.pterodactyl ?? false
             }} />
 
             <FlagModal open={{
                 "value": openFlagModal,
                 "set": setOpenFlagModal
             }} modernJava={{
-                "value": !environment.disabled.modernJava && toggles.modernJava,
+                "value": !disabled.modernJava && toggles.modernJava,
                 "set": value => {
                     setToggles({ ...toggles, "modernJava": value });
                 },
-                "disabled": environment.disabled.modernJava ?? false
+                "disabled": disabled.modernJava ?? false
             }} />
         </>
     );

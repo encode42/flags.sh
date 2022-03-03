@@ -1,39 +1,12 @@
 /**
  * Options for the environment results.
  */
+import { ReactElement } from "react";
+import { DisabledOptions } from "./DisabledOptions";
+
 interface ResultOptions {
     "flags": string,
     "autoRestart": boolean
-};
-
-/**
- * Options for the disabled components.
- */
-export interface DisabledOptions {
-    /**
-     * Whether to disable the GUI toggle.
-     */
-    "gui": boolean,
-
-    /**
-     * Whether to disable the auto-restart toggle.
-     */
-    "autoRestart": boolean,
-
-    /**
-     * Whether to disable the Pterodactyl toggle.
-     */
-    "pterodactyl": boolean,
-
-    /**
-     * Whether to disable the modern Java toggle.
-     */
-    "modernJava": boolean,
-
-    /**
-     * Whether to disable the download button.
-     */
-    "download": boolean
 };
 
 /**
@@ -56,6 +29,16 @@ export interface EnvironmentType {
      * The name of the exported file.
      */
     "file"?: string,
+
+    /**
+     * The label to use in the environment tab.
+     */
+    "label": string,
+
+    /**
+     * The icon to use in the environment tab.
+     */
+    "icon": ReactElement,
 
     /**
      * The function used to get the results.

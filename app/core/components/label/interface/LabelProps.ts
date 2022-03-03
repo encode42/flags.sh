@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
-import ChildrenProps from "../../../../util/interface/ChildrenProps";
+import OptionalChildrenProps from "../../../../util/interface/OptionalChildrenProps";
 
 /**
  * Properties of a Label
  */
-export default interface LabelProps extends ChildrenProps {
+export default interface LabelProps extends OptionalChildrenProps {
     /**
      * The label that will be displayed above the input.
      */

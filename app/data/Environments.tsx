@@ -1,18 +1,12 @@
 import { stripIndent } from "common-tags";
-import EnvironmentsInterface, { DisabledOptions } from "./interface/EnvironmentsInterface";
+import EnvironmentsInterface from "./interface/EnvironmentsInterface";
+import { BrandDebian, BrandWindows, Terminal } from "tabler-icons-react";
+import { DefaultDisabledOptions } from "./DefaultDisabledOptions";
 
 /**
  * The header used in Linux scripts/
  */
 const linuxHeader = "#!/bin/bash";
-
-const defaultDisabledOptions: DisabledOptions = {
-    "autoRestart": false,
-    "download": false,
-    "gui": false,
-    "modernJava": false,
-    "pterodactyl": true
-};
 
 /**
  * The environments that are available to the app.
@@ -23,6 +17,8 @@ export const Environments: EnvironmentsInterface = {
     },
     "types": {
         "linux": {
+            "label": "Linux / Mac",
+            "icon": <BrandDebian />,
             "file": "start.sh",
             "result": ({ flags, autoRestart }) => {
                 return stripIndent(!autoRestart ? `
@@ -40,9 +36,11 @@ export const Environments: EnvironmentsInterface = {
                     done
                 `);
             },
-            "disabled": { ...defaultDisabledOptions }
+            "disabled": { ...DefaultDisabledOptions }
         },
         "windows": {
+            "label": "Windows",
+            "icon": <BrandWindows />,
             "file": "start.bat",
             "result": ({ flags, autoRestart }) => {
                 return stripIndent(!autoRestart ? `
@@ -56,14 +54,16 @@ export const Environments: EnvironmentsInterface = {
                     goto :start
                 `);
             },
-            "disabled": { ...defaultDisabledOptions }
+            "disabled": { ...DefaultDisabledOptions }
         },
         "java": {
+            "label": "Java",
+            "icon": <Terminal />,
             "result": ({ flags }) => {
                 return flags;
             },
             "disabled": {
-                ...defaultDisabledOptions,
+                ...DefaultDisabledOptions,
                 "pterodactyl": false,
                 "autoRestart": true,
                 "download": true

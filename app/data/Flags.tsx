@@ -1,4 +1,5 @@
 import FlagsInterface from "./interface/FlagsInterface";
+import { DefaultDisabledOptions } from "./DefaultDisabledOptions";
 
 /**
  * Additional configuration for Aikar's flags.
@@ -22,22 +23,31 @@ export const Flags: FlagsInterface = {
             "label": "None",
             "result": ({ memory, filename, gui, modernJava }) => {
                 return `${Flags.prefix({ memory, modernJava })} ${Flags.suffix({ filename, gui })}`;
-            }
+            },
+            "disabled": { ...DefaultDisabledOptions }
         },
         "aikars": {
             "key": "aikars",
             "label": "Aikar's Flags",
+            "description": "The high-performance and recommended flags.",
             "result": ({ memory, filename, gui, modernJava }) => {
                 const base = `${aikars.base} ${memory >= 12 ? aikars.large : aikars.standard}`;
                 return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
             },
+            "disabled": { ...DefaultDisabledOptions }
         },
         "velocity": {
             "key": "velocity",
             "label": "Velocity & Waterfall",
+            "description": "Flags that work best with proxy software.",
             "result": ({ memory, filename, gui, modernJava }) => {
                 const base = "-XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15";
                 return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
+            },
+            "disabled": {
+                ...DefaultDisabledOptions,
+                "gui": true,
+                "modernJava": true
             }
         }
     },
