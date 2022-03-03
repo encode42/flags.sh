@@ -1,35 +1,34 @@
 import { Switch } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import FlagModalProps from "./interface/FlagModalProps";
-import ModalBase from "./base/ModalBase";
+import DataModalBase from "./base/DataModalBase";
+import InputCaption from "../caption/InputCaption";
+import DataModalPending from "./base/interface/DataModalPending";
 
 /**
  * Modal for additional flags options.
  */
 export default function FlagModal({ open, modernJava }: FlagModalProps) {
-    const [pending, setPending] = useState({
+    const values = {
         "modernJava": modernJava.value
-    });
+    };
 
-    // Update the default values
-    useEffect(() => {
-        setPending({
-            ...pending,
-            "modernJava": modernJava.value
-        });
-    }, [modernJava.value]);
+    const dataModal = useRef<DataModalPending<typeof values>>();
 
     return (
-        <ModalBase open={open} apply={() => {
-            modernJava.set(pending.modernJava);
+        <DataModalBase open={open} ref={dataModal} values={values} onApply={() => {
+            const pending = dataModal.current?.pending;
+
+            if (pending) {
+                modernJava.set(pending.modernJava);
+            }
         }}>
             {/* Modern Java switch */}
-            <Switch label="Java 17" checked={pending.modernJava} disabled={modernJava.disabled} onChange={event => {
-                setPending({
-                    ...pending,
-                    "modernJava": event.target.checked
-                });
-            }} />
-        </ModalBase>
+            <InputCaption text="Adds a flag that enables Java 17 vectors, which significantly speeds up map item rendering. Only applicable in Pufferfish-based forks.">
+                <Switch label="Java 17" checked={dataModal.current?.pending.modernJava} disabled={modernJava.disabled} onChange={event => {
+                    dataModal.current?.set("modernJava", event.target.checked);
+                }} />
+            </InputCaption>
+        </DataModalBase>
     );
 }

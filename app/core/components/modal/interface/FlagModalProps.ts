@@ -1,10 +1,10 @@
 import SwitchState from "../../../../util/interface/state/component/SwitchState";
-import ModalProps from "../base/interface/ModalProps";
+import DataModalProps from "../base/interface/DataModalProps";
 
 /**
  * Properties for the flags modal.
  */
-export default interface FlagModalProps extends ModalProps {
+export default interface FlagModalProps extends DataModalProps {
     /**
      * Whether to add flags for modern versions of Java.
      */

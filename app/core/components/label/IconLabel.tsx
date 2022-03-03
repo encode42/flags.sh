@@ -1,5 +1,5 @@
 import Label from "./Label";
-import { Text } from "@mantine/core";
+import { Text, Group } from "@mantine/core";
 import IconLabelProps from "./interface/IconLabelProps";
 
 /**
@@ -8,11 +8,11 @@ import IconLabelProps from "./interface/IconLabelProps";
 export default function IconInput({ label, icon, children }: IconLabelProps) {
     return (
         <Label label={
-            <>
+            <Group spacing={5}>
                 <Text size="sm">{label}</Text>
 
                 {icon}
-            </>
+            </Group>
         }>
             {children}
         </Label>

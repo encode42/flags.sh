@@ -14,18 +14,15 @@ import { EnvironmentType } from "../data/interface/EnvironmentsInterface";
 import { FlagType } from "../data/interface/FlagsInterface";
 import MemoryModal from "../core/components/modal/MemoryModal";
 import FlagModal from "../core/components/modal/FlagModal";
-import IconInput from "../core/components/inputLabel/IconLabel";
-import TextLabel from "../core/components/inputLabel/TextLabel";
+import IconInput from "../core/components/label/IconLabel";
+import TextLabel from "../core/components/label/TextLabel";
+import InputCaption from "../core/components/caption/InputCaption";
 
 // TODO: API
-// TODO: Inconsistent states (filename is preserved through refresh, but not toggles)
 // TODO: Share button
-// TODO: Use data objects to generate tabs and flags select dynamically
 
-// TODO: "temporary" to-be-applied states - This can be done by separating the modals into different components and requiring an "on apply" functiton
-// TODO: Modal popup buttons that store the opened state in it
-
-// TODO: Separate captioned inputs into component
+// TODO: Ability to disable toggles within a flag type
+// TODO: Control temporary variables within modals
 
 /**
  * Data for a flag in the selector.
@@ -126,7 +123,7 @@ function Home() {
                 "disabled": newDisabled
             });
         }
-    }, [toggles, environment.requires, environment.disabled]);
+    }, [toggles, environment]);
 
     return (
         <>
@@ -143,19 +140,21 @@ function Home() {
                         {/* Left options */}
                         <Group direction="column" grow>
                             {/* Filename selector */}
-                            <TextLabel label="Filename">
-                                <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<Archive />} onChange={event => {
-                                    const value = event.target.value;
+                            <InputCaption text="The file used to launch the server.">
+                                <TextLabel label="Filename">
+                                    <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<Archive />} onChange={event => {
+                                        const value = event.target.value;
 
-                                    // Ensure the input is valid
-                                    if (!value.includes(".jar")) {
-                                        setInvalidFilename("Filename must end with .jar");
-                                    } else {
-                                        setInvalidFilename(false);
-                                        setFileName(event.target.value);
-                                    }
-                                }}/>
-                            </TextLabel>
+                                        // Ensure the input is valid
+                                        if (!value.includes(".jar")) {
+                                            setInvalidFilename("Filename must end with .jar");
+                                        } else {
+                                            setInvalidFilename(false);
+                                            setFileName(event.target.value);
+                                        }
+                                    }}/>
+                                </TextLabel>
+                            </InputCaption>
 
                             {/* Memory selector */}
                             <IconInput label="Memory" icon={
@@ -193,12 +192,16 @@ function Home() {
                             </IconInput>
 
                             {/* Misc toggles */}
-                            <Switch label="GUI" checked={!environment.disabled.gui && toggles.gui} disabled={environment.disabled.gui} onChange={event => {
-                                setToggles({ ...toggles, "gui": event.target.checked });
-                            }} />
-                            <Switch label="Auto-restart" checked={!environment.disabled.autoRestart && toggles.autoRestart} disabled={environment.disabled.autoRestart} onChange={event => {
-                                setToggles({ ...toggles, "autoRestart": event.target.checked });
-                            }} />
+                            <InputCaption text="Enables the server's GUI control panel. Automatically disabled in environments without a desktop.">
+                                <Switch label="GUI" checked={!environment.disabled.gui && toggles.gui} disabled={environment.disabled.gui} onChange={event => {
+                                    setToggles({ ...toggles, "gui": event.target.checked });
+                                }} />
+                            </InputCaption>
+                            <InputCaption text={`Automatically restarts the server after it crashes or is stopped. Press CTRL + C to exit the script.`}>
+                                <Switch label="Auto-restart" checked={!environment.disabled.autoRestart && toggles.autoRestart} disabled={environment.disabled.autoRestart} onChange={event => {
+                                    setToggles({ ...toggles, "autoRestart": event.target.checked });
+                                }} />
+                            </InputCaption>
                         </Group>
                     </Group>
 

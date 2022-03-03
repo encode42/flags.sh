@@ -1,11 +1,11 @@
 import SwitchState from "../../../../util/interface/state/component/SwitchState";
 import NumberState from "../../../../util/interface/state/type/NumberState";
-import ModalProps from "../base/interface/ModalProps";
+import DataModalProps from "../base/interface/DataModalProps";
 
 /**
  * Properties for the memory modal.
  */
-export default interface MemoryModalProps extends ModalProps {
+export default interface MemoryModalProps extends DataModalProps {
     /**
      * The amount of memory to allocate in gigabytes.
      */

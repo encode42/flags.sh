@@ -1,17 +1,19 @@
 import { Button, Group } from "@mantine/core";
-import ModalButtonProps from "./interface/ModalButtonProps";
+import DataModalButtonProps from "./interface/DataModalButtonProps";
 
 /**
  * The footer buttons of a modal.
  */
-export default function ModalButtons({ open, apply }: ModalButtonProps) {
+export default function DataModalButtons({ open, closeRef, onClose, onApply }: DataModalButtonProps) {
     return (
         <Group position="right">
-            <Button color="red" variant="outline" onClick={() => {
+            <Button color="red" variant="outline" ref={closeRef} onClick={() => {
+                onClose?.();
+
                 open.set(false);
             }}>Cancel</Button>
             <Button onClick={() => {
-                apply();
+                onApply();
                 open.set(false);
             }}>Apply</Button>
         </Group>

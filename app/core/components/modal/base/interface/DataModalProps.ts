@@ -1,16 +1,16 @@
 import BooleanState from "../../../../../util/interface/state/type/BooleanState";
 
 /**
- * Properties for a modal's footer buttons.
+ * Properties for a modal.
  */
-export default interface ModalButtonProps {
+export default interface DataModalProps {
     /**
      * Whether the modal is opened.
      */
     "open": BooleanState,
 
     /**
-     * Function to run when the apply button is pressed.
+     * The title of the modal.
      */
-    "apply": () => void
+    "title"?: string
 };

@@ -7,9 +7,8 @@ import LabelProps from "./interface/LabelProps";
 export default function Label({ label, children }: LabelProps) {
     return (
         <Group direction="column" grow spacing={5}>
-            <Group spacing={2.5}>
-                {label}
-            </Group>
+            {label}
+
             {children}
         </Group>
     );
