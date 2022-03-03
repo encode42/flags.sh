@@ -77,8 +77,7 @@ export default function MinimalLayout({ title, description, prefixed = true, con
             {
                 containerize ? (
                     <Container sx={{
-                        "height": "inherit",
-                        "overflow": "hidden" // TODO: This is a bad solution
+                        "height": "inherit"
                     }}>
                         {children}
                     </Container>

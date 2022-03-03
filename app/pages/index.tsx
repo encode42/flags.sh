@@ -1,6 +1,6 @@
 import { saveText } from "../util/util";
 import { useEffect, useState } from "react";
-import { Center, Group, Paper, Space, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Select } from "@mantine/core";
+import { Center, Group, Paper, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Select } from "@mantine/core";
 import { AlertCircle, Archive, BrandDebian, BrandWindows, Download, Terminal, Tool } from "tabler-icons-react";
 import { Prism } from "@mantine/prism";
 import Layout from "../core/layout/Layout";
@@ -17,6 +17,7 @@ import FlagModal from "../core/components/modal/FlagModal";
 import IconInput from "../core/components/label/IconLabel";
 import TextLabel from "../core/components/label/TextLabel";
 import InputCaption from "../core/components/caption/InputCaption";
+import Label from "../core/components/label/Label";
 
 // TODO: API
 // TODO: Share button
@@ -135,142 +136,141 @@ function Home() {
                     "width": "100%",
                     "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0]
                 })}>
-                    <PageTitle />
-                    <Group grow>
-                        {/* Left options */}
-                        <Group direction="column" grow>
-                            {/* Filename selector */}
-                            <InputCaption text="The file used to launch the server.">
-                                <TextLabel label="Filename">
-                                    <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<Archive />} onChange={event => {
-                                        const value = event.target.value;
+                    <Group direction="column" grow>
+                        <PageTitle />
+                        <Group grow>
+                            {/* Left options */}
+                            <Group direction="column" grow>
+                                {/* Filename selector */}
+                                <InputCaption text="The file used to launch the server.">
+                                    <TextLabel label="Filename">
+                                        <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<Archive />} onChange={event => {
+                                            const value = event.target.value;
 
-                                        // Ensure the input is valid
-                                        if (!value.includes(".jar")) {
-                                            setInvalidFilename("Filename must end with .jar");
-                                        } else {
-                                            setInvalidFilename(false);
-                                            setFileName(event.target.value);
-                                        }
+                                            // Ensure the input is valid
+                                            if (!value.includes(".jar")) {
+                                                setInvalidFilename("Filename must end with .jar");
+                                            } else {
+                                                setInvalidFilename(false);
+                                                setFileName(event.target.value);
+                                            }
+                                        }}/>
+                                    </TextLabel>
+                                </InputCaption>
+
+                                {/* Memory selector */}
+                                <IconInput label="Memory" icon={
+                                    <ActionIcon size="xs" variant="transparent" onClick={() => {
+                                        setOpenMemoryModal(true);
+                                    }}>
+                                        <Tool />
+                                    </ActionIcon>
+                                }>
+                                    <MarkedSlider interval={4} step={0.5} min={0.5} max={24} value={memory} thumbLabel="Memory allocation slider" label={() => {
+                                        return `${memory.toFixed(1)} GB`;
+                                    }} onChange={value => {
+                                        setMemory(value);
                                     }}/>
-                                </TextLabel>
-                            </InputCaption>
+                                </IconInput>
+                            </Group>
 
-                            {/* Memory selector */}
-                            <IconInput label="Memory" icon={
-                                <ActionIcon size="xs" variant="transparent" onClick={() => {
-                                    setOpenMemoryModal(true);
-                                }}>
-                                    <Tool />
-                                </ActionIcon>
-                            }>
-                                <MarkedSlider interval={4} step={0.5} min={0.5} max={24} value={memory} thumbLabel="Memory allocation slider" label={() => {
-                                    return `${memory.toFixed(1)} GB`;
-                                }} onChange={value => {
-                                    setMemory(value);
-                                }}/>
-                            </IconInput>
-                        </Group>
+                            {/* Right options */}
+                            <Group direction="column" grow>
+                                {/* Flags selector */}
+                                <IconInput label="Flags" icon={
+                                    <ActionIcon size="xs" variant="transparent" onClick={() => {
+                                        setOpenFlagModal(true);
+                                    }}>
+                                        <Tool />
+                                    </ActionIcon>
+                                }>
+                                    <Select value={selectedFlags.key} onChange={value => {
+                                        if (!value) {
+                                            return;
+                                        }
 
-                        {/* Right options */}
-                        <Group direction="column" grow>
-                            {/* Flags selector */}
-                            <IconInput label="Flags" icon={
-                                <ActionIcon size="xs" variant="transparent" onClick={() => {
-                                    setOpenFlagModal(true);
-                                }}>
-                                    <Tool />
-                                </ActionIcon>
-                            }>
-                                <Select value={selectedFlags.key} onChange={value => {
-                                    if (!value) {
-                                        return;
-                                    }
+                                        setSelectedFlags(Flags.types[value] ?? selectedFlags);
+                                    }} data={flagSelector} />
+                                </IconInput>
 
-                                    setSelectedFlags(Flags.types[value] ?? selectedFlags);
-                                }} data={flagSelector} />
-                            </IconInput>
-
-                            {/* Misc toggles */}
-                            <InputCaption text="Enables the server's GUI control panel. Automatically disabled in environments without a desktop.">
-                                <Switch label="GUI" checked={!environment.disabled.gui && toggles.gui} disabled={environment.disabled.gui} onChange={event => {
-                                    setToggles({ ...toggles, "gui": event.target.checked });
-                                }} />
-                            </InputCaption>
-                            <InputCaption text={`Automatically restarts the server after it crashes or is stopped. Press CTRL + C to exit the script.`}>
-                                <Switch label="Auto-restart" checked={!environment.disabled.autoRestart && toggles.autoRestart} disabled={environment.disabled.autoRestart} onChange={event => {
-                                    setToggles({ ...toggles, "autoRestart": event.target.checked });
-                                }} />
-                            </InputCaption>
-                        </Group>
-                    </Group>
-
-                    <Space h="md" />
-
-                    {/* Resulting flags */}
-                    <Text size="xl" weight={700}>Result</Text>
-                    <Prism.Tabs styles={theme => ({
-                        "copy": {
-                            "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0],
-                            "borderRadius": theme.radius.xs
-                        },
-                        "line": {
-                            "whiteSpace": "pre-wrap"
-                        }
-                    })} onTabChange={active => {
-                        // Get the selected type from the tab
-                        const key = Object.keys(Environments.types)[active]; // TODO: This is unreliable, but tabKey does not work
-                        if (!key) {
-                            return;
-                        }
-
-                        // Toggle the non-applicable components
-                        const env = Environments.types[key];
-                        if (!env) {
-                            return;
-                        }
-
-                        setEnvironment(env);
-                    }}>
-                        <Prism.Tab key="linux" label="Linux / Mac" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandDebian />}>
-                            {result}
-                        </Prism.Tab>
-                        <Prism.Tab key="windows" label="Windows" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandWindows />}>
-                            {result}
-                        </Prism.Tab>
-                        <Prism.Tab key="java" label="Java Command" withLineNumbers scrollAreaComponent="div" language="bash" icon={<Terminal />}>
-                            {result}
-                        </Prism.Tab>
-                    </Prism.Tabs>
-
-                    <Space h="md" />
-
-                    {/* Footer links */}
-                    <SideBySide leftSide={
-                        <Group noWrap>
-                            {/* Download button */}
-                            <ActionIcon color="green" variant="filled" size="lg" title="Download current script" disabled={environment.disabled.download} onClick={() => {
-                                if (environment.file) {
-                                    saveText(result, environment.file);
-                                }
-                            }}>
-                                <Download />
-                            </ActionIcon>
-
-                            {/* Low memory alert */}
-                            <Group spacing="xs" noWrap sx={{
-                                "display": memory < 4 ? "" : "none"
-                            }}>
-                                <AlertCircle />
-                                <Text sx={{
-                                    "whiteSpace": "pre-wrap"
-                                }}>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
+                                {/* Misc toggles */}
+                                <InputCaption text="Enables the server's GUI control panel. Automatically disabled in environments without a desktop.">
+                                    <Switch label="GUI" checked={!environment.disabled.gui && toggles.gui} disabled={environment.disabled.gui} onChange={event => {
+                                        setToggles({ ...toggles, "gui": event.target.checked });
+                                    }} />
+                                </InputCaption>
+                                <InputCaption text={`Automatically restarts the server after it crashes or is stopped. Press CTRL + C to exit the script.`}>
+                                    <Switch label="Auto-restart" checked={!environment.disabled.autoRestart && toggles.autoRestart} disabled={environment.disabled.autoRestart} onChange={event => {
+                                        setToggles({ ...toggles, "autoRestart": event.target.checked });
+                                    }} />
+                                </InputCaption>
                             </Group>
                         </Group>
-                    } rightSide={
-                        /* Misc links */
-                        <FooterRow />
-                    } />
+
+                        {/* Resulting flags */}
+                        <Label label={<Text size="xl" weight={700}>Result</Text>}>
+                            <Prism.Tabs styles={theme => ({
+                                "copy": {
+                                    "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0],
+                                    "borderRadius": theme.radius.xs
+                                },
+                                "line": {
+                                    "whiteSpace": "pre-wrap"
+                                }
+                            })} onTabChange={active => {
+                                // Get the selected type from the tab
+                                const key = Object.keys(Environments.types)[active]; // TODO: This is unreliable, but tabKey does not work
+                                if (!key) {
+                                    return;
+                                }
+
+                                // Toggle the non-applicable components
+                                const env = Environments.types[key];
+                                if (!env) {
+                                    return;
+                                }
+
+                                setEnvironment(env);
+                            }}>
+                                <Prism.Tab key="linux" label="Linux / Mac" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandDebian />}>
+                                    {result}
+                                </Prism.Tab>
+                                <Prism.Tab key="windows" label="Windows" withLineNumbers scrollAreaComponent="div" language="bash" icon={<BrandWindows />}>
+                                    {result}
+                                </Prism.Tab>
+                                <Prism.Tab key="java" label="Java Command" withLineNumbers scrollAreaComponent="div" language="bash" icon={<Terminal />}>
+                                    {result}
+                                </Prism.Tab>
+                            </Prism.Tabs>
+                        </Label>
+
+                        {/* Footer links */}
+                        <SideBySide leftSide={
+                            <Group noWrap>
+                                {/* Download button */}
+                                <ActionIcon color="green" variant="filled" size="lg" title="Download current script" disabled={environment.disabled.download} onClick={() => {
+                                    if (environment.file) {
+                                        saveText(result, environment.file);
+                                    }
+                                }}>
+                                    <Download />
+                                </ActionIcon>
+
+                                {/* Low memory alert */}
+                                <Group spacing="xs" noWrap sx={{
+                                    "display": memory < 4 ? "" : "none"
+                                }}>
+                                    <AlertCircle />
+                                    <Text sx={{
+                                        "whiteSpace": "pre-wrap"
+                                    }}>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
+                                </Group>
+                            </Group>
+                        } rightSide={
+                            /* Misc links */
+                            <FooterRow />
+                        } />
+                    </Group>
                 </Paper>
             </Center>
 
