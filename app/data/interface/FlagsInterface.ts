@@ -62,7 +62,7 @@ export interface FlagType {
     /**
      * Options for the disabled components.
      */
-    "disabled": DisabledOptions
+    "disabled"?: DisabledOptions
 }
 
 /**

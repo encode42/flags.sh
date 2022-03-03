@@ -8,9 +8,8 @@ export default function DataModalButtons({ open, closeRef, onClose, onApply }: D
     return (
         <Group position="right">
             <Button color="red" variant="outline" ref={closeRef} onClick={() => {
-                onClose?.();
-
                 open.set(false);
+                onClose?.();
             }}>Cancel</Button>
             <Button onClick={() => {
                 onApply();

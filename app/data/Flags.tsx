@@ -1,5 +1,4 @@
 import FlagsInterface from "./interface/FlagsInterface";
-import { DefaultDisabledOptions } from "./DefaultDisabledOptions";
 
 /**
  * Additional configuration for Aikar's flags.
@@ -23,8 +22,7 @@ export const Flags: FlagsInterface = {
             "label": "None",
             "result": ({ memory, filename, gui, modernJava }) => {
                 return `${Flags.prefix({ memory, modernJava })} ${Flags.suffix({ filename, gui })}`;
-            },
-            "disabled": { ...DefaultDisabledOptions }
+            }
         },
         "aikars": {
             "key": "aikars",
@@ -33,8 +31,7 @@ export const Flags: FlagsInterface = {
             "result": ({ memory, filename, gui, modernJava }) => {
                 const base = `${aikars.base} ${memory >= 12 ? aikars.large : aikars.standard}`;
                 return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
-            },
-            "disabled": { ...DefaultDisabledOptions }
+            }
         },
         "velocity": {
             "key": "velocity",
@@ -45,7 +42,6 @@ export const Flags: FlagsInterface = {
                 return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
             },
             "disabled": {
-                ...DefaultDisabledOptions,
                 "gui": true,
                 "modernJava": true
             }

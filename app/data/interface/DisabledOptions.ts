@@ -5,25 +5,25 @@ export interface DisabledOptions {
     /**
      * Whether to disable the GUI toggle.
      */
-    "gui": boolean,
+    "gui"?: boolean,
 
     /**
      * Whether to disable the auto-restart toggle.
      */
-    "autoRestart": boolean,
+    "autoRestart"?: boolean,
 
     /**
      * Whether to disable the Pterodactyl toggle.
      */
-    "pterodactyl": boolean,
+    "pterodactyl"?: boolean,
 
     /**
      * Whether to disable the modern Java toggle.
      */
-    "modernJava": boolean,
+    "modernJava"?: boolean,
 
     /**
      * Whether to disable the download button.
      */
-    "download": boolean
+    "download"?: boolean
 };

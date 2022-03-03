@@ -22,6 +22,7 @@ import Label from "../core/components/label/Label";
 
 // TODO: API
 // TODO: Share button
+// TODO: Optimize page load (effects are firing very often)
 
 // BUG: Changing memory slider then going to advanced options yields incorrect value
 // BUG: Modern java toggle stays toggled while disabled
@@ -76,7 +77,7 @@ function Home() {
     const [openMemoryModal, setOpenMemoryModal] = useState(false);
     const [openFlagModal, setOpenFlagModal] = useState(false);
 
-    const [disabled, setDisabled] = useState({ ...environment.disabled, ...selectedFlags.disabled });
+    const [disabled, setDisabled] = useState({ ...selectedFlags.disabled, ...environment.disabled });
 
     // Generate the flags selector
     useEffect(() => {
@@ -93,16 +94,36 @@ function Home() {
         setFlagSelector(flags);
     }, []);
 
+    // The environment's toggles have changed
+    useEffect(() => {
+        if (!environment.requires) {
+            return;
+        }
+
+        // Iterate each requirement
+        for (const [key, value] of Object.entries(environment.requires)) {
+            const newDisabled = disabled;
+
+            // Iterate each exclusion
+            for (const exclude of value.excludes) {
+                // Disable toggles if required
+                if (toggles[exclude]) {
+                    newDisabled[key] = true;
+                }
+            }
+
+            setDisabled(newDisabled);
+        }
+    }, [toggles, environment, disabled]);
+
     // Update the disabled components
     useEffect(() => {
-        setDisabled({
-            ...environment.disabled,
-            ...selectedFlags.disabled
-        });
+        setDisabled({ ...selectedFlags.disabled, ...environment.disabled });
     }, [environment.disabled, selectedFlags.disabled]);
 
     // Generate the environments
     useEffect(() => {
+        // TODO: This is quite unoptimized, fires every result change
         const environments: ReactElement[] = [];
 
         for (const [key, value] of Object.entries(Environments.types)) {
@@ -140,7 +161,7 @@ function Home() {
                 {environments}
             </Prism.Tabs>
         );
-    }, [isDark, result]);
+    }, [isDark, result, setEnvironment]);
 
     // An option has been changed
     useEffect(() => {
@@ -161,27 +182,6 @@ function Home() {
 
         setResult(script);
     }, [filename, memory, selectedFlags, toggles, environment, disabled]);
-
-    // The environment's toggles have changed
-    useEffect(() => {
-        if (!environment.requires) {
-            return;
-        }
-
-        // Iterate each requirement
-        for (const [key, value] of Object.entries(environment.requires)) {
-            const newDisabled = disabled;
-
-            if (value.excludes) {
-                // Disable toggles if required
-                for (const exclude of value.excludes) {
-                    newDisabled[key] = !!toggles[exclude];
-                }
-            }
-
-            setDisabled(newDisabled);
-        }
-    }, [toggles, environment, disabled]);
 
     return (
         <>

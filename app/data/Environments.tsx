@@ -1,7 +1,6 @@
 import { stripIndent } from "common-tags";
 import EnvironmentsInterface from "./interface/EnvironmentsInterface";
 import { BrandDebian, BrandWindows, Terminal } from "tabler-icons-react";
-import { DefaultDisabledOptions } from "./DefaultDisabledOptions";
 
 /**
  * The header used in Linux scripts/
@@ -36,7 +35,9 @@ export const Environments: EnvironmentsInterface = {
                     done
                 `);
             },
-            "disabled": { ...DefaultDisabledOptions }
+            "disabled": {
+                "pterodactyl": true
+            }
         },
         "windows": {
             "label": "Windows",
@@ -54,7 +55,9 @@ export const Environments: EnvironmentsInterface = {
                     goto :start
                 `);
             },
-            "disabled": { ...DefaultDisabledOptions }
+            "disabled": {
+                "pterodactyl": true
+            }
         },
         "java": {
             "label": "Java",
@@ -63,7 +66,6 @@ export const Environments: EnvironmentsInterface = {
                 return flags;
             },
             "disabled": {
-                ...DefaultDisabledOptions,
                 "pterodactyl": false,
                 "autoRestart": true,
                 "download": true
