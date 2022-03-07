@@ -1,14 +1,15 @@
-import MinimalLayout, { MinimalLayoutProps } from "./MinimalLayout";
+import { StandardLayout, StandardLayoutProps } from "@encode42/mantine-extras";
+import { SiteDetails } from "../../util/util";
 
 /**
  * The primary layout for this app.
  */
-export default function Layout({ title, description, prefixed = true, containerize = true, children }: MinimalLayoutProps) {
+export function Layout({ children, ...others }: StandardLayoutProps) {
     return (
         <>
-            <MinimalLayout title={title} description={description} prefixed={prefixed} containerize={containerize}>
+            <StandardLayout details={SiteDetails} { ...others }>
                 {children}
-            </MinimalLayout>
+            </StandardLayout>
         </>
     );
 }

@@ -1,12 +1,11 @@
-import { siteDetails } from "../util/util";
-import { Center, Paper, Title, Text, useMantineColorScheme, Group, Anchor, List, Code } from "@mantine/core";
-import Layout from "../core/layout/Layout";
-import PageTitle from "../core/components/PageTitle";
-import SideBySide from "../core/components/SideBySide";
-import FooterRow from "../core/components/actionButton/FooterRow";
+import { SiteDetails } from "../util/util";
+import { Center, Paper, Title, Text, useMantineColorScheme, Group, Anchor, Code } from "@mantine/core";
+import { SideBySide } from "@encode42/mantine-extras";
+import { Layout } from "../core/layout/Layout";
+import { PageTitle } from "../core/components/PageTitle";
+import { FooterRow } from "../core/components/actionButton/FooterRow";
 import { HomeLink } from "../core/components/actionButton/HomeLink";
 import { Link, Routes } from "blitz";
-import Caption from "../core/components/caption/Caption";
 
 /**
  * The about page of the site.
@@ -30,7 +29,7 @@ function About() {
                         <Group direction="column">
                             <Group direction="column" spacing="xs">
                                 <Title order={2}>About</Title>
-                                <Text>{siteDetails.title} generates a start script for your Minecraft Java Edition server.</Text>
+                                <Text>{SiteDetails.title} generates a start script for your Minecraft Java Edition server.</Text>
                                 <Text>It features stupid simple configuration, many flag types for optimization, and pre-made scripts!</Text>
                             </Group>
                             <Group direction="column" spacing="xs">
@@ -51,11 +50,11 @@ function About() {
                                 <Text>
                                     Finally, put the generated script into action! You can either copy the script from the results window, or hit the download button to get a ready script.
                                 </Text>
-                                <Text>You can join the <Anchor href={siteDetails.links.support}>Discord server</Anchor> if you're still running into issues.</Text>
+                                <Text>You can join the <Anchor href={SiteDetails.links.support}>Discord server</Anchor> if you're still running into issues.</Text>
                             </Group>
                             <Group direction="column" spacing="xs">
                                 <Title order={2}>Contribute</Title>
-                                <Text>Want to add a new set of flags? Found a typo? head to the <Anchor href={siteDetails.links.github}>GitHub</Anchor> repository!</Text>
+                                <Text>Want to add a new set of flags? Found a typo? head to the <Anchor href={SiteDetails.links.github}>GitHub</Anchor> repository!</Text>
                                 <Text>All contributions are very welcome.</Text>
                             </Group>
                         </Group>

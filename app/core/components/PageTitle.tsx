@@ -1,15 +1,15 @@
-import { siteDetails } from "../../util/util";
+import { SiteDetails } from "../../util/util";
 import { ReactElement } from "react";
 import { Link, Routes } from "blitz";
 import { ActionIcon, Group, Title } from "@mantine/core";
-import Logo from "../../asset/Logo";
+import { Logo } from "../../asset/Logo";
 
 /**
  * The title component.
  *
  * Includes logo and website name.
  */
-export default function PageTitle(): ReactElement {
+export function PageTitle(): ReactElement {
     return (
         <Group>
             <Link href={Routes.Home()}>
@@ -17,7 +17,7 @@ export default function PageTitle(): ReactElement {
                     <Logo />
                 </ActionIcon>
             </Link>
-            <Title>{siteDetails.title}</Title>
+            <Title>{SiteDetails.title}</Title>
         </Group>
     );
 }

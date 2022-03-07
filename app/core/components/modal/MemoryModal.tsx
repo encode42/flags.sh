@@ -1,47 +1,65 @@
+import { useRef, useState } from "react";
 import { NumberInput, Switch } from "@mantine/core";
-import { useRef } from "react";
-import MemoryModalProps from "./interface/MemoryModalProps";
-import TextLabel from "../label/TextLabel";
-import DataModalBase from "./base/DataModalBase";
-import InputCaption from "../caption/InputCaption";
-import DataModalPending from "./base/interface/DataModalPending";
+import { OptionModal, OptionModalRef, NumberState, ToggleState, InputCaption, Label } from "@encode42/mantine-extras";
+import { ModalProps } from "./interface/ModalProps";
 
 // TODO: display memory input as mb as well
 
-export default function MemoryModal({ open, memory, pterodactyl }: MemoryModalProps) {
-    const values = {
-        "memory": memory.value,
-        "pterodactyl": pterodactyl.value
+/**
+ * Properties for the memory modal.
+ */
+export interface MemoryModalProps extends ModalProps {
+    /**
+     * The amount of memory to allocate in gigabytes.
+     */
+    "defaultMemory": NumberState,
+
+    /**
+     * Whether to calculate additional memory overhead for Pterodactyl containers.
+     */
+    "defaultPterodactyl": ToggleState
+};
+
+export function MemoryModal({ open, defaultMemory, defaultPterodactyl }: MemoryModalProps) {
+    const [pendingMemory, setPendingMemory] = useState<number>(defaultMemory.value);
+    const [pendingPterodactyl, setPendingPterodactyl] = useState<boolean>(defaultPterodactyl.value);
+
+    const memoryValue = {
+        "set": setPendingMemory,
+        "value": pendingMemory,
+        "default": defaultMemory.value
     };
 
-    const dataModal = useRef<DataModalPending<typeof values>>();
+    const pterodactylValue = {
+        "set": setPendingPterodactyl,
+        "value": pendingPterodactyl,
+        "default": defaultPterodactyl.value
+    };
+
+    const dataModal = useRef<OptionModalRef>();
 
     return (
-        <DataModalBase open={open} values={values} ref={dataModal} onApply={() => {
-            const pending = dataModal.current?.pending;
-
-            if (pending) {
-                memory.set(pending.memory);
-                pterodactyl.set(pending.pterodactyl);
-            }
+        <OptionModal open={open} values={[memoryValue, pterodactylValue]} ref={dataModal} onApply={() => {
+            defaultMemory.set(memoryValue.value);
+            defaultPterodactyl.set(pterodactylValue.value);
         }}>
             {/* Precise memory selector */}
-            <TextLabel label="Allocated memory (GB)">
-                <NumberInput value={dataModal.current?.pending.memory} min={0} step={0.05} precision={2} onChange={value => {
+            <Label label="Allocated memory (GB)">
+                <NumberInput value={memoryValue.value} min={0} step={0.05} precision={2} onChange={value => {
                     if (!value) {
                         return;
                     }
 
-                    dataModal.current?.set("memory", value);
+                    memoryValue.set(value);
                 }} />
-            </TextLabel>
+            </Label>
 
             {/* Pterodactyl overhead switch */}
             <InputCaption text="Allocates 85% of the provided memory to account for Java overhead within containers. Only applicable within the Java Command tab.">
-                <Switch label="Pterodactyl overhead" checked={dataModal.current?.pending.pterodactyl} disabled={pterodactyl.disabled} onChange={event => {
-                    dataModal.current?.set("pterodactyl", event.target.checked);
+                <Switch label="Pterodactyl overhead" checked={pterodactylValue.value} disabled={defaultPterodactyl.disabled} onChange={event => {
+                    pterodactylValue.set(event.target.checked);
                 }} />
             </InputCaption>
-        </DataModalBase>
+        </OptionModal>
     );
 }

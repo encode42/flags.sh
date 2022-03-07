@@ -1,12 +1,12 @@
 import { Moon, Sun } from "tabler-icons-react";
 import { ActionIcon, useMantineColorScheme } from "@mantine/core";
 import { ReactElement } from "react";
-import ActionButtonOptions from "./interface/ActionButtonOptions";
+import { ActionButtonOptions } from "./interface/ActionButtonOptions";
 
 /**
  * A component that toggles between light and dark mode.
  */
-export default function ThemeToggle({ filled = false }: ActionButtonOptions): ReactElement {
+export function ThemeToggle({ filled = false }: ActionButtonOptions): ReactElement {
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
     const isDark = colorScheme === "dark";
 

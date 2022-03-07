@@ -1,7 +1,7 @@
 /**
  * The brand's logo.
  */
-export default function Logo() {
+export function Logo() {
     return (
         <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1600" width="50" height="50">
             <path d="m25 125c0-55.2 44.8-100 100-100h1350c55.2 0 100 44.8 100 100v1350c0 55.2-44.8 100-100 100h-1350c-55.2 0-100-44.8-100-100z" fill="#1a1b1e"/>

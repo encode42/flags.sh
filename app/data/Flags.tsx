@@ -1,4 +1,4 @@
-import FlagsInterface from "./interface/FlagsInterface";
+import { DisabledOptions } from "./interface/DisabledOptions";
 
 /**
  * Additional configuration for Aikar's flags.
@@ -8,6 +8,98 @@ const aikars = {
     "standard": "-XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20",
     "large": "-XX:G1NewSizePercent=40 -XX:G1MaxNewSizePercent=50 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=15"
 };
+
+/**
+ * Options for the flag results.
+ */
+interface ResultOptions extends PrefixOptions, SuffixOptions {};
+
+/**
+ * Options for the flag prefix.
+ */
+interface PrefixOptions {
+    /**
+     * The amount of memory to allocate in gigabytes.
+     */
+    "memory": number,
+
+    /**
+     * Whether to add flags for modern versions of Java.
+     */
+    "modernJava": boolean,
+}
+
+/**
+ * Options for the flag suffix.
+ */
+interface SuffixOptions {
+    /**
+     * Filename to start.
+     */
+    "filename": string,
+
+    /**
+     * Whether to enable the GUI.
+     */
+    "gui": boolean
+}
+
+/**
+ * A flag type.
+ */
+export interface FlagType {
+    /**
+     * The key utilized in the flag selector.
+     */
+    "key": string,
+
+    /**
+     * The label to use in the flag selector.
+     */
+    "label": string,
+
+    /**
+     * The description to use in the flag selector.
+     */
+    "description"?: string,
+
+    /**
+     * The function used to get the results.
+     */
+    "result": ({ memory, filename, gui, modernJava }: ResultOptions) => string,
+
+    /**
+     * Options for the disabled components.
+     */
+    "disabled"?: DisabledOptions
+}
+
+/**
+ * Interface for the Flags object.
+ */
+export interface FlagsInterface {
+    /**
+     * The default flags.
+     */
+    "default": FlagType,
+
+    /**
+     * Flag types.
+     */
+    "types": {
+        [key: string]: FlagType
+    },
+
+    /**
+     * Prefix of every flag type.
+     */
+    "prefix": ({ memory, modernJava }: PrefixOptions) => string,
+
+    /**
+     * Suffix of every flag type.
+     */
+    "suffix": ({ filename, gui }: SuffixOptions) => string
+}
 
 /**
  * The flags that are available to the app.

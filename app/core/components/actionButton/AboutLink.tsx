@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { Link, Routes } from "blitz";
 import { ActionIcon } from "@mantine/core";
 import { QuestionMark } from "tabler-icons-react";
-import ActionButtonOptions from "./interface/ActionButtonOptions";
+import { ActionButtonOptions } from "./interface/ActionButtonOptions";
 
 /**
  * A component that links to the site's about page.

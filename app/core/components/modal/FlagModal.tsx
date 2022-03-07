@@ -1,34 +1,42 @@
-import { Switch } from "@mantine/core";
 import { useRef, useState } from "react";
-import FlagModalProps from "./interface/FlagModalProps";
-import DataModalBase from "./base/DataModalBase";
-import InputCaption from "../caption/InputCaption";
-import DataModalPending from "./base/interface/DataModalPending";
+import { Switch } from "@mantine/core";
+import { OptionModal, OptionModalRef, ToggleState, InputCaption } from "@encode42/mantine-extras";
+import { ModalProps } from "./interface/ModalProps";
+
+/**
+ * Properties for the flags modal.
+ */
+export interface FlagModalProps extends ModalProps {
+    /**
+     * Whether to add flags for modern versions of Java.
+     */
+    "defaultModernJava": ToggleState
+}
 
 /**
  * Modal for additional flags options.
  */
-export default function FlagModal({ open, modernJava }: FlagModalProps) {
-    const values = {
-        "modernJava": modernJava.value
+export function FlagModal({ open, defaultModernJava }: FlagModalProps) {
+    const [pendingModernJava, setPendingModernJava] = useState<boolean>(defaultModernJava.value);
+
+    const modernJavaValue = {
+        "set": setPendingModernJava,
+        "value": pendingModernJava,
+        "default": defaultModernJava.value
     };
 
-    const dataModal = useRef<DataModalPending<typeof values>>();
+    const dataModal = useRef<OptionModalRef>();
 
     return (
-        <DataModalBase open={open} ref={dataModal} values={values} onApply={() => {
-            const pending = dataModal.current?.pending;
-
-            if (pending) {
-                modernJava.set(pending.modernJava);
-            }
+        <OptionModal open={open} ref={dataModal} values={[modernJavaValue]} onApply={() => {
+            defaultModernJava.set(modernJavaValue.value);
         }}>
             {/* Modern Java switch */}
             <InputCaption text="Adds a flag that enables Java 17 vectors, which significantly speeds up map item rendering. Only applicable in Pufferfish-based forks.">
-                <Switch label="Java 17" checked={dataModal.current?.pending.modernJava} disabled={modernJava.disabled} onChange={event => {
-                    dataModal.current?.set("modernJava", event.target.checked);
+                <Switch label="Java 17" checked={modernJavaValue.value} disabled={defaultModernJava.disabled} onChange={event => {
+                    modernJavaValue.set(event.target.checked);
                 }} />
             </InputCaption>
-        </DataModalBase>
+        </OptionModal>
     );
 }

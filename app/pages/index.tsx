@@ -1,24 +1,15 @@
-import { saveText } from "../util/util";
 import { ReactElement, useEffect, useState } from "react";
 import { Center, Group, Paper, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Select } from "@mantine/core";
+import { InputCaption, Label, MarkedSlider, saveText, SelectDescription, SideBySide } from "@encode42/mantine-extras";
 import { AlertCircle, Archive, Download, Tool } from "tabler-icons-react";
 import { Prism } from "@mantine/prism";
-import Layout from "../core/layout/Layout";
-import PageTitle from "../core/components/PageTitle";
-import MarkedSlider from "../core/components/MarkedSlider";
-import FooterRow from "../core/components/actionButton/FooterRow";
-import SideBySide from "../core/components/SideBySide";
-import SelectDescription from "../core/components/SelectDescription";
-import { Flags } from "../data/Flags";
-import { Environments } from "../data/Environments";
-import { EnvironmentType } from "../data/interface/EnvironmentsInterface";
-import { FlagType } from "../data/interface/FlagsInterface";
-import MemoryModal from "../core/components/modal/MemoryModal";
-import FlagModal from "../core/components/modal/FlagModal";
-import IconInput from "../core/components/label/IconLabel";
-import TextLabel from "../core/components/label/TextLabel";
-import InputCaption from "../core/components/caption/InputCaption";
-import Label from "../core/components/label/Label";
+import { Layout } from "../core/layout/Layout";
+import { PageTitle } from "../core/components/PageTitle";
+import { FooterRow } from "../core/components/actionButton/FooterRow";
+import { FlagModal } from "../core/components/modal/FlagModal";
+import { MemoryModal } from "../core/components/modal/MemoryModal";
+import { Flags, FlagType } from "../data/Flags";
+import { Environments, EnvironmentType } from "../data/Environments";
 
 // TODO: API
 // TODO: Share button
@@ -200,7 +191,7 @@ function Home() {
                             <Group direction="column" grow>
                                 {/* Filename selector */}
                                 <InputCaption text="The file used to launch the server. Located in the same directory as your configuration files.">
-                                    <TextLabel label="Filename">
+                                    <Label label="Filename">
                                         <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<Archive />} onChange={event => {
                                             const value = event.target.value;
 
@@ -212,29 +203,31 @@ function Home() {
                                                 setFileName(event.target.value);
                                             }
                                         }}/>
-                                    </TextLabel>
+                                    </Label>
                                 </InputCaption>
 
                                 {/* Memory selector */}
-                                <IconInput label="Memory" icon={
+                                <Label label="Memory" icon={
                                     <ActionIcon size="xs" variant="transparent" onClick={() => {
                                         setOpenMemoryModal(true);
                                     }}>
                                         <Tool />
                                     </ActionIcon>
                                 }>
-                                    <MarkedSlider interval={4} step={0.5} min={0.5} max={24} value={memory} thumbLabel="Memory allocation slider" label={() => {
-                                        return `${memory.toFixed(1)} GB`;
+                                    <MarkedSlider interval={4} step={0.5} min={0.5} max={24} value={memory} thumbLabel="Memory allocation slider" label={value => {
+                                        return `${value.toFixed(1)} GB`;
+                                    }} intervalLabel={value => {
+                                        return `${value} GB`;
                                     }} onChange={value => {
                                         setMemory(value);
                                     }}/>
-                                </IconInput>
+                                </Label>
                             </Group>
 
                             {/* Right options */}
                             <Group direction="column" grow>
                                 {/* Flags selector */}
-                                <IconInput label="Flags" icon={
+                                <Label label="Flags" icon={
                                     <ActionIcon size="xs" variant="transparent" onClick={() => {
                                         setOpenFlagModal(true);
                                     }}>
@@ -252,7 +245,7 @@ function Home() {
 
                                         setSelectedFlags(Flags.types[value] ?? selectedFlags);
                                     }} data={flagSelector} />
-                                </IconInput>
+                                </Label>
 
                                 {/* Misc toggles */}
                                 <InputCaption text="Enables the server's GUI control panel. Automatically disabled in environments without a desktop.">
@@ -307,10 +300,10 @@ function Home() {
             <MemoryModal open={{
                 "value": openMemoryModal,
                 "set": setOpenMemoryModal
-            }} memory={{
+            }} defaultMemory={{
                 "value": memory,
                 "set": setMemory
-            }} pterodactyl={{
+            }} defaultPterodactyl={{
                 "value": !disabled.pterodactyl && toggles.pterodactyl,
                 "set": value => {
                     setToggles({ ...toggles, "pterodactyl": value });
@@ -321,13 +314,14 @@ function Home() {
             <FlagModal open={{
                 "value": openFlagModal,
                 "set": setOpenFlagModal
-            }} modernJava={{
+            }} defaultModernJava={{
                 "value": !disabled.modernJava && toggles.modernJava,
                 "set": value => {
                     setToggles({ ...toggles, "modernJava": value });
                 },
                 "disabled": disabled.modernJava ?? false
             }} />
+
         </>
     );
 }

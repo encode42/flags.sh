@@ -89,7 +89,8 @@
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-extra-semi": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "react/no-unescaped-entities": "warn"
+        "react/no-unescaped-entities": "warn",
+        "import/named": "off"
     },
     "settings": {
         "import/parsers": {
