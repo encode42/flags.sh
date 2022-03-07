@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { Link, Routes } from "blitz";
 import { ActionIcon } from "@mantine/core";
-import { Home } from "tabler-icons-react";
+import { IconHome } from "@tabler/icons";
 import { ActionButtonOptions } from "./interface/ActionButtonOptions";
 
 /**
@@ -11,7 +11,7 @@ export function HomeLink({ filled = false }: ActionButtonOptions): ReactElement 
     return (
         <Link href={Routes.Home()}>
             <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"} title="Return to the home page">
-                <Home />
+                <IconHome />
             </ActionIcon>
         </Link>
     );

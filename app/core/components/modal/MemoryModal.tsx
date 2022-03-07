@@ -36,7 +36,7 @@ export function MemoryModal({ open, defaultMemory, defaultPterodactyl }: MemoryM
         "default": defaultPterodactyl.value
     };
 
-    const dataModal = useRef<OptionModalRef>();
+    const dataModal = useRef<OptionModalRef>(null);
 
     return (
         <OptionModal open={open} values={[memoryValue, pterodactylValue]} ref={dataModal} onApply={() => {

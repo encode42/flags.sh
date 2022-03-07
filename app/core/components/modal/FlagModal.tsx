@@ -25,7 +25,7 @@ export function FlagModal({ open, defaultModernJava }: FlagModalProps) {
         "default": defaultModernJava.value
     };
 
-    const dataModal = useRef<OptionModalRef>();
+    const dataModal = useRef<OptionModalRef>(null);
 
     return (
         <OptionModal open={open} ref={dataModal} values={[modernJavaValue]} onApply={() => {

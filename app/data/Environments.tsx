@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
-import { BrandDebian, BrandWindows, Terminal } from "tabler-icons-react";
 import { stripIndent } from "common-tags";
 import { DisabledOptions } from "./interface/DisabledOptions";
+import { ReactElement } from "react";
+import { IconBrandDebian, IconBrandWindows, IconTerminal } from "@tabler/icons";
 
 /**
  * The header used in Linux scripts/
@@ -14,7 +14,7 @@ const linuxHeader = "#!/bin/bash";
 interface ResultOptions {
     "flags": string,
     "autoRestart": boolean
-};
+}
 
 /**
  * Options for the component requires and excludes toggle.
@@ -26,7 +26,12 @@ interface RequiresOptions {
          */
         "excludes": string[]
     }
-};
+}
+
+/**
+ * The icon for an environment.
+ */
+export type EnvironmentIcon = "linux" | "windows" | "command";
 
 /**
  * An environment type.
@@ -45,7 +50,7 @@ export interface EnvironmentType {
     /**
      * The icon to use in the environment tab.
      */
-    "icon": ReactElement,
+    "icon": EnvironmentIcon,
 
     /**
      * The function used to get the results.
@@ -90,7 +95,7 @@ export const Environments: EnvironmentsInterface = {
     "types": {
         "linux": {
             "label": "Linux / Mac",
-            "icon": <BrandDebian />,
+            "icon": "linux",
             "file": "start.sh",
             "result": ({ flags, autoRestart }) => {
                 return stripIndent(!autoRestart ? `
@@ -114,7 +119,7 @@ export const Environments: EnvironmentsInterface = {
         },
         "windows": {
             "label": "Windows",
-            "icon": <BrandWindows />,
+            "icon": "windows",
             "file": "start.bat",
             "result": ({ flags, autoRestart }) => {
                 return stripIndent(!autoRestart ? `
@@ -134,7 +139,7 @@ export const Environments: EnvironmentsInterface = {
         },
         "java": {
             "label": "Java",
-            "icon": <Terminal />,
+            "icon": "command",
             "result": ({ flags }) => {
                 return flags;
             },
@@ -151,3 +156,19 @@ export const Environments: EnvironmentsInterface = {
         }
     }
 };
+
+/**
+ * Get an icon component from an EnvironmentIcon.
+ *
+ * @param icon EnvironmentIcon to get
+ */
+export function getIcon(icon: EnvironmentIcon): ReactElement {
+    switch(icon) {
+        case "linux":
+            return <IconBrandDebian />;
+        case "windows":
+            return <IconBrandWindows />;
+        case "command":
+            return <IconTerminal />;
+    }
+}

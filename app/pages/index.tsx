@@ -1,7 +1,7 @@
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Center, Group, Paper, Text, TextInput, Switch, Code, ActionIcon, useMantineColorScheme, Select } from "@mantine/core";
 import { InputCaption, Label, MarkedSlider, saveText, SelectDescription, SideBySide } from "@encode42/mantine-extras";
-import { AlertCircle, Archive, Download, Tool } from "tabler-icons-react";
+import { IconAlertCircle, IconArchive, IconDownload, IconTool } from "@tabler/icons";
 import { Prism } from "@mantine/prism";
 import { Layout } from "../core/layout/Layout";
 import { PageTitle } from "../core/components/PageTitle";
@@ -9,14 +9,12 @@ import { FooterRow } from "../core/components/actionButton/FooterRow";
 import { FlagModal } from "../core/components/modal/FlagModal";
 import { MemoryModal } from "../core/components/modal/MemoryModal";
 import { Flags, FlagType } from "../data/Flags";
-import { Environments, EnvironmentType } from "../data/Environments";
+import { EnvironmentIcon, Environments, EnvironmentType, getIcon } from "../data/Environments";
 
 // TODO: API
 // TODO: Share button
-// TODO: Optimize page load (effects are firing very often)
 
-// BUG: Changing memory slider then going to advanced options yields incorrect value
-// BUG: Modern java toggle stays toggled while disabled
+// BUG: Java tab -> enable pterodactyl -> apply -> disable pterodactyl -> apply -> GUI will still be disabled
 
 /**
  * Data for a flag in the selector.
@@ -36,12 +34,23 @@ interface FlagSelector {
      * Description of the entry.
      */
     "description"?: string
-};
+}
+
+interface EnvironmentTab {
+    "key": string,
+    "label": string,
+    "icon": EnvironmentIcon
+}
+
+interface HomeProps {
+    "environmentTabs": EnvironmentTab[],
+    "flagSelectors": FlagSelector[]
+}
 
 /**
  * The homepage of the site.
  */
-function Home() {
+function Home({ environmentTabs, flagSelectors }: HomeProps) {
     const { colorScheme } = useMantineColorScheme();
     const isDark = colorScheme === "dark";
 
@@ -62,28 +71,10 @@ function Home() {
     const [selectedFlags, setSelectedFlags] = useState<FlagType>(Flags.default);
     const [invalidFilename, setInvalidFilename] = useState<boolean | string>(false);
 
-    const [flagSelector, setFlagSelector] = useState<FlagSelector[]>([]);
-    const [environmentSelector, setEnvironmentSelector] = useState<ReactElement>();
-
     const [openMemoryModal, setOpenMemoryModal] = useState(false);
     const [openFlagModal, setOpenFlagModal] = useState(false);
 
     const [disabled, setDisabled] = useState({ ...selectedFlags.disabled, ...environment.disabled });
-
-    // Generate the flags selector
-    useEffect(() => {
-        const flags: FlagSelector[] = [];
-
-        for (const value of Object.values(Flags.types)) {
-            flags.push({
-                "value": value.key,
-                "label": value.label,
-                "description": value.description
-            });
-        }
-
-        setFlagSelector(flags);
-    }, []);
 
     // The environment's toggles have changed
     useEffect(() => {
@@ -105,54 +96,12 @@ function Home() {
 
             setDisabled(newDisabled);
         }
-    }, [toggles, environment, disabled]);
+    }, [toggles, disabled, environment]);
 
     // Update the disabled components
     useEffect(() => {
         setDisabled({ ...selectedFlags.disabled, ...environment.disabled });
     }, [environment.disabled, selectedFlags.disabled]);
-
-    // Generate the environments
-    useEffect(() => {
-        // TODO: This is quite unoptimized, fires every result change
-        const environments: ReactElement[] = [];
-
-        for (const [key, value] of Object.entries(Environments.types)) {
-            environments.push(
-                <Prism.Tab key={key} label={value.label} withLineNumbers scrollAreaComponent="div" language="bash" icon={value.icon}>
-                    {result}
-                </Prism.Tab>
-            );
-        }
-
-        setEnvironmentSelector(
-            <Prism.Tabs styles={theme => ({
-                "copy": {
-                    "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0],
-                    "borderRadius": theme.radius.xs
-                },
-                "line": {
-                    "whiteSpace": "pre-wrap"
-                }
-            })} onTabChange={active => {
-                // Get the selected type from the tab
-                const key = Object.keys(Environments.types)[active]; // TODO: This is unreliable, but tabKey does not work
-                if (!key) {
-                    return;
-                }
-
-                // Toggle the non-applicable components
-                const env = Environments.types[key];
-                if (!env) {
-                    return;
-                }
-
-                setEnvironment(env);
-            }}>
-                {environments}
-            </Prism.Tabs>
-        );
-    }, [isDark, result, setEnvironment]);
 
     // An option has been changed
     useEffect(() => {
@@ -172,7 +121,7 @@ function Home() {
         const script = environment.result({ flags, "autoRestart": toggles.autoRestart });
 
         setResult(script);
-    }, [filename, memory, selectedFlags, toggles, environment, disabled]);
+    }, [filename, memory, toggles, selectedFlags, environment, disabled]);
 
     return (
         <>
@@ -192,7 +141,7 @@ function Home() {
                                 {/* Filename selector */}
                                 <InputCaption text="The file used to launch the server. Located in the same directory as your configuration files.">
                                     <Label label="Filename">
-                                        <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<Archive />} onChange={event => {
+                                        <TextInput defaultValue={defaultFilename} error={invalidFilename} icon={<IconArchive />} onChange={event => {
                                             const value = event.target.value;
 
                                             // Ensure the input is valid
@@ -211,7 +160,7 @@ function Home() {
                                     <ActionIcon size="xs" variant="transparent" onClick={() => {
                                         setOpenMemoryModal(true);
                                     }}>
-                                        <Tool />
+                                        <IconTool />
                                     </ActionIcon>
                                 }>
                                     <MarkedSlider interval={4} step={0.5} min={0.5} max={24} value={memory} thumbLabel="Memory allocation slider" label={value => {
@@ -231,7 +180,7 @@ function Home() {
                                     <ActionIcon size="xs" variant="transparent" onClick={() => {
                                         setOpenFlagModal(true);
                                     }}>
-                                        <Tool />
+                                        <IconTool />
                                     </ActionIcon>
                                 }>
                                     <Select value={selectedFlags.key} itemComponent={SelectDescription} styles={theme => ({
@@ -244,7 +193,7 @@ function Home() {
                                         }
 
                                         setSelectedFlags(Flags.types[value] ?? selectedFlags);
-                                    }} data={flagSelector} />
+                                    }} data={flagSelectors} />
                                 </Label>
 
                                 {/* Misc toggles */}
@@ -263,7 +212,35 @@ function Home() {
 
                         {/* Resulting flags */}
                         <Label label={<Text size="xl" weight={700}>Result</Text>}>
-                            {environmentSelector}
+                            <Prism.Tabs styles={theme => ({
+                                "copy": {
+                                    "backgroundColor": isDark ? theme.colors.dark[6] : theme.colors.gray[0],
+                                    "borderRadius": theme.radius.xs
+                                },
+                                "line": {
+                                    "whiteSpace": "pre-wrap"
+                                }
+                            })} onTabChange={active => {
+                                // Get the selected type from the tab
+                                const key = Object.keys(Environments.types)[active]; // TODO: This is unreliable, but tabKey does not work
+                                if (!key) {
+                                    return;
+                                }
+
+                                // Toggle the non-applicable components
+                                const env = Environments.types[key];
+                                if (!env) {
+                                    return;
+                                }
+
+                                setEnvironment(env);
+                            }}>
+                                {environmentTabs.map(env => (
+                                    <Prism.Tab key={env.key} label={env.label} icon={getIcon(env.icon)} withLineNumbers language="bash">
+                                        {result}
+                                    </Prism.Tab>
+                                ))}
+                            </Prism.Tabs>
                         </Label>
 
                         {/* Footer links */}
@@ -275,14 +252,14 @@ function Home() {
                                         saveText(result, environment.file);
                                     }
                                 }}>
-                                    <Download />
+                                    <IconDownload />
                                 </ActionIcon>
 
                                 {/* Low memory alert */}
                                 <Group spacing="xs" noWrap sx={{
                                     "display": memory < 4 ? "" : "none"
                                 }}>
-                                    <AlertCircle />
+                                    <IconAlertCircle />
                                     <Text sx={{
                                         "whiteSpace": "pre-wrap"
                                     }}>It is recommended to allocate at least <Code>4 GB</Code> of memory.</Text>
@@ -327,5 +304,34 @@ function Home() {
 }
 
 Home.getLayout = page => <Layout>{page}</Layout>;
+
+export function getStaticProps() {
+    // Generate environment tabs from environments
+    const environmentTabs: EnvironmentTab[] = [];
+    for (const [key, value] of Object.entries(Environments.types)) {
+        environmentTabs.push({
+            "key": key,
+            "label": value.label,
+            "icon": value.icon
+        });
+    }
+
+    // Generate flag selector
+    const flagSelectors: FlagSelector[] = [];
+    for (const value of Object.values(Flags.types)) {
+        flagSelectors.push({
+            "value": value.key,
+            "label": value.label,
+            "description": value.description
+        });
+    }
+
+    return {
+        "props": {
+            environmentTabs,
+            flagSelectors
+        }
+    };
+}
 
 export default Home;

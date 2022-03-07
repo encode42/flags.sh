@@ -1,7 +1,7 @@
 import { SiteDetails } from "../../../util/util";
 import { ReactElement } from "react";
 import { ActionIcon, Anchor } from "@mantine/core";
-import { BrandGithub } from "tabler-icons-react";
+import { IconBrandGithub } from "@tabler/icons";
 import { ActionButtonOptions } from "./interface/ActionButtonOptions";
 
 /**
@@ -11,7 +11,7 @@ export function GitHubLink({ filled = false }: ActionButtonOptions): ReactElemen
     return (
         <Anchor href={SiteDetails.links.github} target="_blank">
             <ActionIcon color="green" size="lg" variant={filled ? "filled" : "hover"} title="Visit the GitHub repository">
-                <BrandGithub />
+                <IconBrandGithub />
             </ActionIcon>
         </Anchor>
     );
