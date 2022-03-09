@@ -136,7 +136,9 @@ function Home({ environmentTabs, flagSelectors }: HomeProps) {
                 })}>
                     <Group direction="column" grow>
                         <PageTitle />
-                        <Group grow>
+                        <Group grow sx={{
+                            "alignItems": "flex-start"
+                        }}>
                             {/* Left options */}
                             <Group direction="column" grow>
                                 {/* Filename selector */}
