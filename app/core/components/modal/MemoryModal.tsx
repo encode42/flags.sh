@@ -55,8 +55,8 @@ export function MemoryModal({ open, defaultMemory, defaultPterodactyl }: MemoryM
             </Label>
 
             {/* Pterodactyl overhead switch */}
-            <InputCaption text="Allocates 85% of the provided memory to account for Java overhead within containers. Only applicable within the Java Command tab.">
-                <Switch label="Pterodactyl overhead" checked={pterodactylValue.value} disabled={defaultPterodactyl.disabled} onChange={event => {
+            <InputCaption text="Allocates 85% of the provided memory to account for Java overhead within containers and adds console-related flags. Only applicable within the Java Command tab.">
+                <Switch label="Pterodactyl" checked={pterodactylValue.value} disabled={defaultPterodactyl.disabled} onChange={event => {
                     pterodactylValue.set(event.target.checked);
                 }} />
             </InputCaption>

@@ -117,6 +117,7 @@ function Home({ environmentTabs, flagSelectors }: HomeProps) {
             "memory": targetMem,
             "filename": filename.replaceAll(/\s/g, "\\ "),
             "gui": !disabled.gui && toggles.gui,
+            "pterodactyl": !disabled.pterodactyl && toggles.pterodactyl,
             "modernVectors": !disabled.modernVectors && toggles.modernVectors
         });
         const script = environment.result({ flags, "autoRestart": toggles.autoRestart });
