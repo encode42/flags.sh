@@ -8,33 +8,33 @@ import { ModalProps } from "./interface/ModalProps";
  */
 export interface FlagModalProps extends ModalProps {
     /**
-     * Whether to add flags for modern versions of Java.
+     * Whether to add incubating vector flags for modern versions of Java Hotspot.
      */
-    "defaultModernJava": ToggleState
+    "defaultModernVectors": ToggleState
 }
 
 /**
  * Modal for additional flags options.
  */
-export function FlagModal({ open, defaultModernJava }: FlagModalProps) {
-    const [pendingModernJava, setPendingModernJava] = useState<boolean>(defaultModernJava.value);
+export function FlagModal({ open, defaultModernVectors }: FlagModalProps) {
+    const [pendingModernVectors, setPendingModernVectors] = useState<boolean>(defaultModernVectors.value);
 
-    const modernJavaValue = {
-        "set": setPendingModernJava,
-        "value": pendingModernJava,
-        "default": defaultModernJava.value
+    const modernVectors = {
+        "set": setPendingModernVectors,
+        "value": pendingModernVectors,
+        "default": defaultModernVectors.value
     };
 
     const dataModal = useRef<OptionModalRef>(null);
 
     return (
-        <OptionModal open={open} ref={dataModal} values={[modernJavaValue]} onApply={() => {
-            defaultModernJava.set(modernJavaValue.value);
+        <OptionModal open={open} ref={dataModal} values={[modernVectors]} onApply={() => {
+            defaultModernVectors.set(modernVectors.value);
         }}>
             {/* Modern Java switch */}
-            <InputCaption text="Adds a flag that enables Java 17 vectors, which significantly speeds up map item rendering. Only applicable in Pufferfish-based forks.">
-                <Switch label="Java 17" checked={modernJavaValue.value} disabled={defaultModernJava.disabled} onChange={event => {
-                    modernJavaValue.set(event.target.checked);
+            <InputCaption text="Adds a flag that enables incubating SIMD vectors, which significantly speeds up map item rendering. Only applicable in Pufferfish-based forks and servers running Java 17 with Hotspot.">
+                <Switch label="Modern Vectors" checked={modernVectors.value} disabled={defaultModernVectors.disabled} onChange={event => {
+                    modernVectors.set(event.target.checked);
                 }} />
             </InputCaption>
         </OptionModal>

@@ -63,7 +63,7 @@ function Home({ environmentTabs, flagSelectors }: HomeProps) {
         "gui": false,
         "autoRestart": false,
         "pterodactyl": false,
-        "modernJava": true
+        "modernVectors": true
     });
 
     const [result, setResult] = useState<string>("Loading...");
@@ -117,7 +117,7 @@ function Home({ environmentTabs, flagSelectors }: HomeProps) {
             "memory": targetMem,
             "filename": filename.replaceAll(/\s/g, "\\ "),
             "gui": !disabled.gui && toggles.gui,
-            "modernJava": !disabled.modernJava && toggles.modernJava
+            "modernVectors": !disabled.modernVectors && toggles.modernVectors
         });
         const script = environment.result({ flags, "autoRestart": toggles.autoRestart });
 
@@ -292,12 +292,12 @@ function Home({ environmentTabs, flagSelectors }: HomeProps) {
             <FlagModal open={{
                 "value": openFlagModal,
                 "set": setOpenFlagModal
-            }} defaultModernJava={{
-                "value": !disabled.modernJava && toggles.modernJava,
+            }} defaultModernVectors={{
+                "value": !disabled.modernVectors && toggles.modernVectors,
                 "set": value => {
-                    setToggles({ ...toggles, "modernJava": value });
+                    setToggles({ ...toggles, "modernVectors": value });
                 },
-                "disabled": disabled.modernJava ?? false
+                "disabled": disabled.modernVectors ?? false
             }} />
 
         </>

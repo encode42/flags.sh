@@ -18,9 +18,9 @@ export interface DisabledOptions {
     "pterodactyl"?: boolean,
 
     /**
-     * Whether to disable the modern Java toggle.
+     * Whether to disable the incubating vectors toggle.
      */
-    "modernJava"?: boolean,
+    "modernVectors"?: boolean,
 
     /**
      * Whether to disable the download button.

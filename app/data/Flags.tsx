@@ -24,9 +24,9 @@ interface PrefixOptions {
     "memory": number,
 
     /**
-     * Whether to add flags for modern versions of Java.
+     * Whether to add incubating vector flags for modern versions of Java Hotspot.
      */
-    "modernJava": boolean,
+    "modernVectors": boolean,
 }
 
 /**
@@ -66,7 +66,7 @@ export interface FlagType {
     /**
      * The function used to get the results.
      */
-    "result": ({ memory, filename, gui, modernJava }: ResultOptions) => string,
+    "result": ({ memory, filename, gui, modernVectors }: ResultOptions) => string,
 
     /**
      * Options for the disabled components.
@@ -93,7 +93,7 @@ export interface FlagsInterface {
     /**
      * Prefix of every flag type.
      */
-    "prefix": ({ memory, modernJava }: PrefixOptions) => string,
+    "prefix": ({ memory, modernVectors }: PrefixOptions) => string,
 
     /**
      * Suffix of every flag type.
@@ -112,37 +112,37 @@ export const Flags: FlagsInterface = {
         "none": {
             "key": "none",
             "label": "None",
-            "result": ({ memory, filename, gui, modernJava }) => {
-                return `${Flags.prefix({ memory, modernJava })} ${Flags.suffix({ filename, gui })}`;
+            "result": ({ memory, filename, gui, modernVectors }) => {
+                return `${Flags.prefix({ memory, modernVectors })} ${Flags.suffix({ filename, gui })}`;
             }
         },
         "aikars": {
             "key": "aikars",
             "label": "Aikar's Flags",
             "description": "The high-performance and recommended flags.",
-            "result": ({ memory, filename, gui, modernJava }) => {
+            "result": ({ memory, filename, gui, modernVectors }) => {
                 const base = `${aikars.base} ${memory >= 12 ? aikars.large : aikars.standard}`;
-                return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
+                return `${Flags.prefix({ memory, modernVectors })} ${base} ${Flags.suffix({ filename, gui })}`;
             }
         },
         "velocity": {
             "key": "velocity",
             "label": "Velocity & Waterfall",
             "description": "Flags that work best with proxy software.",
-            "result": ({ memory, filename, gui, modernJava }) => {
+            "result": ({ memory, filename, gui, modernVectors }) => {
                 const base = "-XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15";
-                return `${Flags.prefix({ memory, modernJava })} ${base} ${Flags.suffix({ filename, gui })}`;
+                return `${Flags.prefix({ memory, modernVectors })} ${base} ${Flags.suffix({ filename, gui })}`;
             },
             "disabled": {
                 "gui": true,
-                "modernJava": true
+                "modernVectors": true
             }
         }
     },
-    "prefix": ({ memory, modernJava }) => {
+    "prefix": ({ memory, modernVectors }) => {
         const targetMem = memory * 1024;
         const displayMemory = `${targetMem?.toFixed(0)}M`;
-        return `java -Xms${displayMemory} -Xmx${displayMemory} ${modernJava ? "--add-modules=jdk.incubator.vector" : ""}`.trim();
+        return `java -Xms${displayMemory} -Xmx${displayMemory} ${modernVectors ? "--add-modules=jdk.incubator.vector" : ""}`.trim();
     },
     "suffix": ({ filename, gui }) => {
         return `-jar ${filename} ${!gui ? "--nogui" : ""}`.trim();
