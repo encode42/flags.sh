@@ -132,7 +132,7 @@ export const Flags: FlagsInterface = {
         },
         "velocity": {
             "key": "velocity",
-            "label": "Velocity & Waterfall",
+            "label": "Velocity & Waterfall/Bungeecord",
             "description": "Flags that work best with proxy software.",
             "result": ({ memory, filename, gui, pterodactyl, modernVectors }) => {
                 const base = "-XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15";
