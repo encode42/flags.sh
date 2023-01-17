@@ -7,7 +7,7 @@ import { config } from "~/data/config";
 import { $translate as t, Speak } from "qwik-speak";
 import { ChangeLocale } from "~/component/change-locale/change-locale";
 import { ChangeColorScheme } from "~/component/change-color-scheme/change-color-scheme";
-import Layout from "~/route/layout";
+import Layout from "~/route/[...lang]/layout";
 import { FileName } from "~/component/config/file-name/file-name";
 import { Flags } from "~/component/config/flags/flags";
 import { Memory } from "~/component/config/memory/memory";

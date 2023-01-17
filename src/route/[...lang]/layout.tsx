@@ -6,10 +6,10 @@ import { config } from "~/speak-config";
 import { ColorScheme } from "~/context/color-scheme/wrapper";
 import supportedLocales from "~/generated/supportedLocales.json";
 
-export const onRequest: RequestHandler = ({ headers, locale, cookie }) => {
+export const onRequest: RequestHandler = ({ url, headers, locale, cookie, params, redirect }) => {
     const langCookie = cookie.get("lang");
 
-    let lang: string | undefined = langCookie?.value;
+    let lang: string | undefined = params.lang || langCookie?.value;
     if (!lang) {
         const acceptLanguage = headers.get("accept-language");
 
@@ -20,9 +20,18 @@ export const onRequest: RequestHandler = ({ headers, locale, cookie }) => {
                 lang = acceptLanguage.split("-")[0];
             }
         }
+
+        if (lang && !supportedLocales.includes(lang)) {
+            lang = undefined;
+        }
+    }
+    lang ??= config.defaultLocale.lang;
+
+    if ((langCookie && lang !== config.defaultLocale.lang) && lang !== params.lang) {
+        throw redirect(302, `/${lang}${url.pathname}`);
     }
 
-    locale(lang ?? config.defaultLocale.lang);
+    locale(lang);
 };
 
 export const getColorScheme = loader$<unknown, ColorSchemes | undefined>(({ cookie }) => {

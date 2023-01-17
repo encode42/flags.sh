@@ -11,22 +11,18 @@ export const config: SpeakConfig = {
         "lang": locale
     })),
     "assets": [
-        "app",
-        "runtime"
+        "app"
     ]
 };
 
 export const loadTranslation$: LoadTranslationFn = $(async (lang: string, asset: string, origin?: string) => {
-    if (import.meta.env.DEV || asset === "runtime") {
-        let url = "";
-        if (isServer && origin) {
-            url = origin;
-        }
-        url += `/i18n/${lang}/${asset}.json`;
-
-        const data = await fetch(url);
-        return data.json();
+    let url = "";
+    if (isServer && origin) {
+        url = origin;
     }
+    url += `/i18n/${lang}/${asset}.json`;
+    const data = await fetch(url);
+    return data.json();
 });
 
 export const translationFn: TranslationFn = {
