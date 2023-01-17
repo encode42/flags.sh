@@ -16,7 +16,7 @@ export const ChangeLocale = component$(() => {
                 window.location.reload();
             }}>
                 {ctx.config.supportedLocales.map(locale => (
-                    <option key={locale.lang} value={locale.lang}>{locale.lang}</option>
+                    <option key={locale.lang} value={locale.lang} selected={locale.lang === ctx.locale.lang}>{locale.lang}</option>
                 ))}
             </select>
         </label>
