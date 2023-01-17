@@ -14,12 +14,7 @@ export default extendConfig(baseConfig, () => {
             }
         },
         "plugins": [
-            cloudflarePagesAdaptor({
-                "staticGenerate": {
-                    "origin": "https://flags-sh.pages.dev",
-                    "emitHtml": false
-                }
-            })
+            cloudflarePagesAdaptor()
         ]
     };
 });

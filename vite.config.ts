@@ -9,7 +9,6 @@ export default defineConfig(() => {
     return {
         "plugins": [
             qwikCity({
-                "basePathname": "https://flags-sh.pages.dev",
                 "routesDir": "src/route",
                 "trailingSlash": false
             }),
