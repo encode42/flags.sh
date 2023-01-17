@@ -1,11 +1,11 @@
 name: Update Translations
 on:
-  pull_request:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "github.actor_id == '1607653'"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -41,5 +41,4 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        repository: weblate/flags.sh
-        branch: weblate-flags-sh-app
+        branch: ${{ github.ref }}
