@@ -1,20 +1,25 @@
 {
+    "app": {
+        "description": "A simple script generator to start your Minecraft servers with optimal flags.",
+        "changeLocale": "Change Locale",
+        "colorScheme": {
+            "label": "Color Scheme",
+            "dark": "Dark",
+            "light": "Light",
+            "system": "System"
+        },
+        "support": "Support community",
+        "source": "Source code",
+        "about": "About"
+    },
     "panel": {
-        "environment": {
-            "label": "Environment",
-            "description": "The environment in which your Minecraft server will operate in."
-        },
-        "config": {
-            "label": "Config",
-            "description": "The various additions and modifications that can be made to your start script."
-        },
         "operatingSystem": {
+            "command": "Command",
             "label": "Operating System",
             "description": "The operating system that the server runs on.",
             "linux": "Linux",
             "windows": "Windows",
-            "pterodactyl": "Pterodactyl",
-            "command": "Command"
+            "pterodactyl": "Pterodactyl"
         },
         "serverType": {
             "label": "Server Type",
@@ -75,19 +80,14 @@
         "download": "Download",
         "copy": "Copy",
         "share": "Share",
-        "advanced": "Advanced"
-    },
-    "app": {
-        "description": "A simple script generator to start your Minecraft servers with optimal flags.",
-        "changeLocale": "Change Locale",
-        "colorScheme": {
-            "label": "Color Scheme",
-            "dark": "Dark",
-            "light": "Light",
-            "system": "System"
+        "advanced": "Advanced",
+        "environment": {
+            "label": "Environment",
+            "description": "The environment in which your Minecraft server will operate in."
         },
-        "support": "Support community",
-        "source": "Source code",
-        "about": "About"
+        "config": {
+            "label": "Config",
+            "description": "The various additions and modifications that can be made to your start script."
+        }
     }
 }
