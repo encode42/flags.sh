@@ -52,7 +52,7 @@ export default component$(() => {
             abortController.abort("cleanup");
         });
 
-        const url = new URL(`${import.meta.env.DEV ? "http://localhost:5173" : "https://flags-sh-qwik.pages.dev"}/api/v1/generate`); // hacky workaround
+        const url = new URL(`${import.meta.env.DEV ? "http://localhost:5173" : "https://flags-sh.pages.dev"}/api/v1/generate`); // hacky workaround
         for (const [key, value] of Object.entries(selectedConfig)) {
             if (!state.availableConfig.includes(key) && key !== "operatingSystem" && key !== "serverType" && key !== "flags" && key !== "extraFlags") { // todo: mess
                 continue;
