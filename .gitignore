@@ -1,2 +1,6 @@
-/.next/
-.blitz.config.compiled.js
+# Cloudflare
+/functions/**/*.js
+
+# Qwik
+/server/
+/dist/
