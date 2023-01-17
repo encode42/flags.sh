@@ -3,9 +3,7 @@ import { qwikVite } from "@builder.io/qwik/optimizer";
 import { qwikCity } from "@builder.io/qwik-city/vite";
 import { qwikSpeakInline } from "qwik-speak/inline";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { getSupportedLangs } from "./src/util/getSupportedLangs";
-
-const supportedLangs = getSupportedLangs();
+import supportedLocales from "./src/generated/supportedLocales.json";
 
 export default defineConfig(() => {
     return {
@@ -16,7 +14,7 @@ export default defineConfig(() => {
             }),
             qwikVite(),
             qwikSpeakInline({
-                "supportedLangs": supportedLangs,
+                "supportedLangs": supportedLocales,
                 "defaultLang": "en-US",
                 "splitChunks": true
             }),

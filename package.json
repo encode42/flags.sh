@@ -7,7 +7,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build": "qwik build",
+    "build": "esno lib && qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
     "build.server": "vite build -c adaptors/cloudflare-pages/vite.config.ts",
@@ -50,6 +50,7 @@
     "eslint-plugin-sonarjs": "^0.18.0",
     "eslint-plugin-tsdoc": "^0.2.17",
     "eslint-plugin-unicorn": "^45.0.2",
+    "esno": "^0.16.3",
     "wrangler": "^2.7.1"
   }
 }

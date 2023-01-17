@@ -1,7 +1,7 @@
 import { $ } from "@builder.io/qwik";
 import { isServer } from "@builder.io/qwik/build";
 import { LoadTranslationFn, SpeakConfig, TranslationFn } from "qwik-speak";
-import supportedLocales from "../server/supportedLocales.json";
+import supportedLocales from "~/generated/supportedLocales.json";
 
 export const config: SpeakConfig = {
     "defaultLocale": {
@@ -11,12 +11,13 @@ export const config: SpeakConfig = {
         "lang": locale
     })),
     "assets": [
-        "app"
+        "app",
+        "runtime"
     ]
 };
 
 export const loadTranslation$: LoadTranslationFn = $(async (lang: string, asset: string, origin?: string) => {
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV || asset === "runtime") {
         let url = "";
         if (isServer && origin) {
             url = origin;
