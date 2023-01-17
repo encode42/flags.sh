@@ -1,0 +1,80 @@
+{
+    "panel": {
+        "environment": {
+            "label": "Umgebung",
+            "description": "Die Umgebung, in der dein Minecraft Server ausgeführt werden wird."
+        },
+        "config": {
+            "label": "Konfiguration",
+            "description": "Die diversen Ergänzungen und Modifikationen, die auf dein Startskript angewendet werden können."
+        },
+        "operatingSystem": {
+            "label": "Betriebssystem",
+            "description": "Das Betriebssystem, auf dem der Server läuft.",
+            "linux": "Linux",
+            "windows": "Windows",
+            "pterodactyl": "Pterodactyl",
+            "command": "Befehl"
+        },
+        "serverType": {
+            "label": "Art des Servers",
+            "description": "Die Software, die du benutzt.",
+            "paper": "Paper",
+            "purpur": "Purpur",
+            "velocity": "Velocity",
+            "waterfall": "Waterfall"
+        },
+        "fileName": {
+            "label": "Dateiname",
+            "description": "Der Name der Datei, die zum Starten des Servers genutzt werden wird."
+        },
+        "flags": {
+            "label": "Parameter",
+            "description": "Die Sammlung von Start-Argumenten, die typischerweise die Performance des Servers verbessern.",
+            "none": {
+                "label": "Keine",
+                "description": "Eine leere Leinwand für deinen Server."
+            },
+            "aikars": {
+                "label": "Aikar's Flags",
+                "description": "Die klassischen und verlässlichen Parameter, die die Performance des Servers verbessern."
+            },
+            "proxy": {
+                "label": "Proxy",
+                "description": "Generische performance-vebessernde Parameter für die meisten Proxy Softwares."
+            }
+        },
+        "extraFlags": {
+            "label": "Zusätzliche Parameter",
+            "description": "Zusätzliche Parameter, die eventuell die Performance verbessern oder die Funktionalität verändern.",
+            "vectors": {
+                "label": "Moderne Vektoren",
+                "description": "Aktiviert SIMD Operationen um Karten Darstellungen zu optimieren, wenn Pufferfish oder eine Fork davon genutzt wird."
+            }
+        },
+        "memory": {
+            "label": "Arbeitsspeicher",
+            "description": "Die Menge an Arbeitsspeicher (RAM), der deinem Server zugewiesen werden soll."
+        },
+        "gui": {
+            "label": "GUI benutzen",
+            "description": "Ob das von Minecraft aus eingebaute Verwaltungs-GUI aktiviert werden soll."
+        },
+        "autoRestart": {
+            "label": "Automatischer Neustart",
+            "description": "Ob der Server automatisch neugestartet werden soll, wenn er gestoppt wurde."
+        },
+        "variables": {
+            "label": "Variablen nutzen",
+            "description": "Ob Umgebungsvariablen im Skript genutzt werden sollen, um Arbeitsspeicher, Dateiname und andere für gewöhnlich geänderte Werte einzustellen."
+        },
+        "script": {
+            "label": "Skript",
+            "description": "Das resultierende Skript kann genutzt werden um deinen Server zu starten. Platziere es im selben Ordner wie {{fileName}} und führe es aus."
+        },
+        "download": "Herunterladen",
+        "copy": "Kopieren",
+        "share": "Teilen",
+        "advanced": "Fortgeschritten"
+    }
+}
