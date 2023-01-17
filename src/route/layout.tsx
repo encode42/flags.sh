@@ -4,6 +4,7 @@ import { component$, Slot } from "@builder.io/qwik";
 import { loader$ } from "@builder.io/qwik-city";
 import { config } from "~/speak-config";
 import { ColorScheme } from "~/context/color-scheme/wrapper";
+import supportedLocales from "~/generated/supportedLocales.json";
 
 export const onRequest: RequestHandler = ({ headers, locale, cookie }) => {
     const langCookie = cookie.get("lang");
@@ -14,6 +15,10 @@ export const onRequest: RequestHandler = ({ headers, locale, cookie }) => {
 
         if (acceptLanguage) {
             lang = acceptLanguage.split(";")[0]?.split(",")[0];
+
+            if (!supportedLocales.includes(lang) && lang.includes("-")) {
+                lang = acceptLanguage.split("-")[0];
+            }
         }
     }
 
