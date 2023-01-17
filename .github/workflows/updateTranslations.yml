@@ -5,7 +5,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "github.action_repository == 'weblate/flags.sh'"
+    if: "github.actor_id == '1607653'"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
