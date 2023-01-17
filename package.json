@@ -11,7 +11,7 @@
     "build": "qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
-    "build.server": "vite build -c adaptors/cloudflare-pages/vite.config.ts",
+    "build.server": "vite build --ssr src/entry.preview.tsx",
     "build.types": "tsc --incremental --noEmit",
     "deploy": "wrangler pages dev ./dist",
     "dev": "vite --mode ssr",
@@ -53,6 +53,6 @@
     "eslint-plugin-unicorn": "^45.0.2",
     "esno": "^0.16.3",
     "pre-push": "^0.1.4",
-    "wrangler": "^2.7.1"
+    "wrangler": "^2.8.0"
   }
 }

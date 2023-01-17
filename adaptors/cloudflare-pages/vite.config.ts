@@ -15,7 +15,10 @@ export default extendConfig(baseConfig, () => {
         },
         "plugins": [
             cloudflarePagesAdaptor({
-                "staticGenerate": true
+                "staticGenerate": {
+                    "origin": "https://flags-sh.pages.dev",
+                    "emitHtml": false
+                }
             })
         ]
     };

@@ -33,7 +33,7 @@ specifiers:
   vite: 4.0.4
   vite-tsconfig-paths: 4.0.3
   water.css: ^2.1.1
-  wrangler: ^2.7.1
+  wrangler: ^2.8.0
   zod: ^3.20.2
 
 dependencies:
@@ -72,7 +72,7 @@ devDependencies:
   eslint-plugin-unicorn: 45.0.2_eslint@8.32.0
   esno: 0.16.3
   pre-push: 0.1.4
-  wrangler: 2.7.1
+  wrangler: 2.8.0
 
 packages:
 
@@ -457,7 +457,7 @@ packages:
       estree-util-is-identifier-name: 2.0.1
       estree-util-to-js: 1.1.0
       estree-walker: 3.0.2
-      hast-util-to-estree: 2.2.0
+      hast-util-to-estree: 2.2.1
       markdown-extensions: 1.1.1
       periscopic: 3.0.4
       remark-mdx: 2.2.1
@@ -2359,8 +2359,8 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
-  /hast-util-to-estree/2.2.0:
-    resolution: {integrity: sha512-QFMTJsd3+lr0TKiObJ6PWwpWqFjD+T28dVSazcPAslHjHGMXxs5xFvjLbUf6e6O3/dfHb9iourepMlSh5x7lIA==}
+  /hast-util-to-estree/2.2.1:
+    resolution: {integrity: sha512-kiGD9WIW3gRKK8Gao3n1f+ahUeTMeJUJILnIT2QNrPigDNdH7rJxzhEbh81UajGeAdAHFecT1a+fLVOCTq9B4Q==}
     dependencies:
       '@types/estree': 1.0.0
       '@types/estree-jsx': 1.0.0
@@ -4482,8 +4482,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /wrangler/2.7.1:
-    resolution: {integrity: sha512-SKoe+UTOCX0J+RfEDE6MEdnNy1lDSnB1BfpAEblgvDHjmEunPFu0w6GxcyOYAl/fTl3/VjXZO3p+Ybm9zenzWg==}
+  /wrangler/2.8.0:
+    resolution: {integrity: sha512-CAhjoeTnVFB65HPmOSquXbQ37lc2X77iOirX4tRMuRNKQng2NztHOfo++6BZdlV29E4IPD9boTRXck3R+O8mrg==}
     engines: {node: '>=16.13.0'}
     hasBin: true
     dependencies:
