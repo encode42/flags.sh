@@ -1,0 +1,80 @@
+{
+    "panel": {
+        "environment": {
+            "label": "Environment",
+            "description": "The environment in which your Minecraft server will operate in."
+        },
+        "config": {
+            "label": "Config",
+            "description": "The various additions and modifications that can be made to your start script."
+        },
+        "operatingSystem": {
+            "label": "Operating System",
+            "description": "The operating system that the server runs on.",
+            "linux": "Linux",
+            "windows": "Windows",
+            "pterodactyl": "Pterodactyl",
+            "command": "Command"
+        },
+        "serverType": {
+            "label": "Server Type",
+            "description": "The server software you're using.",
+            "paper": "Paper",
+            "purpur": "Purpur",
+            "velocity": "Velocity",
+            "waterfall": "Waterfall"
+        },
+        "fileName": {
+            "label": "File Name",
+            "description": "The name of the file that will be used to start your server."
+        },
+        "flags": {
+            "label": "Flags",
+            "description": "The collection of start arguments that typically optimize the server's performance.",
+            "none": {
+                "label": "None",
+                "description": "A blank slate for your server."
+            },
+            "aikars": {
+                "label": "Aikar's Flags",
+                "description": "The classic reliable flags for boosting your server's performance."
+            },
+            "proxy": {
+                "label": "Proxy",
+                "description": "Generic performance flags for most proxy server software."
+            }
+        },
+        "extraFlags": {
+            "label": "Extra Flags",
+            "description": "Additional flags that may improve performance or change functionality.",
+            "vectors": {
+                "label": "Modern Vectors",
+                "description": "Enables SIMD operations to optimize map item rendering on Pufferfish and its forks."
+            }
+        },
+        "memory": {
+            "label": "Memory",
+            "description": "The amount of memory (RAM) to allocate to your server."
+        },
+        "gui": {
+            "label": "Use GUI",
+            "description": "Whether to display the built-in server management GUI."
+        },
+        "autoRestart": {
+            "label": "Auto-restart",
+            "description": "Whether to automatically restart after it is stopped."
+        },
+        "variables": {
+            "label": "Use Variables",
+            "description": "Whether to use environment variables within the script to define memory, file name, and other commonly changed elements."
+        },
+        "script": {
+            "label": "Script",
+            "description": "The resulting script that can be used to start your server. Place this file in the same location as {{fileName}}, then execute it!"
+        },
+        "download": "Download",
+        "copy": "Copy",
+        "share": "Share",
+        "advanced": "Advanced"
+    }
+}
