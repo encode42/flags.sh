@@ -1,80 +1,80 @@
 {
     "panel": {
         "environment": {
-            "label": "Environment",
-            "description": "The environment in which your Minecraft server will operate in."
+            "label": "Środowisko",
+            "description": "Środowisko w jakim serwer minecraft będzie operować."
         },
         "config": {
-            "label": "Config",
-            "description": "The various additions and modifications that can be made to your start script."
+            "label": "Konfiguracja",
+            "description": "Dodatki i modyfikacje, które mogą być aplikowane do twojego skryptu startowego."
         },
         "operatingSystem": {
-            "label": "Operating System",
-            "description": "The operating system that the server runs on.",
+            "label": "System operacyjny",
+            "description": "System operacyjny, na którym działa serwer.",
             "linux": "Linux",
             "windows": "Windows",
             "pterodactyl": "Pterodactyl",
-            "command": "Command"
+            "command": "Komenda"
         },
         "serverType": {
-            "label": "Server Type",
-            "description": "The server software you're using.",
+            "label": "Typ serwera",
+            "description": "Oprogramowanie serwera, którego używasz.",
             "paper": "Paper",
             "purpur": "Purpur",
             "velocity": "Velocity",
             "waterfall": "Waterfall"
         },
         "fileName": {
-            "label": "File Name",
-            "description": "The name of the file that will be used to start your server."
+            "label": "Nazwa pliku",
+            "description": "Nazwa pliku, który zostanie użyty do uruchomienia Twojego serwera."
         },
         "flags": {
-            "label": "Flags",
-            "description": "The collection of start arguments that typically optimize the server's performance.",
+            "label": "Flagi",
+            "description": "Zbiór argumentów startowych, które zazwyczaj optymalizują działanie serwera.",
             "none": {
-                "label": "None",
-                "description": "A blank slate for your server."
+                "label": "Brak",
+                "description": "Czysta karta dla twojego serwera."
             },
             "aikars": {
-                "label": "Aikar's Flags",
-                "description": "The classic reliable flags for boosting your server's performance."
+                "label": "Flagi Aikara",
+                "description": "Klasyczne, niezawodne flagi do zwiększenia wydajności serwera."
             },
             "proxy": {
                 "label": "Proxy",
-                "description": "Generic performance flags for most proxy server software."
+                "description": "Ogólne flagi wydajności dla większości oprogramowania serwerów proxy."
             }
         },
         "extraFlags": {
-            "label": "Extra Flags",
-            "description": "Additional flags that may improve performance or change functionality.",
+            "label": "Dodatkowe flagi",
+            "description": "Dodatkowe flagi, które mogą poprawić wydajność lub zmienić funkcjonalność.",
             "vectors": {
-                "label": "Modern Vectors",
-                "description": "Enables SIMD operations to optimize map item rendering on Pufferfish and its forks."
+                "label": "Nowoczesne wektory",
+                "description": "Włącza operacje SIMD w celu optymalizacji renderowania elementów mapy na Pufferfishu i jego forkach."
             }
         },
         "memory": {
-            "label": "Memory",
-            "description": "The amount of memory (RAM) to allocate to your server."
+            "label": "Pamięć",
+            "description": "Ilość pamięci (RAM), która ma być przydzielona do Twojego serwera."
         },
         "gui": {
-            "label": "Use GUI",
-            "description": "Whether to display the built-in server management GUI."
+            "label": "Użyj GUI",
+            "description": "Czy wyświetlać wbudowany graficzny interfejs zarządzania serwerem."
         },
         "autoRestart": {
             "label": "Auto-restart",
-            "description": "Whether to automatically restart after it is stopped."
+            "description": "Czy serwer ma się automatycznie restartować po zatrzymaniu."
         },
         "variables": {
-            "label": "Use Variables",
-            "description": "Whether to use environment variables within the script to define memory, file name, and other commonly changed elements."
+            "label": "Użyj zmiennych",
+            "description": "Czy używać zmiennych środowiskowych wewnątrz skryptu do określenia pamięci, nazwy pliku i innych często zmienianych elementów."
         },
         "script": {
-            "label": "Script",
-            "description": "The resulting script that can be used to start your server. Place this file in the same location as {{fileName}}, then execute it!"
+            "label": "Skrypt",
+            "description": "Wynikowy skrypt, który może być użyty do uruchomienia twojego serwera. Umieść ten plik w tej samej lokalizacji co {{fileName}}, a następnie go włącz!"
         },
-        "download": "Download",
-        "copy": "Copy",
-        "share": "Share",
-        "advanced": "Advanced"
+        "download": "Pobierz",
+        "copy": "Kopiuj",
+        "share": "Udostępnij",
+        "advanced": "Zaawansowane"
     }
 }
