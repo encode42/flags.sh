@@ -6,7 +6,7 @@
         },
         "config": {
             "label": "Configuración",
-            "description": "The various additions and modifications that can be made to your start script."
+            "description": "Las various additions and modifications que se pueden hacer a tu script de iniciar."
         },
         "operatingSystem": {
             "label": "Sistema Operativo",
@@ -18,7 +18,7 @@
         },
         "serverType": {
             "label": "Tipo de Servidor",
-            "description": "The server software you're using.",
+            "description": "El software de servidor que estás usando.",
             "paper": "Paper",
             "purpur": "Purpur",
             "velocity": "Velocity",
@@ -33,44 +33,44 @@
             "description": "La colección de argumentos que generalmente optimizan el rendimiento del servidor.",
             "none": {
                 "label": "Ninguno",
-                "description": "A blank slate for your server."
+                "description": "Una pizarra en blanco para tu servidor."
             },
             "aikars": {
                 "label": "Indicadores de Aikar",
-                "description": "The classic reliable flags for boosting your server's performance."
+                "description": "Los indicadores clásicos y fiables para aumentar el rendimiento de su servidor."
             },
             "proxy": {
                 "label": "Proxy",
-                "description": "Generic performance flags for most proxy server software."
+                "description": "Los indicadores genéricos de rendimiento para la mayoría del software de servidor proxy."
             }
         },
         "extraFlags": {
             "label": "Indicadores Extra",
-            "description": "Additional flags that may improve performance or change functionality.",
+            "description": "Los indicadores adicionales que pueden mejorar el rendimiento o cambiar la funcionalidad.",
             "vectors": {
                 "label": "Vectores Modernos",
-                "description": "Enables SIMD operations to optimize map item rendering on Pufferfish and its forks."
+                "description": "Habilitar las operaciones SIMD para optimizar el renderizado de los artículos del mapas en Pufferfish y sus bifurcaciones."
             }
         },
         "memory": {
             "label": "Memoria",
-            "description": "The amount of memory (RAM) to allocate to your server."
+            "description": "La cantidad de memoria (RAM) para asignar a tu servidor."
         },
         "gui": {
             "label": "Usar GUI",
-            "description": "Whether to display the built-in server management GUI."
+            "description": "Si mostrar la GUI de manejar del servidor incorporada."
         },
         "autoRestart": {
-            "label": "Auto-restart",
-            "description": "Whether to automatically restart after it is stopped."
+            "label": "Reinicio Automático",
+            "description": "Si se reinicia automáticamente después de que se ha termiado."
         },
         "variables": {
             "label": "Usar Variables",
-            "description": "Whether to use environment variables within the script to define memory, file name, and other commonly changed elements."
+            "description": "Si usar variables de entorno en el script para definir la memoria, nombre de archivo, y otras elementos comúnmente cambiados."
         },
         "script": {
             "label": "Script",
-            "description": "The resulting script that can be used to start your server. Place this file in the same location as {{fileName}}, then execute it!"
+            "description": "El script resultante te puede usar para inicia tu servidor. Poner el archivo en el lugar mismo que {{fileName}}, luego ejecútelo!"
         },
         "download": "Descargar",
         "copy": "Copiar",
