@@ -166,14 +166,14 @@ export default component$(() => {
                             }} />
                         </div>
                         <div>
-                            <Gui visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={event => {
-                                setConfig.gui = event.target.value;
+                            <Gui visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={(event, ignored, boolValue) => {
+                                setConfig.gui = boolValue;
                             }} />
-                            <AutoRestart visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
-                                setConfig.autoRestart = event.target.value;
+                            <AutoRestart visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={(event, ignored, boolValue) => {
+                                setConfig.autoRestart = boolValue;
                             }} />
-                            <Variables visible={state.availableConfig.includes("variables")} value={setConfig.autoRestart} onChange$={event => {
-                                setConfig.variables = event.target.value;
+                            <Variables visible={state.availableConfig.includes("variables")} value={setConfig.autoRestart} onChange$={(event, ignored, boolValue) => {
+                                setConfig.variables = boolValue;
                             }} />
                         </div>
                     </div>
