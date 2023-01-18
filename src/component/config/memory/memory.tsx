@@ -7,7 +7,7 @@ export const Memory = component$(({ value, onChange$, ...other }: SharedInputCon
     return (
         <LabelDescription label={t("panel.memory.label")} description={t("panel.memory.description")} {...other}>
             <div class="tooltip" data-tip={`${value} GB`}>
-                <input type="range" className="range" min={2} max={16} step={1.5} value={value} onChange$={onChange$} />
+                <input type="range" className="range" min={2} max={16} step={1} value={value} onChange$={onChange$} />
             </div>
         </LabelDescription>
     );

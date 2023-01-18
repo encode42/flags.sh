@@ -146,7 +146,7 @@ export default component$(() => {
                                 setConfig.fileName = event.target.value;
                             }} />
                             <Memory value={setConfig.memory} onChange$={event => {
-                                setConfig.memory = event.target.value;
+                                setConfig.memory = Number.parseInt(event.target.value);
                             }} />
                         </div>
                         <div>
