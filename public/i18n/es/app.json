@@ -1,0 +1,15 @@
+{
+    "app": {
+        "description": "Un sencillo generador de scripts para iniciar tus servidores Minecraft con indicadores óptimos.",
+        "changeLocale": "Cambiar Idioma",
+        "colorScheme": {
+            "label": "Esquema de Colores",
+            "dark": "Oscuro",
+            "light": "Ligero",
+            "system": "Sistema"
+        },
+        "support": "Comunidad de Apoyo",
+        "source": "Código Fuente",
+        "about": "Acerca de"
+    }
+}
