@@ -1,0 +1,80 @@
+{
+    "panel": {
+        "environment": {
+            "label": "Okruženje",
+            "description": "Okruženje u kojem će vaš Minecraft server raditi."
+        },
+        "config": {
+            "label": "Konfiguracija",
+            "description": "Razni dodaci i modifikacije koje se mogu primjeniti vašoj start skripti"
+        },
+        "operatingSystem": {
+            "label": "Operativni sistem",
+            "description": "Operativni sistem na kojem server radi.",
+            "linux": "Linux",
+            "windows": "Windows",
+            "pterodactyl": "Pterodactyl",
+            "command": "Naredba"
+        },
+        "serverType": {
+            "label": "Vrsta servera",
+            "description": "Server softver koji koristite.",
+            "paper": "Paper",
+            "purpur": "Purpur",
+            "velocity": "Velocity",
+            "waterfall": "Waterfall"
+        },
+        "fileName": {
+            "label": "Ime fajla",
+            "description": "Ime fajla koji se koristi za pokretanje vašeg servera."
+        },
+        "flags": {
+            "label": "Parametri",
+            "description": "Kolekcija parametara za pokretanje servera koje tipično optimiziraju performanse.",
+            "none": {
+                "label": "Nema",
+                "description": "Prazan list za vaš server."
+            },
+            "aikars": {
+                "label": "Aikarovi parametri",
+                "description": "Klasični, pouzdani parametri za poboljšanje performansi vašeg servera."
+            },
+            "proxy": {
+                "label": "Proksi",
+                "description": "Univerzalni parametri za perfomanse, idu uz većinu proksi server softvera"
+            }
+        },
+        "extraFlags": {
+            "label": "Dodatni parametri",
+            "description": "Dodatni parametri koji mogu poboljšati performanse ili promijeniti funkcionalnost.",
+            "vectors": {
+                "label": "Moderni vektori",
+                "description": "Omogućava SIMD operacije da bi se optimiziralo renderanje karata (predmeta) na Pufferfishu i njegovim fork-ovima."
+            }
+        },
+        "memory": {
+            "label": "Memorija",
+            "description": "Količina memorije (RAM-a) koja će biti dodijeljena serveru."
+        },
+        "gui": {
+            "label": "Koristi GUI",
+            "description": "Kontrolira da li će se prikazati ugrađeni GUI za upravljanje serverom."
+        },
+        "autoRestart": {
+            "label": "Automatski restart",
+            "description": "Da li automatski restartati server nakon što se zaustavi."
+        },
+        "variables": {
+            "label": "Koristi varijable",
+            "description": "Da li koristiti varijable okruženja unutar skripte kako bi se definisala memorija, ime fajla i ostali često mjenjani elementi."
+        },
+        "script": {
+            "label": "Skripta",
+            "description": "Rezultirajuća skripta koja se može koristiti za pokretanje vašeg servera. Stavite ovaj fajl na istu lokaciju kao {{fileName}}, zatim ga pokrenite!"
+        },
+        "download": "Skini",
+        "copy": "Kopiraj",
+        "share": "Podijeli",
+        "advanced": "Napredno"
+    }
+}
