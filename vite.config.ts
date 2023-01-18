@@ -15,7 +15,7 @@ export default defineConfig(() => {
             qwikVite(),
             qwikSpeakInline({
                 "supportedLangs": supportedLocales,
-                "defaultLang": "en-US",
+                "defaultLang": "en",
                 "splitChunks": true
             }),
             tsconfigPaths()

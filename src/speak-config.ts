@@ -5,7 +5,7 @@ import supportedLocales from "~/generated/supportedLocales.json";
 
 export const config: SpeakConfig = {
     "defaultLocale": {
-        "lang": "en-US"
+        "lang": "en"
     },
     "supportedLocales": supportedLocales.map(locale => ({
         "lang": locale

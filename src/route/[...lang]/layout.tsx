@@ -6,38 +6,79 @@ import { config } from "~/speak-config";
 import { ColorScheme } from "~/context/color-scheme/wrapper";
 import supportedLocales from "~/generated/supportedLocales.json";
 
-export const onRequest: RequestHandler = ({ url, headers, locale, cookie, params, redirect }) => {
-    // If language is explicitly set
-    const langCookie = cookie.get("lang");
+export const onRequest: RequestHandler = ({ url, request, locale, cookie, params, redirect }) => {
+    let lang: string | undefined;
 
-    let lang: string | undefined = params.lang || langCookie?.value;
+    // Language provided by URL
+    const paramLang = params.lang?.replace(/^\/|\/$/g, "");
+    if (paramLang && supportedLocales.includes(paramLang)) {
+        lang = paramLang;
+    }
+
     if (!lang) {
-        // Get the client's accepted languages
-        const acceptLanguage = headers.get("accept-language");
-        if (acceptLanguage) {
-            // Get the first accepted language
-            lang = acceptLanguage.split(";")[0]?.split(",")[0];
+        // Language provided by cookie
+        const langCookie = cookie.get("lang");
+        if (langCookie && supportedLocales.includes(langCookie?.value)) {
+            lang = langCookie?.value;
+        }
 
-            // Language code might be stored as _ instead of -
-            if (!supportedLocales.includes(lang) && lang.includes("-")) {
-                lang = acceptLanguage.replace("-", "_");
+        if (!lang || !supportedLocales.includes(lang)) {
+            // Language provided by Accept-Language header
+            const acceptLanguageHeader = request.headers.get("accept-language");
+            if (acceptLanguageHeader) {
+                const acceptedLanguages: string[] = [];
 
-                // Get the broad accepted language
-                if (!supportedLocales.includes(lang)) {
-                    lang = acceptLanguage.split("-")[0];
+                // Get all accept language codes
+                for (const section of acceptLanguageHeader.split(";")) {
+                    for (const pair of section.split(",")) {
+                        // Ignore weight (typically sorted correctly by client)
+                        if (pair.startsWith("q")) {
+                            continue;
+                        }
+
+                        acceptedLanguages.push(pair);
+                    }
+                }
+
+                // Find the first supported language
+                for (const language of acceptedLanguages) {
+                    // Exact match
+                    if (supportedLocales.includes(language)) {
+                        lang = language;
+                        break;
+                    }
+
+                    if (language.includes("-")) {
+                        // Check if stored language uses underscores instead of dashes
+                        const underscoreReplacement = language.replace("-", "_");
+                        if (supportedLocales.includes(underscoreReplacement)) {
+                            lang = underscoreReplacement;
+                        }
+
+                        // Check if stored language does not have a subset
+                        const broad = language.split("-")[0];
+                        if (supportedLocales.includes(broad)) {
+                            lang = broad;
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
 
-    // Language could not be found
+    // Resort to default language
     if (!lang || !supportedLocales.includes(lang)) {
         lang = config.defaultLocale.lang;
     }
 
-    // Redirect to SSG pages
-    if (lang !== config.defaultLocale.lang && lang !== params.lang) {
+    // Redirect to the language's SSG pages
+    if (!paramLang) {
         throw redirect(302, `/${lang}${url.pathname}`);
+    }
+
+    if (paramLang && paramLang !== lang) {
+        throw redirect(301, `${url.pathname.replace(paramLang, lang)}`);
     }
 
     locale(lang);
@@ -63,6 +104,6 @@ export const head: DocumentHead = {
     "title": "flags.sh",
     "meta": [{
         "name": "description",
-        "content": "flags.sh"
+        "content": "app.description"
     }]
 };
