@@ -1,6 +1,8 @@
 import type { ZodType } from "zod";
 import { z } from "zod";
 import { extraFlags, flags } from "~/data/flags";
+import { defaultServerType, serverType } from "~/data/environment/serverType";
+import { defaultOperatingSystem } from "~/data/environment/operatingSystem";
 
 export type AvailableConfig = keyof typeof config;
 
@@ -8,8 +10,12 @@ export interface Config {
     [key: string]: {
         "isAdvanced"?: boolean,
         "type": ZodType,
-        "default": any // todo
+        "default"?: any
     }
+}
+
+type DefaultConfig = {
+    [key in AvailableConfig]: any
 }
 
 export const config: Config = {
@@ -18,12 +24,10 @@ export const config: Config = {
         "default": "server.jar"
     },
     "flags": {
-        "type": z.nativeEnum(Object.keys(flags)),
-        "default": "aikars"
+        "type": z.nativeEnum(Object.keys(flags)) // todo: types
     },
     "extraFlags": {
-        "type": z.array(z.nativeEnum(Object.keys(extraFlags))),
-        "default": ["vectors"]
+        "type": z.array(z.nativeEnum(Object.keys(extraFlags))) // todo: types
     },
     "memory": {
         "type": z.number().min(2).max(16),
@@ -43,3 +47,18 @@ export const config: Config = {
         "default": false
     }
 };
+
+export function getDefaults() {
+    const defaultConfig: DefaultConfig = {};
+    for (const [key, value] of Object.entries(config)) {
+        defaultConfig[key] = value.default;
+    }
+
+    const selectedServerType = serverType[defaultServerType];
+    defaultConfig.operatingSystem = defaultOperatingSystem;
+    defaultConfig.serverType = defaultServerType;
+    defaultConfig.flags = selectedServerType.default.flags;
+    defaultConfig.extraFlags = selectedServerType.default.extraFlags;
+
+    return defaultConfig;
+}

@@ -1,9 +1,9 @@
 import type { AvailableConfig } from "~/data/config";
 import type { AvailableFlags, AvailableExtraFlags } from "~/data/flags";
 import { component$, Resource, useResource$, useStore, useTask$ } from "@builder.io/qwik";
-import { defaultOperatingSystem, operatingSystem } from "~/data/environment/operatingSystem";
-import { defaultServerType, serverType } from "~/data/environment/serverType";
-import { config } from "~/data/config";
+import { operatingSystem } from "~/data/environment/operatingSystem";
+import { serverType } from "~/data/environment/serverType";
+import { config, getDefaults } from "~/data/config";
 import { $translate as t, Speak } from "qwik-speak";
 import { ChangeLocale } from "~/component/change-locale/change-locale";
 import { ChangeColorScheme } from "~/component/change-color-scheme/change-color-scheme";
@@ -16,7 +16,7 @@ import { AutoRestart } from "~/component/config/auto-restart/auto-restart";
 import { ExtraFlags } from "~/component/config/extra-flags/extra-flags";
 import { Variables } from "~/component/config/variables/variables";
 import { Config } from "~/component/config/config/config";
-import { extraFlags, flags } from "~/data/flags";
+import { extraFlags } from "~/data/flags";
 
 interface State {
     "availableConfig": AvailableConfig[],
@@ -38,10 +38,7 @@ export default component$(() => {
         "generate": false // hacky workaround
     });
 
-    const setConfig = useStore<SetConfigState>({
-        "operatingSystem": defaultOperatingSystem,
-        "serverType": defaultServerType
-    });
+    const setConfig = useStore<SetConfigState>(getDefaults());
 
     const generate = useResource$<string>(async ({ track, cleanup }) => {
         track(() => state.generate); // hacky workaround
@@ -52,13 +49,13 @@ export default component$(() => {
             abortController.abort("cleanup");
         });
 
-        const url = new URL("/api/v1/generate", "https://flags-sh.pages.dev"); // hacky workaround
+        const url = new URL("/api/v1/generate", import.meta.env.DEV ? "http://localhost:5173" : "https://flags-sh.pages.dev"); // hacky workaround
         for (const [key, value] of Object.entries(selectedConfig)) {
-            if (!state.availableConfig.includes(key) && key !== "operatingSystem" && key !== "serverType" && key !== "flags" && key !== "extraFlags") { // todo: mess
+            if (key !== "operatingSystem" && key !== "serverType" && !state.availableConfig.includes(key)) {
                 continue;
             }
 
-            url.searchParams.set(key, value);
+            url.searchParams.set(key, JSON.stringify(value));
         }
 
         const response = await fetch(url.href, {
@@ -66,7 +63,6 @@ export default component$(() => {
         });
 
         const data = await response.json();
-
         return data.result;
     });
 
@@ -91,25 +87,20 @@ export default component$(() => {
             availableConfig.push(key);
         }
 
-        const availableFlags: AvailableFlags[] = [];
-        for (const [key, value] of Object.entries(flags)) {
-            if (!selectedServerType.flags.includes(key)) {
-                continue;
-            }
-
-            availableFlags.push(key);
-        }
-
         state.availableConfig = availableConfig;
-        state.availableFlags = availableFlags;
+        state.availableFlags = selectedServerType.flags;
+        setConfig.flags = selectedServerType.default.flags;
+        setConfig.extraFlags = selectedServerType.default.extraFlags;
     });
 
     useTask$(({ track }) => {
-        const flags = track(() => setConfig.flags);
+        const setFlags = track(() => setConfig.flags);
+        const setServerType = track(() => setConfig.serverType);
+        const selectedServerType = serverType[setServerType];
 
         const availableExtraFlags: AvailableExtraFlags[] = [];
         for (const [key, value] of Object.entries(extraFlags)) {
-            if (!value.supports.includes(flags)) {
+            if (!value.supports.includes(setFlags) || !selectedServerType.extraFlags?.includes(key)) {
                 continue;
             }
 
@@ -151,29 +142,37 @@ export default component$(() => {
                     <div>
                         <h2>{t("panel.config.label")}</h2>
                         <div>
-                            <FileName onChange$={event => {
+                            <FileName value={setConfig.fileName} onChange$={event => {
                                 setConfig.fileName = event.target.value;
                             }} />
-                            <Memory onChange$={event => {
+                            <Memory value={setConfig.memory} onChange$={event => {
                                 setConfig.memory = event.target.value;
                             }} />
                         </div>
                         <div>
-                            <Flags availableFlags={state.availableFlags} onChange$={event => {
+                            <Flags value={setConfig.flags} availableFlags={state.availableFlags} onChange$={event => {
+                                if (!event.target.value) {
+                                    return;
+                                }
+
                                 setConfig.flags = event.target.value;
                             }} />
-                            <ExtraFlags visible={state.availableExtraFlags.length > 0} availableExtraFlags={state.availableExtraFlags} onChange$={event => {
+                            <ExtraFlags value={setConfig.extraFlags} visible={state.availableExtraFlags.length > 0} availableExtraFlags={state.availableExtraFlags} onChange$={event => {
+                                if (!event.target.value) {
+                                    return;
+                                }
+
                                 setConfig.extraFlags = event.target.value;
                             }} />
                         </div>
                         <div>
-                            <Gui visible={state.availableConfig.includes("gui")} onChange$={event => {
+                            <Gui visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={event => {
                                 setConfig.gui = event.target.value;
                             }} />
-                            <AutoRestart visible={state.availableConfig.includes("autoRestart")} onChange$={event => {
+                            <AutoRestart visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
                                 setConfig.autoRestart = event.target.value;
                             }} />
-                            <Variables visible={state.availableConfig.includes("variables")} onChange$={event => {
+                            <Variables visible={state.availableConfig.includes("variables")} value={setConfig.autoRestart} onChange$={event => {
                                 setConfig.variables = event.target.value;
                             }} />
                         </div>

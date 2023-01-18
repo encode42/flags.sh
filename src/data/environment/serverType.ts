@@ -28,6 +28,9 @@ export const serverType: EnvironmentOptions<ServerTypeOption> = {
         "flags": [
             ...sharedFlags.bukkit
         ],
+        "default": {
+            "flags": "aikars"
+        },
         "config": [
             ...sharedConfig,
             "gui"
@@ -38,11 +41,16 @@ export const serverType: EnvironmentOptions<ServerTypeOption> = {
         "flags": [
             ...sharedFlags.bukkit
         ],
+        "default": {
+            "flags": "aikars",
+            "extraFlags": ["vectors"]
+        },
         "extraFlags": [
             "vectors"
         ],
         "config": [
             ...sharedConfig,
+            "extraFlags",
             "gui"
         ]
     },
@@ -51,12 +59,18 @@ export const serverType: EnvironmentOptions<ServerTypeOption> = {
         "flags": [
             ...sharedFlags.proxy
         ],
+        "default": {
+            "flags": "proxy"
+        },
         "config": [
             ...sharedConfig
         ]
     },
     "waterfall": {
         "icon": "IconNetwork",
+        "default": {
+            "flags": "proxy"
+        },
         "flags": [
             ...sharedFlags.proxy
         ],

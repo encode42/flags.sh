@@ -7,6 +7,7 @@ export type AvailableOperatingSystem = keyof typeof operatingSystem;
 const sharedConfig: AvailableConfig[] = [
     "fileName",
     "flags",
+    "extraFlags",
     "memory"
 ];
 
@@ -36,11 +37,10 @@ function getJava(config: Record<AvailableConfig | "existingFlags", any>): string
         config.fileName,
     ];
 
-    if (!config.gui) {
+    // GUI variable is supported
+    if ("gui" in config && !config.gui) {
         base.push("--nogui");
     }
-
-    // todo: verify valid config options (unsupported gui, unsupported flags, etc.)
 
     return base.join(" ");
 }

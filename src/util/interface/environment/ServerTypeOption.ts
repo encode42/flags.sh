@@ -6,5 +6,9 @@ import type { Generate } from "~/util/interface/generate/Generate";
 export interface ServerTypeOption extends EnvironmentOption {
     "flags": AvailableFlags[],
     "extraFlags"?: AvailableExtraFlags[],
+    "default": {
+        "flags": AvailableFlags,
+        "extraFlags"?: AvailableExtraFlags[]
+    },
     "generate"?: Generate<AvailableServerType | "existingFlags">
 }

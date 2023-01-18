@@ -9,6 +9,10 @@ export interface SharedConfigProps<T extends HTMLElement | unknown> {
     "visible"?: boolean
 }
 
+export interface SharedInputConfigProps extends SharedConfigProps<HTMLInputElement> {
+    "value": HTMLAttributes<HTMLInputElement>["value"];
+}
+
 export interface ConfigProps extends LabelDescriptionProps, SharedConfigProps<unknown> {}
 
 export const Config = component$(({ visible = true, ...other }: ConfigProps) => {

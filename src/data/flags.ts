@@ -47,11 +47,6 @@ const baseAikar = [
 ];
 
 export const flags: Flags = {
-    "none": {
-        "generate": () => {
-            return [];
-        }
-    },
     "aikars": {
         "generate": ({ memory }) => {
             return [
@@ -80,6 +75,11 @@ export const flags: Flags = {
                 "-XX:+AlwaysPreTouch",
                 "-XX:MaxInlineLevel=15"
             ];
+        }
+    },
+    "none": {
+        "generate": () => {
+            return [];
         }
     }
 };
