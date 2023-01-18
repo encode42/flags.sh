@@ -4,8 +4,7 @@ import { RouterHead } from "~/component/routerHead/routerHead";
 import { QwikSpeak } from "qwik-speak";
 import { config, translationFn } from "~/speak-config";
 
-import "modern-normalize";
-//import "water.css";
+import "./global.css";
 
 export default component$(() => {
     return (

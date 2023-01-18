@@ -6,7 +6,9 @@ import { $translate as t } from "qwik-speak";
 export const Memory = component$(({ value, onChange$, ...other }: SharedInputConfigProps) => {
     return (
         <LabelDescription label={t("panel.memory.label")} description={t("panel.memory.description")} {...other}>
-            <input type="range" min={2} max={16} value={value} onChange$={onChange$} />
+            <div class="tooltip" data-tip={`${value} GB`}>
+                <input type="range" className="range" min={2} max={16} step={1.5} value={value} onChange$={onChange$} />
+            </div>
         </LabelDescription>
     );
 });

@@ -9,7 +9,7 @@ export const ChangeColorScheme = component$(() => {
     return (
         <label>
             <p>{t("app.colorScheme.label")}</p>
-            <select onChange$={async event => {
+            <select class="select select-bordered" onChange$={async event => {
                 await fetch("/api/v1/colorScheme", {
                     "method": "put",
                     "body": event.target.value

@@ -95,7 +95,9 @@ export default component$(() => {
 
     return (
         <ColorScheme colorScheme={colorScheme.value}>
-            <Slot />
+            <div class="prose prose-neutral container mx-auto">
+                <Slot />
+            </div>
         </ColorScheme>
     );
 });

@@ -121,7 +121,7 @@ export default component$(() => {
                     <div>
                         <h2>{t("panel.environment.label")}</h2>
                         <Config label={t("panel.operatingSystem.label")} description={t("panel.operatingSystem.description")}>
-                            <select onChange$={event => {
+                            <select class="select select-bordered" onChange$={event => {
                                 setConfig.operatingSystem = event.target.value;
                             }}>
                                 {Object.keys(operatingSystem).map(key => (
@@ -130,7 +130,7 @@ export default component$(() => {
                             </select>
                         </Config>
                         <Config label={t("panel.serverType.label")} description={t("panel.serverType.description")}>
-                            <select onChange$={event => {
+                            <select class="select select-bordered" onChange$={event => {
                                 setConfig.serverType = event.target.value;
                             }}>
                                 {Object.keys(serverType).map(key => (
@@ -179,14 +179,18 @@ export default component$(() => {
                     </div>
                     <div>
                         <h2>{t("panel.script.label")}</h2>
-                        <Resource value={generate} onPending={() => <div>Loading...</div>} onResolved={result => <p>{result}</p>} />
-                        <button onClick$={() => {
+                        <div class="mockup-code">
+                            <Resource value={generate} onResolved={result => <pre>{result}</pre>} />
+                        </div>
+                        <button class="btn btn-primary" onClick$={() => {
                             state.generate = !state.generate; // hacky workaround
-                        }}>run</button>
+                        }}>
+                            Generate
+                        </button>
                     </div>
                 </div>
                 <div>
-                    <button onClick$={() => {
+                    <button class="btn btn-outline" onClick$={() => {
                         state.advanced = !state.advanced;
                     }}>
                         {t("panel.advanced")}
