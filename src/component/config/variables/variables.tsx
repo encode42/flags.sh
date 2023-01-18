@@ -6,7 +6,7 @@ import { Config } from "~/component/config/config/config";
 export const Variables = component$(({ value, onChange$, ...other }: SharedInputConfigProps) => {
     return (
         <Config label={t("panel.variables.label")} description={t("panel.variables.description")} {...other}>
-            <input type="checkbox" value={value} onChange$={onChange$} />
+            <input type="checkbox" checked={value} onChange$={onChange$} />
         </Config>
     );
 });
