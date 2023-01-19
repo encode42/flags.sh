@@ -21,7 +21,6 @@
     "@builder.io/qwik": "0.16.2",
     "@builder.io/qwik-city": "0.1.0-beta9",
     "@fontsource/montserrat": "^4.5.13",
-    "@tabler/icons": "^1.119.0",
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "10.4.11",
     "daisyui": "^2.47.0",
@@ -29,6 +28,7 @@
     "node-fetch": "3.3.0",
     "open-color": "^1.9.1",
     "postcss": "^8.4.16",
+    "prism-themes": "^1.9.0",
     "prismjs": "^1.29.0",
     "qwik-speak": "^0.5.0",
     "sass": "^1.57.1",
@@ -40,7 +40,6 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@encode42/tabler-icons-types": "^1.119.0",
     "@types/node": "^18.11.18",
     "@types/node-fetch": "^2.6.2",
     "@types/prismjs": "^1.26.0",

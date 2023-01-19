@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "Courier Prime";
+    src: url("/asset/font/courier-prime.woff2") format("woff2");
+    font-weight: bold;
+    font-style: normal;
+}

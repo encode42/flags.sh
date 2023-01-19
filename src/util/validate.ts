@@ -16,7 +16,10 @@ const serverTypeKeys = Object.keys(serverType);
 
 const BaseConfigValidation = z.object({
     "operatingSystem": z.enum(operatingSystemKeys).default(defaultOperatingSystem), // todo: types
-    "serverType": z.enum(serverTypeKeys).default(defaultServerType) // todo: types
+    "serverType": z.enum(serverTypeKeys).default(defaultServerType), // todo: types
+    "withHTML": z.boolean().default(false),
+    "withFlags": z.boolean().default(true),
+    "withResult": z.boolean().default(true)
 });
 
 export function generateConfigSchema(query: URLSearchParams, json: RequestEvent["json"]) {

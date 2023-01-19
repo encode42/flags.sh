@@ -5,6 +5,14 @@ import { extraFlags, flags } from "~/data/flags";
 import { serverType } from "~/data/environment/serverType";
 import { operatingSystem } from "~/data/environment/operatingSystem";
 import { generateConfigSchema } from "~/util/validate";
+import { highlight, languages } from "prismjs";
+
+interface GenerateResult {
+    "result"?: string,
+    "html"?: string,
+    "flags"?: string[]
+}
+
 
 export const onGet: RequestHandler<GenerateOperatingSystemResult> = async ({ query, json }) => {
     const parsed = parseQuery(generateConfigSchema(query, json), query, json);
@@ -36,8 +44,19 @@ export const onGet: RequestHandler<GenerateOperatingSystemResult> = async ({ que
         "existingFlags": generatedFlags
     }) ?? generatedFlags;
 
-    json(200, {
-        "result": result.result,
-        "flags": result.flags
-    });
+    const data: GenerateResult = {};
+
+    if (parsed.withResult) {
+        data.result = result.result;
+    }
+
+    if (parsed.withFlags) {
+        data.flags = result.flags;
+    }
+
+    if (parsed.withHTML) {
+        data.html = highlight(result.result, languages.javascript, "javascript");
+    }
+
+    json(200, data);
 };

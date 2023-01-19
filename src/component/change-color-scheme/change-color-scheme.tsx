@@ -7,8 +7,10 @@ export const ChangeColorScheme = component$(() => {
     const userColorScheme = useColorScheme();
 
     return (
-        <label>
-            <p>{t("app.colorScheme.label")}</p>
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">{t("app.colorScheme.label")}</span>
+            </label>
             <select class="select select-bordered" onChange$={async event => {
                 await fetch("/api/v1/colorScheme", {
                     "method": "put",
@@ -21,6 +23,6 @@ export const ChangeColorScheme = component$(() => {
                     <option key={colorScheme} value={colorScheme} selected={colorScheme === userColorScheme}>{t(`app.colorScheme.${colorScheme}`)}</option>
                 ))}
             </select>
-        </label>
+        </div>
     );
 });

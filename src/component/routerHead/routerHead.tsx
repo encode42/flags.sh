@@ -11,7 +11,17 @@ export const RouterHead = component$(() => {
             <title>{head.title}</title>
             <link rel="canonical" href={loc.href} />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+            {/* Favicon */}
+            <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+            <link rel="shortcut icon" href="/favicon/favicon.ico" />
+            <link rel="manifest" href="/favicon/site.webmanifest" />
+            <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+            <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#69db7c" />
+            <meta name="msapplication-TileColor" content="#00a300" />
+            <meta name="theme-color" content="#69db7c" />
+
             {head.meta.map(meta => (
                 <meta key={meta.key} name={meta.name} content={meta.name === "description" && meta.content ? t(meta.content) : meta.content} />
             ))}

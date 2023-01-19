@@ -18,6 +18,8 @@ import { Variables } from "~/component/config/variables/variables";
 import { Config } from "~/component/config/config/config";
 import { extraFlags } from "~/data/flags";
 
+import "prism-themes/themes/prism-vsc-dark-plus.min.css";
+
 interface State {
     "availableConfig": AvailableConfig[],
     "availableFlags": AvailableFlags[],
@@ -58,12 +60,14 @@ export default component$(() => {
             url.searchParams.set(key, JSON.stringify(value));
         }
 
+        url.searchParams.set("withHTML", "true");
+
         const response = await fetch(url.href, {
             "signal": abortController.signal
         });
 
         const data = await response.json();
-        return data.result;
+        return data.html;
     });
 
     useTask$(({ track }) => {
@@ -114,73 +118,103 @@ export default component$(() => {
         <Speak assets={["panel"]}>
             <Layout>
                 <div>
-                    <h1>flags.sh</h1>
+                    <div class="flex items-center gap-6 h-24">
+                        <img src="/asset/logo.png" class="mt-0 mb-0" style={{
+                            "minHeight": 0,
+                            "height": "100%"
+                        }} />
+                        <h1 class="mb-0 flex-grow" style={{
+                            "fontFamily": "Courier Prime",
+                            "fontWeight": "bold",
+                            "fontSize": "100%"
+                        }}>flags.sh</h1>
+                    </div>
                     <h3>{t("app.description")}</h3>
                 </div>
                 <div>
                     <div>
                         <h2>{t("panel.environment.label")}</h2>
-                        <Config label={t("panel.operatingSystem.label")} description={t("panel.operatingSystem.description")}>
-                            <select class="select select-bordered" onChange$={event => {
-                                setConfig.operatingSystem = event.target.value;
-                            }}>
-                                {Object.keys(operatingSystem).map(key => (
-                                    <option key={key} value={key}>{t(`panel.operatingSystem.${key}`)}</option>
-                                ))}
-                            </select>
-                        </Config>
-                        <Config label={t("panel.serverType.label")} description={t("panel.serverType.description")}>
-                            <select class="select select-bordered" onChange$={event => {
-                                setConfig.serverType = event.target.value;
-                            }}>
-                                {Object.keys(serverType).map(key => (
-                                    <option key={key} value={key}>{t(`panel.serverType.${key}`)}</option>
-                                ))}
-                            </select>
-                        </Config>
+                        <p>{t("panel.environment.description")}</p>
+                        <div class="flex gap-6">
+                            <Config class="flex-1" label={t("panel.operatingSystem.label")} description={t("panel.operatingSystem.description")}>
+                                <select class="select select-bordered" onChange$={event => {
+                                    setConfig.operatingSystem = event.target.value;
+                                }}>
+                                    {Object.keys(operatingSystem).map(key => (
+                                        <option key={key} value={key}>{t(`panel.operatingSystem.${key}`)}</option>
+                                    ))}
+                                </select>
+                            </Config>
+                            <Config class="flex-1" label={t("panel.serverType.label")} description={t("panel.serverType.description")}>
+                                <select class="select select-bordered" onChange$={event => {
+                                    setConfig.serverType = event.target.value;
+                                }}>
+                                    {Object.keys(serverType).map(key => (
+                                        <option key={key} value={key}>{t(`panel.serverType.${key}`)}</option>
+                                    ))}
+                                </select>
+                            </Config>
+                        </div>
                     </div>
                     <div>
                         <h2>{t("panel.config.label")}</h2>
-                        <div>
-                            <FileName value={setConfig.fileName} onChange$={event => {
+                        <p>{t("panel.config.description")}</p>
+                        <div class="flex gap-6">
+                            <FileName class="flex-1" value={setConfig.fileName} onChange$={event => {
                                 setConfig.fileName = event.target.value;
                             }} />
-                            <Memory value={setConfig.memory} onChange$={event => {
-                                setConfig.memory = Number.parseInt(event.target.value);
-                            }} />
-                        </div>
-                        <div>
-                            <Flags value={setConfig.flags} availableFlags={state.availableFlags} onChange$={event => {
+                            <Flags class="flex-1" value={setConfig.flags} availableFlags={state.availableFlags} onChange$={event => {
                                 if (!event.target.value) {
                                     return;
                                 }
 
                                 setConfig.flags = event.target.value;
                             }} />
-                            <ExtraFlags value={setConfig.extraFlags} visible={state.availableExtraFlags.length > 0} availableExtraFlags={state.availableExtraFlags} onChange$={event => {
-                                if (!event.target.value) {
-                                    return;
-                                }
-
-                                setConfig.extraFlags = event.target.value;
-                            }} />
                         </div>
-                        <div>
-                            <Gui visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={event => {
+                        <ExtraFlags value={setConfig.extraFlags} visible={state.availableExtraFlags.length > 0} availableExtraFlags={state.availableExtraFlags} onChange$={event => {
+                            if (!event.target.value) {
+                                return;
+                            }
+
+                            setConfig.extraFlags = event.target.value;
+                        }} />
+                        <Memory class="flex-1" value={setConfig.memory} onChange$={event => {
+                            setConfig.memory = Number.parseInt(event.target.value);
+                        }} />
+                        <div class="flex gap-6">
+                            <Gui class="flex-1" visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={event => {
                                 setConfig.gui = event.target.checked;
                             }} />
-                            <AutoRestart visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
+                            <AutoRestart class="flex-1" visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
                                 setConfig.autoRestart = event.target.checked;
                             }} />
-                            <Variables visible={state.availableConfig.includes("variables")} value={setConfig.autoRestart} onChange$={event => {
+                            <Variables class="flex-1" visible={state.availableConfig.includes("variables")} value={setConfig.autoRestart} onChange$={event => {
                                 setConfig.variables = event.target.checked;
                             }} />
+                        </div>
+                        <div class="form-control">
+                            <label className="input-group">
+                                <span>{t("panel.advanced")}</span>
+                                <input type="checkbox" className="checkbox" onChange$={event => {
+                                    state.advanced = event.target.checked;
+                                }} />
+                            </label>
                         </div>
                     </div>
                     <div>
                         <h2>{t("panel.script.label")}</h2>
-                        <div class="mockup-code">
-                            <Resource value={generate} onResolved={result => <pre>{result}</pre>} />
+                        <p>{t("panel.script.description")}</p>
+                        <div class="mockup-code line-numbers">
+                            <pre class="language-javascript" style={{
+                                "whiteSpace": "pre-line"
+                            }}>
+                                <Resource value={generate} onResolved={result => <code dangerouslySetInnerHTML={result} />} />
+                            </pre>
+                        </div>
+                        <div class="flex gap-6">
+                            <button className="btn btn-primary flex-1">Download</button>
+                            <button class="btn btn-primary btn-outline flex-1">Copy</button>
+                            <button className="btn btn-primary btn-outline flex-1">Share</button>
                         </div>
                         <button class="btn btn-primary" onClick$={() => {
                             state.generate = !state.generate; // hacky workaround
@@ -188,13 +222,6 @@ export default component$(() => {
                             Generate
                         </button>
                     </div>
-                </div>
-                <div>
-                    <button class="btn btn-outline" onClick$={() => {
-                        state.advanced = !state.advanced;
-                    }}>
-                        {t("panel.advanced")}
-                    </button>
                 </div>
                 <div>
                     <ChangeColorScheme />

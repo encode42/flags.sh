@@ -18,8 +18,10 @@ export interface ConfigProps extends LabelDescriptionProps, SharedConfigProps<un
 export const Config = component$(({ visible = true, ...other }: ConfigProps) => {
     useStyles$(styles);
 
+    other.class = `${other.class} ${visible ? undefined : "configHidden"}`;
+
     return (
-        <LabelDescription class={visible ? undefined : "configHidden"} {...other}>
+        <LabelDescription {...other}>
             <Slot />
         </LabelDescription>
     );

@@ -3,9 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@builder.io/qwik': 0.16.2
   '@builder.io/qwik-city': 0.1.0-beta9
-  '@encode42/tabler-icons-types': ^1.119.0
   '@fontsource/montserrat': ^4.5.13
-  '@tabler/icons': ^1.119.0
   '@tailwindcss/typography': ^0.5.9
   '@types/node': ^18.11.18
   '@types/node-fetch': ^2.6.2
@@ -27,6 +25,7 @@ specifiers:
   node-fetch: 3.3.0
   open-color: ^1.9.1
   postcss: ^8.4.16
+  prism-themes: ^1.9.0
   prismjs: ^1.29.0
   qwik-speak: ^0.5.0
   sass: ^1.57.1
@@ -42,7 +41,6 @@ dependencies:
   '@builder.io/qwik': 0.16.2_undici@5.15.0
   '@builder.io/qwik-city': 0.1.0-beta9_@builder.io+qwik@0.16.2
   '@fontsource/montserrat': 4.5.13
-  '@tabler/icons': 1.119.0
   '@tailwindcss/typography': 0.5.9_tailwindcss@3.2.4
   autoprefixer: 10.4.11_postcss@8.4.21
   daisyui: 2.47.0_eobrwejag6ftkbgymwktheeika
@@ -50,6 +48,7 @@ dependencies:
   node-fetch: 3.3.0
   open-color: 1.9.1
   postcss: 8.4.21
+  prism-themes: 1.9.0
   prismjs: 1.29.0
   qwik-speak: 0.5.0_@builder.io+qwik@0.16.2
   sass: 1.57.1
@@ -61,7 +60,6 @@ dependencies:
   zod: 3.20.2
 
 devDependencies:
-  '@encode42/tabler-icons-types': 1.119.0
   '@types/node': 18.11.18
   '@types/node-fetch': 2.6.2
   '@types/prismjs': 1.26.0
@@ -136,10 +134,6 @@ packages:
     resolution: {integrity: sha512-MVbXLbTcAotOPUj0pAMhVtJ+3/kFkwJqc5qNOleOZTv6QkZZABDMS21dSrSlVswEHwrpWC03e4fWytjqKvuE2A==}
     dependencies:
       mime: 3.0.0
-    dev: true
-
-  /@encode42/tabler-icons-types/1.119.0:
-    resolution: {integrity: sha512-RL2XXQ57xCC26I2/hAH2n1Oj8zWJRqmK5q19+7cr65Dsg9A8KcWbc+Dtz/ZDyu/NDf8XlNs72KdIYxvwf7IHgg==}
     dev: true
 
   /@esbuild-kit/cjs-loader/2.4.1:
@@ -677,18 +671,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
-
-  /@tabler/icons/1.119.0:
-    resolution: {integrity: sha512-Fk3Qq4w2SXcTjc/n1cuL5bccPkylrOMo7cYpQIf/yw6zP76LQV9dtLcHQUjFiUnaYuswR645CnURIhlafyAh9g==}
-    peerDependencies:
-      react: ^16.x || 17.x || 18.x
-      react-dom: ^16.x || 17.x || 18.x
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dev: false
 
   /@tailwindcss/typography/0.5.9_tailwindcss@3.2.4:
     resolution: {integrity: sha512-t8Sg3DyynFysV9f4JDOVISGsjazNb48AeIYQwcL+Bsq5uf4RYL75C1giZ43KISjeDGBaTN3Kxh7Xj/vRSMJUUg==}
@@ -3858,6 +3840,10 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
     dev: true
+
+  /prism-themes/1.9.0:
+    resolution: {integrity: sha512-tX2AYsehKDw1EORwBps+WhBFKc2kxfoFpQAjxBndbZKr4fRmMkv47XN0BghC/K1qwodB1otbe4oF23vUTFDokw==}
+    dev: false
 
   /prismjs/1.29.0:
     resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}

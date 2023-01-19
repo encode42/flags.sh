@@ -7,7 +7,7 @@
 [Weblate]: https://hosted.weblate.org/projects/flags-sh/
 [Weblate Badge]: https://img.shields.io/weblate/progress/flags-sh?server=https%3A%2F%2Fhosted.weblate.org&color=2ECCAA&labelColor=2ECCAA&logo=weblate&logoColor=white&label=​&style=flat-square
 
-<img alt="Badge icon" src=".github/assets/badge.svg" align="left">
+<img alt="Badge icon" src=".github/assets/badge.png" align="left">
 
 <div align="right">
 

@@ -14,5 +14,9 @@ export const ColorScheme = component$(({ colorScheme }: ColorSchemeProps) => {
 
     useContextProvider(ColorSchemeContext, state);
 
-    return <Slot />;
+    return (
+        <div data-theme={colorScheme}>
+            <Slot />
+        </div>
+    );
 });
