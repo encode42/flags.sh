@@ -54,7 +54,11 @@
         },
         "memory": {
             "label": "Pamięć",
-            "description": "Ilość pamięci (RAM), która ma być przydzielona do Twojego serwera."
+            "description": "Ilość pamięci (RAM), która ma być przydzielona do Twojego serwera.",
+            "warning": {
+                "low": "It's recommended to allocate more memory to your server.",
+                "high": "It's recommended to allocate less memory to your server."
+            }
         },
         "gui": {
             "label": "Użyj GUI",

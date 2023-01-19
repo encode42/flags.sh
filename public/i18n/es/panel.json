@@ -10,7 +10,7 @@
         },
         "operatingSystem": {
             "label": "Sistema Operativo",
-            "description": "El sistema operativo que el servidor ejecuta en.",
+            "description": "El sistema operativo en que el servidor ejecuta.",
             "linux": "Linux",
             "windows": "Windows",
             "pterodactyl": "Pterodactyl",
@@ -54,7 +54,11 @@
         },
         "memory": {
             "label": "Memoria",
-            "description": "La cantidad de memoria (RAM) para asignar a tu servidor."
+            "description": "La cantidad de memoria (RAM) para asignar a tu servidor.",
+            "warning": {
+                "low": "It's recommended to allocate more memory to your server.",
+                "high": "It's recommended to allocate less memory to your server."
+            }
         },
         "gui": {
             "label": "Usar GUI",
