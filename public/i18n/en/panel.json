@@ -56,8 +56,8 @@
             "label": "Memory",
             "description": "The amount of memory (RAM) to allocate to your server.",
             "warning": {
-                "low": "It's recommended to allocate more memory to your server.",
-                "high": "It's recommended to allocate less memory to your server."
+                "low": "It's recommended to increase the amount of memory allocated to the server.",
+                "high": "It's recommended to decrease the amount of memory allocated to the server."
             }
         },
         "gui": {
