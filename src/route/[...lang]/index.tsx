@@ -188,7 +188,7 @@ export default component$(() => {
                             <AutoRestart class="flex-1" visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
                                 setConfig.autoRestart = event.target.checked;
                             }} />
-                            <Variables class="flex-1" visible={state.availableConfig.includes("variables")} value={setConfig.autoRestart} onChange$={event => {
+                            <Variables class="flex-1" visible={state.availableConfig.includes("variables")} value={setConfig.variables} onChange$={event => {
                                 setConfig.variables = event.target.checked;
                             }} />
                         </div>
