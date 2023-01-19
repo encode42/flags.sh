@@ -212,9 +212,9 @@ export default component$(() => {
                             </pre>
                         </div>
                         <div class="flex gap-6">
-                            <button className="btn btn-primary flex-1">Download</button>
-                            <button class="btn btn-primary btn-outline flex-1">Copy</button>
-                            <button className="btn btn-primary btn-outline flex-1">Share</button>
+                            <button className="btn btn-primary flex-1">{t("panel.download")}</button>
+                            <button class="btn btn-primary btn-outline flex-1">{t("panel.copy")}</button>
+                            <button className="btn btn-primary btn-outline flex-1">{t("panel.share")}</button>
                         </div>
                         <button class="btn btn-primary" onClick$={() => {
                             state.generate = !state.generate; // hacky workaround
