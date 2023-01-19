@@ -54,7 +54,11 @@
         },
         "memory": {
             "label": "Arbeitsspeicher",
-            "description": "Die Menge an Arbeitsspeicher (RAM), der deinem Server zugewiesen werden soll."
+            "description": "Die Menge an Arbeitsspeicher (RAM), der deinem Server zugewiesen werden soll.",
+            "warning": {
+                "low": "It's recommended to allocate more memory to your server.",
+                "high": "It's recommended to allocate less memory to your server."
+            }
         },
         "gui": {
             "label": "GUI benutzen",

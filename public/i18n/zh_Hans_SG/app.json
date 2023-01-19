@@ -1,0 +1,15 @@
+{
+    "app": {
+        "description": "A simple script generator to start your Minecraft servers with optimal flags.",
+        "changeLocale": "Change Locale",
+        "colorScheme": {
+            "label": "配色方案",
+            "dark": "黑暗",
+            "light": "光",
+            "system": "System"
+        },
+        "support": "Support community",
+        "source": "Source code",
+        "about": "关于"
+    }
+}
