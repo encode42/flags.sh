@@ -101,11 +101,3 @@ export default component$(() => {
         </ColorScheme>
     );
 });
-
-export const head: DocumentHead = {
-    "title": "flags.sh",
-    "meta": [{
-        "name": "description",
-        "content": "app.description"
-    }]
-};

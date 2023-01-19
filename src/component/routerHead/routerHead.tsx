@@ -22,8 +22,14 @@ export const RouterHead = component$(() => {
             <meta name="msapplication-TileColor" content="#00a300" />
             <meta name="theme-color" content="#69db7c" />
 
+            {/* og tags */}
+            <meta name="description" content={t("description")} />
+            <meta property="og:url" content="https://flags-sh.pages.dev/asset/logo.png" />
+            <meta property="og:image" content="https://flags-sh.pages.dev/asset/logo.png" />
+            <meta name="twitter:card" content="summary" />
+
             {head.meta.map(meta => (
-                <meta key={meta.key} name={meta.name} content={meta.name === "description" && meta.content ? t(meta.content) : meta.content} />
+                <meta key={meta.key} name={meta.name} content={meta.content} />
             ))}
             {head.links.map(link => (
                 <link key={link.key} {...link} />
