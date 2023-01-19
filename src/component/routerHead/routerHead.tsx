@@ -8,7 +8,7 @@ export const RouterHead = component$(() => {
 
     return (
         <>
-            <title>{head.title}</title>
+            <title>{head.title || "flags.sh"}</title>
             <link rel="canonical" href={loc.href} />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -23,8 +23,8 @@ export const RouterHead = component$(() => {
             <meta name="theme-color" content="#69db7c" />
 
             {/* og tags */}
-            <meta name="description" content={t("description")} />
-            <meta property="og:url" content="https://flags-sh.pages.dev/asset/logo.png" />
+            <meta name="description" content={t("app.description")} />
+            <meta property="og:url" content="https://flags-sh.pages.dev/" />
             <meta property="og:image" content="https://flags-sh.pages.dev/asset/logo.png" />
             <meta name="twitter:card" content="summary" />
 
