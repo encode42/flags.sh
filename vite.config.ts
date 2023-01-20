@@ -20,6 +20,7 @@ export default defineConfig(() => {
             }),
             tsconfigPaths()
         ],
+        "clearScreen": false,
         "preview": {
             "headers": {
                 "Cache-Control": "public, max-age=600"

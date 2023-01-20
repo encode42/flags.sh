@@ -17,8 +17,8 @@ import { ExtraFlags } from "~/component/config/extra-flags/extra-flags";
 import { Variables } from "~/component/config/variables/variables";
 import { Config } from "~/component/config/config/config";
 import { extraFlags } from "~/data/flags";
-
-import "prism-themes/themes/prism-vsc-dark-plus.min.css";
+import { highlightText } from "@speed-highlight/core";
+import { showSaveFilePicker } from "native-file-system-adapter";
 
 interface State {
     "availableConfig": AvailableConfig[],
@@ -42,7 +42,7 @@ export default component$(() => {
 
     const setConfig = useStore<SetConfigState>(getDefaults());
 
-    const generate = useResource$<string>(async ({ track, cleanup }) => {
+    const generate = useResource$<{ "html": string, "result": string }>(async ({ track, cleanup }) => {
         track(() => state.generate); // hacky workaround
         const selectedConfig = track(() => setConfig);
 
@@ -60,14 +60,17 @@ export default component$(() => {
             url.searchParams.set(key, JSON.stringify(value));
         }
 
-        url.searchParams.set("withHTML", "true");
+        url.searchParams.set("withFlags", "false");
 
         const response = await fetch(url.href, {
             "signal": abortController.signal
         });
 
         const data = await response.json();
-        return data.html;
+        return {
+            "html": await highlightText(data.result, "bash", true),
+            "result": data.result
+        };
     });
 
     useTask$(({ track }) => {
@@ -193,9 +196,9 @@ export default component$(() => {
                             }} />
                         </div>
                         <div class="form-control">
-                            <label className="input-group">
+                            <label class="input-group">
                                 <span>{t("panel.advanced")}</span>
-                                <input type="checkbox" className="checkbox" onChange$={event => {
+                                <input type="checkbox" class="checkbox" onChange$={event => {
                                     state.advanced = event.target.checked;
                                 }} />
                             </label>
@@ -204,17 +207,37 @@ export default component$(() => {
                     <div>
                         <h2>{t("panel.script.label")}</h2>
                         <p>{t("panel.script.description")}</p>
-                        <div class="mockup-code line-numbers">
-                            <pre class="language-javascript" style={{
-                                "whiteSpace": "pre-line"
-                            }}>
-                                <Resource value={generate} onResolved={result => <code dangerouslySetInnerHTML={result} />} />
-                            </pre>
-                        </div>
+                        <Resource value={generate} onResolved={result => <div class="shj-lang-bash shj-multiline" style={{ "whiteSpace": "pre-line" }} dangerouslySetInnerHTML={result.html} />} />
                         <div class="flex gap-6">
-                            <button className="btn btn-primary flex-1">{t("panel.download")}</button>
-                            <button class="btn btn-primary btn-outline flex-1">{t("panel.copy")}</button>
-                            <button className="btn btn-primary btn-outline flex-1">{t("panel.share")}</button>
+                            <button class="btn btn-primary flex-1" onClick$={async () => {
+                                if (generate.loading) {
+                                    return;
+                                }
+
+                                const data = await generate.value;
+
+                                const fileHandle = await showSaveFilePicker({
+                                    "_preferPolyfill": false,
+                                    "suggestedName": "start.sh",
+                                    "types": [{
+                                        "accept": {
+                                            "text": ["text"]
+                                        }
+                                    }]
+                                });
+
+                                const blob = new Blob([data.result], { "type": "text/txt" });
+                                await blob.stream().pipeTo(await fileHandle.createWritable());
+                            }}>{t("panel.download")}</button>
+                            <button class="btn btn-primary btn-outline flex-1" onClick$={async () => {
+                                if (generate.loading) {
+                                    return;
+                                }
+
+                                const data = await generate.value;
+                                await navigator.clipboard.writeText(data.result);
+                            }}>{t("panel.copy")}</button>
+                            <button class="btn btn-primary btn-outline flex-1">{t("panel.share")}</button>
                         </div>
                         <button class="btn btn-primary" onClick$={() => {
                             state.generate = !state.generate; // hacky workaround

@@ -1,10 +1,13 @@
+@import "@speed-highlight/core/dist/themes/github-light.css" screen;
+@import "@speed-highlight/core/dist/themes/github-dark.css" screen and (prefers-color-scheme: dark);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
     font-family: "Courier Prime";
-    src: url("/asset/font/courier-prime.woff2") format("woff2");
+    src: url(/asset/font/courier-prime.woff2) format("woff2");
     font-weight: bold;
     font-style: normal;
 }

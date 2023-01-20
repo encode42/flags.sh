@@ -11,7 +11,6 @@ export const RouterHead = component$(() => {
             <title>{head.title || "flags.sh"}</title>
             <link rel="canonical" href={loc.href} />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
             {/* Favicon */}
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
@@ -21,13 +20,11 @@ export const RouterHead = component$(() => {
             <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#69db7c" />
             <meta name="msapplication-TileColor" content="#00a300" />
             <meta name="theme-color" content="#69db7c" />
-
             {/* og tags */}
             <meta name="description" content={t("app.description")} />
             <meta property="og:url" content="https://flags-sh.pages.dev/" />
             <meta property="og:image" content="https://flags-sh.pages.dev/asset/logo.png" />
             <meta name="twitter:card" content="summary" />
-
             {head.meta.map(meta => (
                 <meta key={meta.key} name={meta.name} content={meta.content} />
             ))}

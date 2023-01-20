@@ -5,7 +5,7 @@ export function queryToObject(query: URLSearchParams) {
 
     for (const [key, value] of Object.entries(object)) {
         if (value === "") {
-            object[key] = true; //todo: type
+            object[key] = true; // todo: type
             continue;
         }
 

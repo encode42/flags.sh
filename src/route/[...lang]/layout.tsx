@@ -1,4 +1,4 @@
-import type { DocumentHead, RequestHandler } from "@builder.io/qwik-city";
+import type { RequestHandler } from "@builder.io/qwik-city";
 import type { ColorSchemes } from "~/util/interface/color-schemes/type";
 import { component$, Slot } from "@builder.io/qwik";
 import { loader$ } from "@builder.io/qwik-city";

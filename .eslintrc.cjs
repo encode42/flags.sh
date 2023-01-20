@@ -1,20 +1,29 @@
-{
+module.exports = {
     "env": {
-        "commonjs": true,
-        "es6": true,
+        "browser": true,
+        "es2021": true,
         "node": true
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2020
+        "tsconfigRootDir": __dirname,
+        "project": ["./tsconfig.json"],
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
     "plugins": [
+        "@typescript-eslint",
         "eslint-plugin-tsdoc"
     ],
     "extends": [
+        "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:jsonc/auto-config",
         "plugin:markdown/recommended",
@@ -23,7 +32,8 @@
         "plugin:unicorn/recommended",
         "plugin:promise/recommended",
         "plugin:import/recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:qwik/recommended"
     ],
     "rules": {
         "arrow-parens": ["error", "as-needed"],
@@ -58,6 +68,7 @@
         "quotes": ["error", "double", {
             "allowTemplateLiterals": true
         }],
+        "prefer-spread": 'off',
         "security/detect-non-literal-fs-filename": "off",
         "security/detect-non-literal-regexp": "off",
         "security/detect-non-literal-require": "off",
@@ -93,6 +104,23 @@
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-extra-semi": "off",
         "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-this-alias": "off",
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/consistent-type-imports": "error",
+        "react/no-unknown-property": ["error", {
+            "ignore": [
+                "class",
+                "onChange$",
+                "onInput$",
+                "onClick$"
+            ]
+        }],
         "react/react-in-jsx-scope": "off",
         "react/no-unescaped-entities": "warn",
         "react/destructuring-assignment": "error",
@@ -130,7 +158,8 @@
             "afterOpening": "never",
             "beforeClosing": "never"
         }],
-        "react/jsx-wrap-multilines": "error"
+        "react/jsx-wrap-multilines": "error",
+        "react/no-danger": "warn"
     },
     "settings": {
         "import/parsers": {
