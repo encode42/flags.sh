@@ -17,13 +17,13 @@ import { ExtraFlags } from "~/component/config/extra-flags/extra-flags";
 import { Variables } from "~/component/config/variables/variables";
 import { Config } from "~/component/config/config/config";
 import { extraFlags } from "~/data/flags";
-import { highlightText } from "@speed-highlight/core";
 import { showSaveFilePicker } from "native-file-system-adapter";
 
 interface State {
     "availableConfig": AvailableConfig[],
     "availableFlags": AvailableFlags[],
     "availableExtraFlags": AvailableExtraFlags[],
+    "showDownload": boolean,
     "advanced": boolean
 }
 
@@ -37,12 +37,58 @@ export default component$(() => {
         "availableConfig": [],
         "availableFlags": [],
         "availableExtraFlags": [],
+        "showDownload": true,
         "generate": false // hacky workaround
     });
 
     const setConfig = useStore<SetConfigState>(getDefaults());
 
-    const generate = useResource$<{ "html": string, "result": string }>(async ({ track, cleanup }) => {
+    useResource$(({ track }) => {
+        const setOperatingSystem = track(() => setConfig.operatingSystem);
+        const setServerType = track(() => setConfig.serverType);
+        const setAdvanced = track(() => state.advanced);
+
+        const selectedOperatingSystem = operatingSystem[setOperatingSystem];
+        const selectedServerType = serverType[setServerType];
+
+        const availableConfig: AvailableConfig[] = [];
+        for (const [key, value] of Object.entries(config)) {
+            if (!selectedOperatingSystem.config.includes(key) || !selectedServerType.config.includes(key)) {
+                continue;
+            }
+
+            if (value.isAdvanced && !setAdvanced) {
+                continue;
+            }
+
+            availableConfig.push(key);
+        }
+
+        state.availableConfig = availableConfig;
+        state.availableFlags = selectedServerType.flags;
+        state.showDownload = !!selectedOperatingSystem.file;
+        setConfig.flags = selectedServerType.default.flags;
+        setConfig.extraFlags = selectedServerType.default.extraFlags;
+    });
+
+    useResource$(({ track }) => {
+        const setFlags = track(() => setConfig.flags);
+        const setServerType = track(() => setConfig.serverType);
+        const selectedServerType = serverType[setServerType];
+
+        const availableExtraFlags: AvailableExtraFlags[] = [];
+        for (const [key, value] of Object.entries(extraFlags)) {
+            if (!value.supports.includes(setFlags) || !selectedServerType.extraFlags?.includes(key)) {
+                continue;
+            }
+
+            availableExtraFlags.push(key);
+        }
+
+        state.availableExtraFlags = availableExtraFlags;
+    });
+
+    const generate = useResource$<string>(async ({ track, cleanup }) => {
         track(() => state.generate); // hacky workaround
         const selectedConfig = track(() => setConfig);
 
@@ -67,66 +113,19 @@ export default component$(() => {
         });
 
         const data = await response.json();
-        return {
-            "html": await highlightText(data.result, "bash", true),
-            "result": data.result
-        };
-    });
-
-    useTask$(({ track }) => {
-        const setOperatingSystem = track(() => setConfig.operatingSystem);
-        const setServerType = track(() => setConfig.serverType);
-        const setAdvanced = track(() => state.advanced);
-
-        const selectedOperatingSystem = operatingSystem[setOperatingSystem];
-        const selectedServerType = serverType[setServerType];
-
-        const availableConfig: AvailableConfig[] = [];
-        for (const [key, value] of Object.entries(config)) {
-            if (!selectedOperatingSystem.config.includes(key) || !selectedServerType.config.includes(key)) {
-                continue;
-            }
-
-            if (value.isAdvanced && !setAdvanced) {
-                continue;
-            }
-
-            availableConfig.push(key);
-        }
-
-        state.availableConfig = availableConfig;
-        state.availableFlags = selectedServerType.flags;
-        setConfig.flags = selectedServerType.default.flags;
-        setConfig.extraFlags = selectedServerType.default.extraFlags;
-    });
-
-    useTask$(({ track }) => {
-        const setFlags = track(() => setConfig.flags);
-        const setServerType = track(() => setConfig.serverType);
-        const selectedServerType = serverType[setServerType];
-
-        const availableExtraFlags: AvailableExtraFlags[] = [];
-        for (const [key, value] of Object.entries(extraFlags)) {
-            if (!value.supports.includes(setFlags) || !selectedServerType.extraFlags?.includes(key)) {
-                continue;
-            }
-
-            availableExtraFlags.push(key);
-        }
-
-        state.availableExtraFlags = availableExtraFlags;
+        return data.result;
     });
 
     return (
         <Speak assets={["panel"]}>
             <Layout>
-                <div>
-                    <div class="flex items-center gap-6 h-24">
-                        <img src="/asset/logo.png" class="mt-0 mb-0" style={{
+                {/* <div>
+                    <div>
+                        <img src="/asset/logo.png" style={{
                             "minHeight": 0,
                             "height": "100%"
                         }} />
-                        <h1 class="mb-0 flex-grow" style={{
+                        <h1 style={{
                             "fontFamily": "Courier Prime",
                             "fontWeight": "bold",
                             "fontSize": "100%"
@@ -134,13 +133,14 @@ export default component$(() => {
                     </div>
                     <h3>{t("app.description")}</h3>
                 </div>
+                */}
                 <div>
                     <div>
                         <h2>{t("panel.environment.label")}</h2>
                         <p>{t("panel.environment.description")}</p>
-                        <div class="flex gap-6">
-                            <Config class="flex-1" label={t("panel.operatingSystem.label")} description={t("panel.operatingSystem.description")}>
-                                <select class="select select-bordered" onChange$={event => {
+                        <div>
+                            <Config label={t("panel.operatingSystem.label")} description={t("panel.operatingSystem.description")}>
+                                <select onChange$={event => {
                                     setConfig.operatingSystem = event.target.value;
                                 }}>
                                     {Object.keys(operatingSystem).map(key => (
@@ -148,8 +148,8 @@ export default component$(() => {
                                     ))}
                                 </select>
                             </Config>
-                            <Config class="flex-1" label={t("panel.serverType.label")} description={t("panel.serverType.description")}>
-                                <select class="select select-bordered" onChange$={event => {
+                            <Config label={t("panel.serverType.label")} description={t("panel.serverType.description")}>
+                                <select onChange$={event => {
                                     setConfig.serverType = event.target.value;
                                 }}>
                                     {Object.keys(serverType).map(key => (
@@ -162,11 +162,11 @@ export default component$(() => {
                     <div>
                         <h2>{t("panel.config.label")}</h2>
                         <p>{t("panel.config.description")}</p>
-                        <div class="flex gap-6">
-                            <FileName class="flex-1" value={setConfig.fileName} onChange$={event => {
+                        <div>
+                            <FileName value={setConfig.fileName} onChange$={event => {
                                 setConfig.fileName = event.target.value;
                             }} />
-                            <Flags class="flex-1" value={setConfig.flags} availableFlags={state.availableFlags} onChange$={event => {
+                            <Flags value={setConfig.flags} availableFlags={state.availableFlags} onChange$={event => {
                                 if (!event.target.value) {
                                     return;
                                 }
@@ -181,24 +181,24 @@ export default component$(() => {
 
                             setConfig.extraFlags = event.target.value;
                         }} />
-                        <Memory class="flex-1" value={setConfig.memory} onChange$={event => {
+                        <Memory value={setConfig.memory} onChange$={event => {
                             setConfig.memory = Number.parseInt(event.target.value);
                         }} />
-                        <div class="flex gap-6">
-                            <Gui class="flex-1" visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={event => {
+                        <div>
+                            <Gui visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={event => {
                                 setConfig.gui = event.target.checked;
                             }} />
-                            <AutoRestart class="flex-1" visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
+                            <AutoRestart visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
                                 setConfig.autoRestart = event.target.checked;
                             }} />
-                            <Variables class="flex-1" visible={state.availableConfig.includes("variables")} value={setConfig.variables} onChange$={event => {
+                            <Variables visible={state.availableConfig.includes("variables")} value={setConfig.variables} onChange$={event => {
                                 setConfig.variables = event.target.checked;
                             }} />
                         </div>
-                        <div class="form-control">
-                            <label class="input-group">
-                                <span>{t("panel.advanced")}</span>
-                                <input type="checkbox" class="checkbox" onChange$={event => {
+                        <div>
+                            <label>
+                                {t("panel.advanced")}
+                                <input type="checkbox" onChange$={event => {
                                     state.advanced = event.target.checked;
                                 }} />
                             </label>
@@ -207,10 +207,13 @@ export default component$(() => {
                     <div>
                         <h2>{t("panel.script.label")}</h2>
                         <p>{t("panel.script.description")}</p>
-                        <Resource value={generate} onResolved={result => <div class="shj-lang-bash shj-multiline" style={{ "whiteSpace": "pre-line" }} dangerouslySetInnerHTML={result.html} />} />
-                        <div class="flex gap-6">
-                            <button class="btn btn-primary flex-1" onClick$={async () => {
-                                if (generate.loading) {
+                        <pre style={{ "whiteSpace": "pre-line" }}>
+                            <Resource value={generate} onResolved={result => <code>{result}</code>} />
+                        </pre>
+                        <div>
+                            <button class={state.showDownload ? undefined : "configHidden"} onClick$={async () => {
+                                const selectedOperatingSystem = operatingSystem[setConfig.operatingSystem];
+                                if (!selectedOperatingSystem || !selectedOperatingSystem.file) {
                                     return;
                                 }
 
@@ -218,18 +221,21 @@ export default component$(() => {
 
                                 const fileHandle = await showSaveFilePicker({
                                     "_preferPolyfill": false,
-                                    "suggestedName": "start.sh",
+                                    "suggestedName": `start${selectedOperatingSystem.file.extension}`,
                                     "types": [{
                                         "accept": {
-                                            "text": ["text"]
+                                            [selectedOperatingSystem.file.mime]: [selectedOperatingSystem.file.name ?? selectedOperatingSystem.file.mime]
                                         }
                                     }]
                                 });
 
-                                const blob = new Blob([data.result], { "type": "text/txt" });
+                                const blob = new Blob([data], {
+                                    "type": selectedOperatingSystem.file.mime
+                                });
+
                                 await blob.stream().pipeTo(await fileHandle.createWritable());
                             }}>{t("panel.download")}</button>
-                            <button class="btn btn-primary btn-outline flex-1" onClick$={async () => {
+                            <button onClick$={async () => {
                                 if (generate.loading) {
                                     return;
                                 }
@@ -237,9 +243,9 @@ export default component$(() => {
                                 const data = await generate.value;
                                 await navigator.clipboard.writeText(data.result);
                             }}>{t("panel.copy")}</button>
-                            <button class="btn btn-primary btn-outline flex-1">{t("panel.share")}</button>
+                            <button>{t("panel.share")}</button>
                         </div>
-                        <button class="btn btn-primary" onClick$={() => {
+                        <button onClick$={() => {
                             state.generate = !state.generate; // hacky workaround
                         }}>
                             Generate

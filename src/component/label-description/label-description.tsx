@@ -11,12 +11,12 @@ export const LabelDescription = component$(({ label, description, ...other }: La
 
     return (
         <div {...other}>
-            <label class="label">
-                <span class="label-text">{label}</span>
+            <label>
+                {label}
             </label>
             <Slot />
-            <label class="label">
-                <span class="label-text-alt">{description}</span>
+            <label>
+                {description}
             </label>
         </div>
     );

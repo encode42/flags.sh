@@ -10,8 +10,8 @@ export const Memory = component$(({ value, onChange$, ...other }: SharedInputCon
     return (
         <>
             <LabelDescription label={t("panel.memory.label")} description={t("panel.memory.description")} {...other}>
-                <div class="tooltip" data-tip={`${newValue.value} GB`}>
-                    <input type="range" class="range" min={2} max={16} step={1} value={value} onChange$={onChange$} onInput$={event => {
+                <div data-tip={`${newValue.value} GB`}>
+                    <input type="range" min={2} max={16} step={1} value={value} onChange$={onChange$} onInput$={event => {
                         newValue.value = Number.parseInt((event.target as HTMLInputElement).value);
                     }} />
                 </div>

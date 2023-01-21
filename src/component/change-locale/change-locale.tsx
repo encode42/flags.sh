@@ -9,11 +9,11 @@ export const ChangeLocale = component$(() => {
     const ctx = useSpeakContext();
 
     return (
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">{t("app.changeLocale")}</span>
+        <div>
+            <label>
+                {t("app.changeLocale")}
             </label>
-            <select class="select select-bordered" onChange$={async event => {
+            <select onChange$={async event => {
                 await fetch("/api/v1/lang", {
                     "method": "put",
                     "body": event.target.value

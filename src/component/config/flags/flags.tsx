@@ -12,7 +12,7 @@ interface FlagsProps extends SharedConfigProps<HTMLSelectElement> {
 export const Flags = component$(({ value, availableFlags, onChange$, ...other }: FlagsProps) => {
     return (
         <Config label={t("panel.flags.label")} description={t("panel.flags.description")} {...other}>
-            <select class="select select-bordered" onChange$={onChange$}>
+            <select onChange$={onChange$}>
                 {availableFlags.map(availableFlag => (
                     <option key={availableFlag} value={availableFlag} selected={availableFlag === value}>{t(`panel.flags.${availableFlag}.label`)}</option>
                 ))}

@@ -48,6 +48,11 @@ function getJava(config: Record<AvailableConfig | "existingFlags", any>): string
 export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
     "linux": {
         "icon": "IconBrandDebian",
+        "file": {
+            "name": "Bash Script",
+            "mime": "text/plain",
+            "extension": ".sh"
+        },
         "config": [
             ...sharedConfig,
             ...sharedScriptConfig
@@ -102,6 +107,11 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
     },
     "windows": {
         "icon": "IconBrandWindows",
+        "file": {
+            "name": "Batch Script",
+            "mime": "text/plain",
+            "extension": ".bat"
+        },
         "config": [
             ...sharedConfig,
             ...sharedScriptConfig
@@ -151,6 +161,7 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
     },
     "pterodactyl": {
         "icon": "IconServer",
+        "file": false,
         "config": [
             ...sharedConfig,
             "variables"
@@ -189,6 +200,7 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
     },
     "command": {
         "icon": "IconTerminal",
+        "file": false,
         "config": [
             ...sharedConfig,
         ],
