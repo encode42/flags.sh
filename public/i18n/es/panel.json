@@ -6,7 +6,7 @@
         },
         "config": {
             "label": "Configuración",
-            "description": "Las various additions and modifications que se pueden hacer a tu script de iniciar."
+            "description": "Las diversas adiciones y modificaciones que se pueden hacer a tu script de iniciar."
         },
         "operatingSystem": {
             "label": "Sistema Operativo",
@@ -37,7 +37,7 @@
             },
             "aikars": {
                 "label": "Indicadores de Aikar",
-                "description": "Los indicadores clásicos y fiables para aumentar el rendimiento de su servidor."
+                "description": "Los indicadores clásicos y fiables para aumentar el rendimiento de tu servidor."
             },
             "proxy": {
                 "label": "Proxy",
@@ -56,8 +56,8 @@
             "label": "Memoria",
             "description": "La cantidad de memoria (RAM) para asignar a tu servidor.",
             "warning": {
-                "low": "It's recommended to allocate more memory to your server.",
-                "high": "It's recommended to allocate less memory to your server."
+                "low": "Se recomienda aumentar la cantidad de memoria asignada a tu servidor.",
+                "high": "Se recomienda disminuir la cantidad de memoria asignada a tu servidor."
             }
         },
         "gui": {
