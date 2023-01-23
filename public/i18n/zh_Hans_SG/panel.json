@@ -1,84 +1,84 @@
 {
     "panel": {
         "environment": {
-            "label": "Environment",
-            "description": "The environment in which your Minecraft server will operate in."
+            "label": "环境",
+            "description": "您的 Minecraft 服务器所运行的环境。"
         },
         "config": {
-            "label": "Config",
-            "description": "The various additions and modifications that can be made to your start script."
+            "label": "配置",
+            "description": "对于您的启动脚本可作出的各种补充和修改。"
         },
         "operatingSystem": {
-            "label": "Operating System",
-            "description": "The operating system that the server runs on.",
+            "label": "操作系统",
+            "description": "服务器所在的操作系统。",
             "linux": "Linux",
             "windows": "Windows",
             "pterodactyl": "Pterodactyl",
-            "command": "Command"
+            "command": "指令"
         },
         "serverType": {
-            "label": "Server Type",
-            "description": "The server software you're using.",
+            "label": "服务端核心",
+            "description": "您使用的服务端核心。",
             "paper": "Paper",
             "purpur": "Purpur",
             "velocity": "Velocity",
             "waterfall": "Waterfall"
         },
         "fileName": {
-            "label": "File Name",
-            "description": "The name of the file that will be used to start your server."
+            "label": "文件名",
+            "description": "用于启动您服务器的文件名。"
         },
         "flags": {
-            "label": "Flags",
-            "description": "The collection of start arguments that typically optimize the server's performance.",
+            "label": "参数",
+            "description": "一些通常用于提升您服务器性能的启动参数。",
             "none": {
-                "label": "None",
-                "description": "A blank slate for your server."
+                "label": "无",
+                "description": "不添加参数。"
             },
             "aikars": {
-                "label": "Aikar's Flags",
-                "description": "The classic reliable flags for boosting your server's performance."
+                "label": "Aikar 参数",
+                "description": "用于提高您服务器性能的经典可靠的参数。"
             },
             "proxy": {
-                "label": "Proxy",
-                "description": "Generic performance flags for most proxy server software."
+                "label": "群组服",
+                "description": "一类用于多数群组服服务端核心的性能参数。"
             }
         },
         "extraFlags": {
-            "label": "Extra Flags",
-            "description": "Additional flags that may improve performance or change functionality.",
+            "label": "更多参数",
+            "description": "更多可能提升服务器性能或改变功能的参数。",
             "vectors": {
                 "label": "Modern Vectors",
                 "description": "Enables SIMD operations to optimize map item rendering on Pufferfish and its forks."
             }
         },
         "memory": {
-            "label": "Memory",
-            "description": "The amount of memory (RAM) to allocate to your server.",
+            "label": "内存",
+            "description": "分配给您服务器的内存（RAM）。",
             "warning": {
-                "low": "It's recommended to allocate more memory to your server.",
-                "high": "It's recommended to allocate less memory to your server."
+                "low": "建议您给服务器分配更多的内存。",
+                "high": "建议您给服务器分配更少的内存。"
             }
         },
         "gui": {
-            "label": "Use GUI",
-            "description": "Whether to display the built-in server management GUI."
+            "label": "使用 GUI",
+            "description": "是否显示内置的服务器管理 GUI。"
         },
         "autoRestart": {
-            "label": "Auto-restart",
-            "description": "Whether to automatically restart after it is stopped."
+            "label": "自动重启",
+            "description": "在服务器关闭后是否自动重新启动。"
         },
         "variables": {
-            "label": "Use Variables",
-            "description": "Whether to use environment variables within the script to define memory, file name, and other commonly changed elements."
+            "label": "使用变量",
+            "description": "在脚本内是否使用变量来配置内存、文件名和其它常被更改的内容。"
         },
         "script": {
-            "label": "Script",
-            "description": "The resulting script that can be used to start your server. Place this file in the same location as {{fileName}}, then execute it!"
+            "label": "脚本",
+            "description": "用于启动您服务器的最终脚本。将本文件放入与 {{fileName}} 相同的路径下，然后运行它！"
         },
-        "download": "Download",
-        "copy": "Copy",
-        "share": "Share",
-        "advanced": "Advanced"
+        "download": "下载",
+        "copy": "复制",
+        "share": "分享",
+        "advanced": "高级"
     }
 }
