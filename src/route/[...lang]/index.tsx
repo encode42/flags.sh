@@ -1,13 +1,11 @@
+
 import type { AvailableConfig } from "~/data/config";
 import type { AvailableFlags, AvailableExtraFlags } from "~/data/flags";
-import { component$, Resource, useResource$, useStore, useTask$ } from "@builder.io/qwik";
+import { $, component$, Resource, useResource$, useStore } from "@builder.io/qwik";
 import { operatingSystem } from "~/data/environment/operatingSystem";
 import { serverType } from "~/data/environment/serverType";
 import { config, getDefaults } from "~/data/config";
-import { $translate as t, Speak } from "qwik-speak";
-import { ChangeLocale } from "~/component/change-locale/change-locale";
-import { ChangeColorScheme } from "~/component/change-color-scheme/change-color-scheme";
-import Layout from "~/route/[...lang]/layout";
+import { $translate as t, Speak, useSpeakLocale } from "qwik-speak";
 import { FileName } from "~/component/config/file-name/file-name";
 import { Flags } from "~/component/config/flags/flags";
 import { Memory } from "~/component/config/memory/memory";
@@ -15,23 +13,46 @@ import { Gui } from "~/component/config/gui/gui";
 import { AutoRestart } from "~/component/config/auto-restart/auto-restart";
 import { ExtraFlags } from "~/component/config/extra-flags/extra-flags";
 import { Variables } from "~/component/config/variables/variables";
-import { Config } from "~/component/config/config/config";
 import { extraFlags } from "~/data/flags";
 import { showSaveFilePicker } from "native-file-system-adapter";
+import { loader$, useNavigate } from "@builder.io/qwik-city";
 
 interface State {
     "availableConfig": AvailableConfig[],
     "availableFlags": AvailableFlags[],
     "availableExtraFlags": AvailableExtraFlags[],
     "showDownload": boolean,
-    "advanced": boolean
+    "advanced": boolean,
+    "generate": boolean // hacky workaround
 }
 
 type SetConfigState = {
     [key in AvailableConfig]: any
 }
 
+export const getOrigin = loader$<unknown, string>(({ url }) => {
+    return url.origin;
+});
+
+export const getToSend = $((config: SetConfigState, availableConfig: State["availableConfig"]) => {
+    const toSend = {}; // todo: types
+
+    for (const [key, value] of Object.entries(config)) {
+        if (key !== "operatingSystem" && key !== "serverType" && !availableConfig.includes(key)) {
+            continue;
+        }
+
+        toSend[key] = value;
+    }
+
+    return toSend;
+});
+
 export default component$(() => {
+    const origin = getOrigin.use();
+    const { lang } = useSpeakLocale();
+    const navigate = useNavigate();
+
     const state = useStore<State>({
         "advanced": false,
         "availableConfig": [],
@@ -97,12 +118,10 @@ export default component$(() => {
             abortController.abort("cleanup");
         });
 
-        const url = new URL("/api/v1/generate", import.meta.env.DEV ? "http://localhost:5173" : "https://flags-sh.pages.dev"); // hacky workaround
-        for (const [key, value] of Object.entries(selectedConfig)) {
-            if (key !== "operatingSystem" && key !== "serverType" && !state.availableConfig.includes(key)) {
-                continue;
-            }
+        const toSend = await getToSend(selectedConfig, state.availableConfig);
+        const url = new URL("/api/v1/generate", origin.value);
 
+        for (const [key, value] of Object.entries(toSend)) {
             url.searchParams.set(key, JSON.stringify(value));
         }
 
@@ -118,145 +137,114 @@ export default component$(() => {
 
     return (
         <Speak assets={["panel"]}>
-            <Layout>
-                {/* <div>
-                    <div>
-                        <img src="/asset/logo.png" style={{
-                            "minHeight": 0,
-                            "height": "100%"
-                        }} />
-                        <h1 style={{
-                            "fontFamily": "Courier Prime",
-                            "fontWeight": "bold",
-                            "fontSize": "100%"
-                        }}>flags.sh</h1>
-                    </div>
-                    <h3>{t("app.description")}</h3>
-                </div>
-                */}
+            <div>
                 <div>
+                    <h2>{t("panel.config.label")}</h2>
+                    <p>{t("panel.config.description")}</p>
                     <div>
-                        <h2>{t("panel.environment.label")}</h2>
-                        <p>{t("panel.environment.description")}</p>
-                        <div>
-                            <Config label={t("panel.operatingSystem.label")} description={t("panel.operatingSystem.description")}>
-                                <select onChange$={event => {
-                                    setConfig.operatingSystem = event.target.value;
-                                }}>
-                                    {Object.keys(operatingSystem).map(key => (
-                                        <option key={key} value={key}>{t(`panel.operatingSystem.${key}`)}</option>
-                                    ))}
-                                </select>
-                            </Config>
-                            <Config label={t("panel.serverType.label")} description={t("panel.serverType.description")}>
-                                <select onChange$={event => {
-                                    setConfig.serverType = event.target.value;
-                                }}>
-                                    {Object.keys(serverType).map(key => (
-                                        <option key={key} value={key}>{t(`panel.serverType.${key}`)}</option>
-                                    ))}
-                                </select>
-                            </Config>
-                        </div>
-                    </div>
-                    <div>
-                        <h2>{t("panel.config.label")}</h2>
-                        <p>{t("panel.config.description")}</p>
-                        <div>
-                            <FileName value={setConfig.fileName} onChange$={event => {
-                                setConfig.fileName = event.target.value;
-                            }} />
-                            <Flags value={setConfig.flags} availableFlags={state.availableFlags} onChange$={event => {
-                                if (!event.target.value) {
-                                    return;
-                                }
-
-                                setConfig.flags = event.target.value;
-                            }} />
-                        </div>
-                        <ExtraFlags value={setConfig.extraFlags} visible={state.availableExtraFlags.length > 0} availableExtraFlags={state.availableExtraFlags} onChange$={event => {
+                        <FileName value={setConfig.fileName} onChange={$(event => {
+                            setConfig.fileName = event.target.value;
+                        })}/>
+                        <Flags value={setConfig.flags} availableFlags={state.availableFlags} onChange={$(event => {
                             if (!event.target.value) {
                                 return;
                             }
 
-                            setConfig.extraFlags = event.target.value;
-                        }} />
-                        <Memory value={setConfig.memory} onChange$={event => {
-                            setConfig.memory = Number.parseInt(event.target.value);
-                        }} />
-                        <div>
-                            <Gui visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange$={event => {
-                                setConfig.gui = event.target.checked;
-                            }} />
-                            <AutoRestart visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange$={event => {
-                                setConfig.autoRestart = event.target.checked;
-                            }} />
-                            <Variables visible={state.availableConfig.includes("variables")} value={setConfig.variables} onChange$={event => {
-                                setConfig.variables = event.target.checked;
-                            }} />
-                        </div>
-                        <div>
-                            <label>
-                                {t("panel.advanced")}
-                                <input type="checkbox" onChange$={event => {
-                                    state.advanced = event.target.checked;
-                                }} />
-                            </label>
-                        </div>
+                            setConfig.flags = event.target.value;
+                        })}/>
+                    </div>
+                    <ExtraFlags value={setConfig.extraFlags} visible={state.availableExtraFlags.length > 0} availableExtraFlags={state.availableExtraFlags} onChange={$(event => {
+                        if (!event.target.value) {
+                            return;
+                        }
+
+                        setConfig.extraFlags = event.target.value;
+                    })}/>
+                    <Memory value={setConfig.memory} onChange={$(event => {
+                        setConfig.memory = Number.parseInt(event.target.value);
+                    })}/>
+                    <div>
+                        <Gui visible={state.availableConfig.includes("gui")} value={setConfig.gui} onChange={$(event => {
+                            setConfig.gui = event.target.checked;
+                        })}/>
+                        <AutoRestart visible={state.availableConfig.includes("autoRestart")} value={setConfig.autoRestart} onChange={$(event => {
+                            setConfig.autoRestart = event.target.checked;
+                        })}/>
+                        <Variables visible={state.availableConfig.includes("variables")} value={setConfig.variables} onChange={$(event => {
+                            setConfig.variables = event.target.checked;
+                        })}/>
                     </div>
                     <div>
-                        <h2>{t("panel.script.label")}</h2>
-                        <p>{t("panel.script.description")}</p>
-                        <pre style={{ "whiteSpace": "pre-line" }}>
-                            <Resource value={generate} onResolved={result => <code>{result}</code>} />
-                        </pre>
-                        <div>
-                            <button class={state.showDownload ? undefined : "configHidden"} onClick$={async () => {
-                                const selectedOperatingSystem = operatingSystem[setConfig.operatingSystem];
-                                if (!selectedOperatingSystem || !selectedOperatingSystem.file) {
-                                    return;
-                                }
-
-                                const data = await generate.value;
-
-                                const fileHandle = await showSaveFilePicker({
-                                    "_preferPolyfill": false,
-                                    "suggestedName": `start${selectedOperatingSystem.file.extension}`,
-                                    "types": [{
-                                        "accept": {
-                                            [selectedOperatingSystem.file.mime]: [selectedOperatingSystem.file.name ?? selectedOperatingSystem.file.mime]
-                                        }
-                                    }]
-                                });
-
-                                const blob = new Blob([data], {
-                                    "type": selectedOperatingSystem.file.mime
-                                });
-
-                                await blob.stream().pipeTo(await fileHandle.createWritable());
-                            }}>{t("panel.download")}</button>
-                            <button onClick$={async () => {
-                                if (generate.loading) {
-                                    return;
-                                }
-
-                                const data = await generate.value;
-                                await navigator.clipboard.writeText(data.result);
-                            }}>{t("panel.copy")}</button>
-                            <button>{t("panel.share")}</button>
-                        </div>
-                        <button onClick$={() => {
-                            state.generate = !state.generate; // hacky workaround
-                        }}>
-                            Generate
-                        </button>
+                        <label>
+                            {t("panel.advanced")}
+                            <input type="checkbox" onChange$={event => {
+                                state.advanced = event.target.checked;
+                            }}/>
+                        </label>
                     </div>
                 </div>
                 <div>
-                    <ChangeColorScheme />
-                    <ChangeLocale />
+                    <h2>{t("panel.script.label")}</h2>
+                    <p>{t("panel.script.description", {
+                        "fileName": setConfig.fileName
+                    })}</p>
+                    <pre style={{"whiteSpace": "pre-line"}}>
+                        <Resource value={generate} onResolved={result => <code>{result}</code>}/>
+                    </pre>
+                    <div>
+                        <button class={state.showDownload ? undefined : "configHidden"} onClick$={async () => {
+                            const selectedOperatingSystem = operatingSystem[setConfig.operatingSystem];
+                            if (!selectedOperatingSystem || !selectedOperatingSystem.file) {
+                                return;
+                            }
+
+                            const data = await generate.value;
+
+                            const fileHandle = await showSaveFilePicker({
+                                "_preferPolyfill": false,
+                                "suggestedName": `start${selectedOperatingSystem.file.extension}`,
+                                "types": [{
+                                    "accept": {
+                                        [selectedOperatingSystem.file.mime]: [selectedOperatingSystem.file.name ?? selectedOperatingSystem.file.mime]
+                                    }
+                                }]
+                            });
+
+                            const blob = new Blob([data], {
+                                "type": selectedOperatingSystem.file.mime
+                            });
+
+                            await blob.stream().pipeTo(await fileHandle.createWritable());
+                        }}>{t("panel.download")}</button>
+                        <button onClick$={async () => {
+                            if (generate.loading) {
+                                return;
+                            }
+
+                            const data = await generate.value;
+                            await navigator.clipboard.writeText(data);
+                        }}>{t("panel.copy")}</button>
+                        <button onClick$={async () => {
+                            const toSend = await getToSend(setConfig, state.availableConfig);
+                            const url = new URL("/api/v1/share", origin.value);
+
+                            const response = await fetch(url, {
+                                "method": "post",
+                                "body": JSON.stringify(toSend)
+                            });
+
+                            const data = await response.json();
+
+                            await navigate(`/${lang}/share/${data.id}`);
+                        }}>{t("panel.share")}</button>
+                    </div>
+                    <button onClick$={() => {
+                        state.generate = !state.generate; // hacky workaround
+                    }}>
+                        Generate
+                    </button>
                 </div>
-            </Layout>
+            </div>
         </Speak>
     );
 });

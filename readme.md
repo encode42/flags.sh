@@ -4,7 +4,7 @@
 [Support Badge]: https://img.shields.io/discord/646517284453613578?color=7289da&labelColor=7289da&label=​&logo=discord&logoColor=white&style=flat-square
 [Codacy]: https://app.codacy.com/gh/Encode42/flags.sh/dashboard
 [Codacy Badge]: https://img.shields.io/codacy/grade/fcab733f761c4c09a0216f89feb95797?color=172B4D&labelColor=172B4D&label=​&logo=codacy&style=flat-square
-[Weblate]: https://hosted.weblate.org/projects/flags-sh/
+[Weblate]: https://hosted.weblate.org/engage/flags-sh/
 [Weblate Badge]: https://img.shields.io/weblate/progress/flags-sh?server=https%3A%2F%2Fhosted.weblate.org&color=2ECCAA&labelColor=2ECCAA&logo=weblate&logoColor=white&label=​&style=flat-square
 
 <img alt="Badge icon" src=".github/assets/badge.png" align="left">
@@ -37,3 +37,5 @@ Ensure [pnpm](https://pnpm.io) and [Node.js](https://nodejs.org) are installed.
 
 ### 🌐  Translating
 Translations are provided by [Weblate]. Any and all translations are welcome!
+
+[![Translation status](https://hosted.weblate.org/widgets/flags-sh/-/open-graph.png)][Weblate]

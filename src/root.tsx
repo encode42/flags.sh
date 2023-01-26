@@ -11,13 +11,13 @@ export default component$(() => {
         <QwikSpeak config={config} translationFn={translationFn}>
             <QwikCityProvider>
                 <head>
-                    <meta charSet="utf-8" />
-                    <link rel="manifest" href="/manifest.json" />
-                    <RouterHead />
+                    <meta charSet="utf-8"/>
+                    <link rel="manifest" href="/manifest.json"/>
+                    <RouterHead/>
                 </head>
                 <body>
-                    <RouterOutlet />
-                    <ServiceWorkerRegister />
+                    <RouterOutlet/>
+                    <ServiceWorkerRegister/>
                 </body>
             </QwikCityProvider>
         </QwikSpeak>

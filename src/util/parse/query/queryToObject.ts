@@ -1,4 +1,4 @@
-import { safeParse } from "~/util/safeParse";
+import { safeJSON } from "~/util/safeJSON";
 
 export function queryToObject(query: URLSearchParams) {
     const object = Object.fromEntries(query);
@@ -9,7 +9,7 @@ export function queryToObject(query: URLSearchParams) {
             continue;
         }
 
-        object[key] = safeParse(value);
+        object[key] = safeJSON(value);
     }
 
     return object;

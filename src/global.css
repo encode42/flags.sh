@@ -1,0 +1,28 @@
+@import "@fontsource/montserrat/variable.css" /* (prefers-reduced-data: no-preference) */;
+
+:root {
+    --color-primary: hsl(130, 61%, 64%);
+    --color-secondary: hsl(84, 69%, 51%);
+
+    --color-scheme: dark;
+    --color-background: hsl(210, 11%, 15%);
+    --color-text: hsl(210, 17%, 98%);
+}
+
+html {
+    color-scheme: var(--color-scheme);
+    background: var(--color-background);
+    color: var(--color-text);
+    accent-color: var(--color-primary);
+    font-family: MontserratVariable, Helvetica, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-scheme: light;
+        --color-background: hsl(210, 17%, 98%);
+        --color-text: hsl(210, 11%, 15%);
+    }
+}
+
+/* accessibility: prefers-contrast, prefers-reduced-motion, forced-colors */

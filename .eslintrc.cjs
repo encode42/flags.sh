@@ -154,7 +154,7 @@ module.exports = {
         "react/jsx-props-no-multi-spaces": "error",
         "react/jsx-tag-spacing": ["error", {
             "closingSlash": "never",
-            "beforeSelfClosing": "always",
+            "beforeSelfClosing": "never",
             "afterOpening": "never",
             "beforeClosing": "never"
         }],

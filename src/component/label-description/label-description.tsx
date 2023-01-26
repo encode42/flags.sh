@@ -7,14 +7,14 @@ export interface LabelDescriptionProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const LabelDescription = component$(({ label, description, ...other }: LabelDescriptionProps) => {
-    other.class = `form-control ${other.class}`; // hacky workaround
+    other.class = `form-control ${other.class}`;
 
     return (
         <div {...other}>
             <label>
                 {label}
             </label>
-            <Slot />
+            <Slot/>
             <label>
                 {description}
             </label>

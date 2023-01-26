@@ -9,10 +9,10 @@ interface ExtraFlagsProps extends SharedConfigProps<HTMLSelectElement> {
     "availableExtraFlags": AvailableExtraFlags[]
 }
 
-export const ExtraFlags = component$(({ value, availableExtraFlags, onChange$, ...other }: ExtraFlagsProps) => {
+export const ExtraFlags = component$(({ value, availableExtraFlags, onChange, ...other }: ExtraFlagsProps) => {
     return (
         <Config label={t("panel.extraFlags.label")} description={t("panel.extraFlags.description")} {...other}>
-            <select multiple onChange$={onChange$}>
+            <select multiple onChange$={onChange}>
                 {availableExtraFlags.map(availableExtraFlag => (
                     <option key={availableExtraFlag} value={availableExtraFlag} selected={value?.includes(availableExtraFlag)}>{t(`panel.extraFlags.${availableExtraFlag}.label`)}</option>
                 ))}

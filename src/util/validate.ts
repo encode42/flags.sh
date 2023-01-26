@@ -1,11 +1,11 @@
-import type { RequestEvent } from "@builder.io/qwik-city";
 import type { ZodType } from "zod";
 import type { AvailableConfig } from "~/data/config";
+import type { AvailableOperatingSystem} from "~/data/environment/operatingSystem";
+import type { AvailableServerType} from "~/data/environment/serverType";
 import { z } from "zod";
 import { config } from "~/data/config";
 import { defaultOperatingSystem, operatingSystem } from "~/data/environment/operatingSystem";
 import { defaultServerType, serverType } from "~/data/environment/serverType";
-import { parseQuery } from "~/util/query/parseQuery";
 
 type GenerateConfigSchema = {
     [key in AvailableConfig]: ZodType
@@ -14,7 +14,7 @@ type GenerateConfigSchema = {
 const operatingSystemKeys = Object.keys(operatingSystem);
 const serverTypeKeys = Object.keys(serverType);
 
-const BaseConfigValidation = z.object({
+export const BaseConfigValidation = z.object({
     "operatingSystem": z.enum(operatingSystemKeys).default(defaultOperatingSystem), // todo: types
     "serverType": z.enum(serverTypeKeys).default(defaultServerType), // todo: types
     "withHTML": z.boolean().default(false),
@@ -22,12 +22,11 @@ const BaseConfigValidation = z.object({
     "withResult": z.boolean().default(true)
 });
 
-export function generateConfigSchema(query: URLSearchParams, json: RequestEvent["json"]) {
-    const parsed = parseQuery(BaseConfigValidation, query, json);
+export function generateConfigSchema(requestOperatingSystem: AvailableOperatingSystem, requestServerType: AvailableServerType) {
     const schema: GenerateConfigSchema = {};
 
-    const selectedOperatingSystem = operatingSystem[parsed.operatingSystem];
-    const selectedServerType = serverType[parsed.serverType];
+    const selectedOperatingSystem = operatingSystem[requestOperatingSystem];
+    const selectedServerType = serverType[requestServerType];
 
     for (const [key, value] of Object.entries(config)) {
         // Config option not supported

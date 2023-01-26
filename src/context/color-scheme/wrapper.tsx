@@ -16,7 +16,7 @@ export const ColorScheme = component$(({ colorScheme }: ColorSchemeProps) => {
 
     return (
         <div data-theme={colorScheme}>
-            <Slot />
+            <Slot/>
         </div>
     );
 });
