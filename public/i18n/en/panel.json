@@ -61,7 +61,7 @@
             },
             "etils": {
                 "label": "Etil's Flags",
-                "description": "Modified version of Aikar's Flags, exclusive to Linux users."
+                "description": "Experimental and archived performance flags based on Aikar's Flags, exclusive to Linux users."
             },
             "proxy": {
                 "label": "Proxy",
