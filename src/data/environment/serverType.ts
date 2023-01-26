@@ -5,8 +5,8 @@ import type { AvailableExtraFlags, AvailableFlags } from "~/data/flags";
 
 export type AvailableServerType = keyof typeof serverType;
 
-interface SharedFlags {
-    [key: string]: (AvailableFlags | AvailableExtraFlags)[]
+interface SharedFlags<T = AvailableFlags> {
+    [key: string]: T[]
 }
 
 const sharedConfig: AvailableConfig[]  = [
@@ -18,8 +18,12 @@ const sharedConfig: AvailableConfig[]  = [
 ];
 
 const sharedFlags: SharedFlags = {
-    "bukkit": ["none", "aikars"],
+    "bukkit": ["none", "aikars", "benchmarkedG1GC", "benchmarkedZGC", "benchmarkedShenandoah", "hillttys", "obyduxs", "etils"],
     "proxy": ["none", "proxy"]
+};
+
+const sharedExtraFlags: SharedFlags<AvailableExtraFlags> = {
+    "bukkit": ["benchmarkedGraalVM"]
 };
 
 export const serverType: EnvironmentOptions<ServerTypeOption> = {
@@ -27,6 +31,9 @@ export const serverType: EnvironmentOptions<ServerTypeOption> = {
         "icon": "IconBucket",
         "flags": [
             ...sharedFlags.bukkit
+        ],
+        "extraFlags": [
+            ...sharedExtraFlags.bukkit
         ],
         "default": {
             "flags": "aikars"
@@ -41,13 +48,14 @@ export const serverType: EnvironmentOptions<ServerTypeOption> = {
         "flags": [
             ...sharedFlags.bukkit
         ],
+        "extraFlags": [
+            ...sharedExtraFlags.bukkit,
+            "vectors"
+        ],
         "default": {
             "flags": "aikars",
             "extraFlags": ["vectors"]
         },
-        "extraFlags": [
-            "vectors"
-        ],
         "config": [
             ...sharedConfig,
             "extraFlags",

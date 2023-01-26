@@ -16,6 +16,7 @@ import { Variables } from "~/component/config/variables/variables";
 import { extraFlags } from "~/data/flags";
 import { showSaveFilePicker } from "native-file-system-adapter";
 import { loader$, useNavigate } from "@builder.io/qwik-city";
+import { Config } from "~/component/config/config/config";
 
 interface State {
     "availableConfig": AvailableConfig[],
@@ -138,6 +139,30 @@ export default component$(() => {
     return (
         <Speak assets={["panel"]}>
             <div>
+                <div>
+                    <h2>{t("panel.environment.label")}</h2>
+                    <p>{t("panel.environment.description")}</p>
+                    <div>
+                        <Config label={t("panel.operatingSystem.label")} description={t("panel.operatingSystem.description")}>
+                            <select onChange$={event => {
+                                setConfig.operatingSystem = event.target.value;
+                            }}>
+                                {Object.keys(operatingSystem).map(key => (
+                                    <option key={key} value={key}>{t(`panel.operatingSystem.${key}`)}</option>
+                                ))}
+                            </select>
+                        </Config>
+                        <Config label={t("panel.serverType.label")} description={t("panel.serverType.description")}>
+                            <select onChange$={event => {
+                                setConfig.serverType = event.target.value;
+                            }}>
+                                {Object.keys(serverType).map(key => (
+                                    <option key={key} value={key}>{t(`panel.serverType.${key}`)}</option>
+                                ))}
+                            </select>
+                        </Config>
+                    </div>
+                </div>
                 <div>
                     <h2>{t("panel.config.label")}</h2>
                     <p>{t("panel.config.description")}</p>

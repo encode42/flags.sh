@@ -2806,7 +2806,7 @@ packages:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
       decode-named-character-reference: 1.0.2
-      mdast-util-to-string: 3.1.0
+      mdast-util-to-string: 3.1.1
       micromark: 3.1.0
       micromark-util-decode-numeric-character-reference: 1.0.0
       micromark-util-decode-string: 1.0.2
@@ -2868,8 +2868,8 @@ packages:
       - supports-color
     dev: false
 
-  /mdast-util-phrasing/3.0.0:
-    resolution: {integrity: sha512-S+QYsDRLkGi8U7o5JF1agKa/sdP+CNGXXLqC17pdTVL8FHHgQEiwFGa9yE5aYtUxNiFGYoaDy9V1kC85Sz86Gg==}
+  /mdast-util-phrasing/3.0.1:
+    resolution: {integrity: sha512-WmI1gTXUBJo4/ZmSk79Wcb2HcjPJBzM1nlI/OUWA8yk2X9ik3ffNbBGsU+09BFmXaL1IBb9fiuvq6/KMiNycSg==}
     dependencies:
       '@types/mdast': 3.0.10
       unist-util-is: 5.2.0
@@ -2895,8 +2895,8 @@ packages:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
       longest-streak: 3.1.0
-      mdast-util-phrasing: 3.0.0
-      mdast-util-to-string: 3.1.0
+      mdast-util-phrasing: 3.0.1
+      mdast-util-to-string: 3.1.1
       micromark-util-decode-string: 1.0.2
       unist-util-visit: 4.1.2
       zwitch: 2.0.4
@@ -2906,8 +2906,10 @@ packages:
     resolution: {integrity: sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==}
     dev: true
 
-  /mdast-util-to-string/3.1.0:
-    resolution: {integrity: sha512-n4Vypz/DZgwo0iMHLQL49dJzlp7YtAJP+N07MZHpjPf/5XJuHUWstviF4Mn2jEiR/GNmtnRRqnwsXExk3igfFA==}
+  /mdast-util-to-string/3.1.1:
+    resolution: {integrity: sha512-tGvhT94e+cVnQt8JWE9/b3cUQZWS732TJxXHktvP+BYo62PpYD53Ls/6cC60rW21dW+txxiM4zMdc6abASvZKA==}
+    dependencies:
+      '@types/mdast': 3.0.10
     dev: false
 
   /merge-stream/2.0.0:
