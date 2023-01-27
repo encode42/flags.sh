@@ -1,8 +1,8 @@
 @import "@fontsource/montserrat/variable.css" /* (prefers-reduced-data: no-preference) */;
 
 :root {
-    --color-primary: hsl(130, 61%, 64%);
-    --color-secondary: hsl(84, 69%, 51%);
+    --color-primary: hsl(131, 53%, 46%);
+    --color-secondary: hsl(85, 79%, 40%);
 
     --color-scheme: dark;
     --color-background: hsl(210, 11%, 15%);

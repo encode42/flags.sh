@@ -17,6 +17,7 @@ import { extraFlags } from "~/data/flags";
 import { showSaveFilePicker } from "native-file-system-adapter";
 import { loader$, useNavigate } from "@builder.io/qwik-city";
 import { Config } from "~/component/config/config/config";
+import { Button } from "~/component/button/button";
 
 interface State {
     "availableConfig": AvailableConfig[],
@@ -217,7 +218,7 @@ export default component$(() => {
                         <Resource value={generate} onResolved={result => <code>{result}</code>}/>
                     </pre>
                     <div>
-                        <button class={state.showDownload ? undefined : "configHidden"} onClick$={async () => {
+                        <Button style="accent" class={state.showDownload ? undefined : "configHidden"} onClick$={async () => {
                             const selectedOperatingSystem = operatingSystem[setConfig.operatingSystem];
                             if (!selectedOperatingSystem || !selectedOperatingSystem.file) {
                                 return;
@@ -240,16 +241,16 @@ export default component$(() => {
                             });
 
                             await blob.stream().pipeTo(await fileHandle.createWritable());
-                        }}>{t("panel.download")}</button>
-                        <button onClick$={async () => {
+                        }}>{t("panel.download")}</Button>
+                        <Button style="outline" onClick$={async () => {
                             if (generate.loading) {
                                 return;
                             }
 
                             const data = await generate.value;
                             await navigator.clipboard.writeText(data);
-                        }}>{t("panel.copy")}</button>
-                        <button onClick$={async () => {
+                        }}>{t("panel.copy")}</Button>
+                        <Button style="outline" onClick$={async () => {
                             const toSend = await getToSend(setConfig, state.availableConfig);
                             const url = new URL("/api/v1/share", origin.value);
 
@@ -261,13 +262,13 @@ export default component$(() => {
                             const data = await response.json();
 
                             await navigate(`/${lang}/share/${data.id}`);
-                        }}>{t("panel.share")}</button>
+                        }}>{t("panel.share")}</Button>
                     </div>
-                    <button onClick$={() => {
+                    <Button outline onClick$={() => {
                         state.generate = !state.generate; // hacky workaround
                     }}>
                         Generate
-                    </button>
+                    </Button>
                 </div>
             </div>
         </Speak>
