@@ -42,6 +42,30 @@
             "proxy": {
                 "label": "群组服",
                 "description": "一类用于多数群组服服务端核心的性能参数。"
+            },
+            "benchmarkedG1GC": {
+                "label": "Benchmarked (G1GC)",
+                "description": "Performance flags backed by benchmarks. Uses G1GC, similar to Aikar's flags."
+            },
+            "benchmarkedZGC": {
+                "label": "Benchmarked (ZGC)",
+                "description": "Performance flags backed by benchmarks. Uses ZGC, which is quite unreliable between different systems."
+            },
+            "benchmarkedShenandoah": {
+                "label": "Benchmarked (Shenandoah)",
+                "description": "Performance flags backed by benchmarks. Uses Shenandoah, similar to hilltty's flags."
+            },
+            "hillttys": {
+                "label": "hilltty's Flags",
+                "description": "Experimental performance flags based on Shenandoah GC. May require additional setup."
+            },
+            "obyduxs": {
+                "label": "Obydux's Flags",
+                "description": "Experimental performance flags based on Etil's Flags and Benchmarked (G1GC), exclusive to Linux users. May require additional setup."
+            },
+            "etils": {
+                "label": "Etil's Flags",
+                "description": "Modified version of Aikar's Flags, exclusive to Linux users."
             }
         },
         "extraFlags": {
@@ -50,6 +74,10 @@
             "vectors": {
                 "label": "Modern Vectors",
                 "description": "Enables SIMD operations to optimize map item rendering on Pufferfish and its forks."
+            },
+            "benchmarkedGraalVM": {
+                "label": "Benchmarked (GraalVM)",
+                "description": "Additional performance flags for Benchmarked (G1GC) exclusive to GraalVM users."
             }
         },
         "memory": {
