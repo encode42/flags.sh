@@ -20,7 +20,9 @@ module.exports = {
     },
     "plugins": [
         "@typescript-eslint",
-        "eslint-plugin-tsdoc"
+        "eslint-plugin-tsdoc",
+        "html",
+        "@html-eslint"
     ],
     "extends": [
         "eslint:recommended",
@@ -33,7 +35,9 @@ module.exports = {
         "plugin:promise/recommended",
         "plugin:import/recommended",
         "plugin:react/recommended",
-        "plugin:qwik/recommended"
+        "plugin:qwik/recommended",
+        "plugin:jsx-secure-form/recommended",
+        "plugin:xss/recommended"
     ],
     "rules": {
         "arrow-parens": ["error", "as-needed"],
@@ -125,7 +129,7 @@ module.exports = {
         "react/no-unescaped-entities": "warn",
         "react/destructuring-assignment": "error",
         "react/no-access-state-in-setstate": "warn",
-        "react/no-danger": "error",
+        "react/no-danger": "warn",
         "react/hook-use-state": "off",
         "react/no-invalid-html-attribute": "error",
         "react/no-namespace": "error",
@@ -158,8 +162,7 @@ module.exports = {
             "afterOpening": "never",
             "beforeClosing": "never"
         }],
-        "react/jsx-wrap-multilines": "error",
-        "react/no-danger": "warn"
+        "react/jsx-wrap-multilines": "error"
     },
     "settings": {
         "import/parsers": {
@@ -171,5 +174,10 @@ module.exports = {
             }
         }
     },
-    "ignorePatterns": ["!.*", "!node_modules/*", "*.json"]
+    "overrides": [{
+        "files": ["*.html"],
+        "parser": "@html-eslint/parser",
+        "extends": ["plugin:@html-eslint/recommended"]
+    }],
+    "ignorePatterns": ["!.*", "!node_modules/*"]
 }

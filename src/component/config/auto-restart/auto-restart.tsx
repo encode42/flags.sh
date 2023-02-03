@@ -6,7 +6,7 @@ import { Config } from "~/component/config/config/config";
 export const AutoRestart = component$(({ value, onChange, ...other }: SharedInputConfigProps) => {
     return (
         <Config label={t("panel.autoRestart.label")} description={t("panel.autoRestart.description")} {...other}>
-            <input type="checkbox" checked={value} onChange$={onChange}/>
+            <input type="checkbox" spellcheck={false} checked={value} onChange$={onChange}/>
         </Config>
     );
 });

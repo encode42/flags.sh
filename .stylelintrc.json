@@ -1,0 +1,22 @@
+{
+    "extends": [
+        "stylelint-config-standard",
+        "stylelint-a11y/recommended"
+    ],
+    "plugins": [
+        "stylelint-color-format"
+    ],
+    "rules": {
+        "indentation": 4,
+        "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$",
+        "declaration-block-semicolon-newline-after": "always",
+        "declaration-block-trailing-semicolon": "never",
+        "block-opening-brace-newline-after": "always",
+        "block-closing-brace-newline-after": "always",
+        "block-closing-brace-newline-before": "always",
+        "selector-list-comma-newline-after": "never-multi-line",
+        "color-format/format": {
+            "format": "hsl"
+        }
+    }
+}

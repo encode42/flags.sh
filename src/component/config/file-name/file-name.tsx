@@ -6,7 +6,7 @@ import { Config } from "~/component/config/config/config";
 export const FileName = component$(({ value, onChange, ...other }: SharedInputConfigProps) => {
     return (
         <Config label={t("panel.fileName.label")} description={t("panel.fileName.description")} {...other}>
-            <input type="text" value={value} onChange$={onChange}/>
+            <input type="text" spellcheck={false} value={value} onChange$={onChange}/>
         </Config>
     );
 });

@@ -1,23 +1,22 @@
 import type { HTMLAttributes } from "@builder.io/qwik";
-import { component$, Slot } from "@builder.io/qwik";
+import { component$, Slot, useStylesScoped$ } from "@builder.io/qwik";
+import styles from "./label-description.css?inline";
 
-export interface LabelDescriptionProps extends HTMLAttributes<HTMLDivElement> {
+export interface LabelDescriptionProps extends HTMLAttributes<HTMLLabelElement> {
     "label": string,
     "description": string
 }
 
 export const LabelDescription = component$(({ label, description, ...other }: LabelDescriptionProps) => {
-    other.class = `form-control ${other.class}`;
+    other.class = `${other.class}`;
+
+    useStylesScoped$(styles);
 
     return (
-        <div {...other}>
-            <label>
-                {label}
-            </label>
+        <label {...other}>
+            <h3>{label}</h3>
             <Slot/>
-            <label>
-                {description}
-            </label>
-        </div>
+            <p>{description}</p>
+        </label>
     );
 });

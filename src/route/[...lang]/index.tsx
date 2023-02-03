@@ -203,7 +203,7 @@ export default component$(() => {
                     <div>
                         <label>
                             {t("panel.advanced")}
-                            <input type="checkbox" onChange$={event => {
+                            <input type="checkbox" spellcheck={false} onChange$={event => {
                                 state.advanced = event.target.checked;
                             }}/>
                         </label>

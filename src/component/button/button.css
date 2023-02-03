@@ -1,24 +1,23 @@
 .button {
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 6px;
     font-weight: bold;
     font-size: 1rem;
     padding: 12px 24px;
     background: var(--color-primary);
-    color: white;
+    color: white
 }
 
-.button:hover {
-    filter: brightness(120%);
+.button:hover, .button:focus {
+    filter: brightness(120%)
 }
 
-.button-accent {
-    background: linear-gradient(120deg, var(--color-secondary), var(--color-primary));
+.buttonAccent {
+    background: linear-gradient(120deg, var(--color-secondary), var(--color-primary))
 }
 
-.button-outline {
+.buttonOutline {
     background: transparent;
     color: var(--color-primary);
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--color-primary)
 }
-

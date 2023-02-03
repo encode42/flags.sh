@@ -5,7 +5,7 @@ import { LabelDescription } from "~/component/label-description/label-descriptio
 import styles from "./config.css?inline";
 
 export interface SharedConfigProps<T extends HTMLElement | unknown> {
-    "onChange": QRL<HTMLAttributes<T>["onChange$"]>,
+    "onChange"?: QRL<HTMLAttributes<T>["onChange$"]>,
     "visible"?: boolean
 }
 

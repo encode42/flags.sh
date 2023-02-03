@@ -1,12 +1,12 @@
-@import "@fontsource/montserrat/variable.css" /* (prefers-reduced-data: no-preference) */;
+@import url("@fontsource/montserrat/variable.css") /* (prefers-reduced-data: no-preference) */;
 
 :root {
-    --color-primary: hsl(131, 53%, 46%);
-    --color-secondary: hsl(85, 79%, 40%);
-
+    --color-primary: hsl(131deg 53% 46%);
+    --color-secondary: hsl(85deg 79% 40%);
     --color-scheme: dark;
-    --color-background: hsl(210, 11%, 15%);
-    --color-text: hsl(210, 17%, 98%);
+    --color-background-shade: hsl(210deg 11% 9%);
+    --color-background: hsl(210deg 10% 15%);
+    --color-text: hsl(210deg 17% 98%)
 }
 
 html {
@@ -14,14 +14,15 @@ html {
     background: var(--color-background);
     color: var(--color-text);
     accent-color: var(--color-primary);
-    font-family: MontserratVariable, Helvetica, sans-serif;
+    font-family: MontserratVariable, Helvetica, sans-serif
 }
 
 @media (prefers-color-scheme: light) {
     :root {
         --color-scheme: light;
-        --color-background: hsl(210, 17%, 98%);
-        --color-text: hsl(210, 11%, 15%);
+        --color-background-shade: hsl(210deg 16% 93%);
+        --color-background: hsl(210deg 17% 98%);
+        --color-text: hsl(210deg 11% 15%)
     }
 }
 

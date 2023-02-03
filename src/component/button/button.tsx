@@ -10,8 +10,8 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
 
 export enum ButtonStyles {
     "solid" = "button",
-    "accent" = "button button-accent",
-    "outline" = "button button-outline"
+    "accent" = "button buttonAccent",
+    "outline" = "button buttonOutline"
 }
 
 export const Button = component$(({ style = "solid", ...other }: ButtonProps) => {

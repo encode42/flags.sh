@@ -8,6 +8,8 @@ import supportedLocales from "~/generated/supportedLocales.json";
 import { ChangeColorScheme } from "~/component/change-color-scheme/change-color-scheme";
 import { ChangeLocale } from "~/component/change-locale/change-locale";
 import { $translate as t, Speak } from "qwik-speak";
+import { Container } from "~/component/container/container";
+import { Paper } from "~/component/paper/paper";
 
 export const onRequest: RequestHandler = ({ url, request, locale, cookie, params, redirect }) => {
     let lang: string | undefined;
@@ -99,27 +101,22 @@ export default component$(() => {
     return (
         <ColorScheme colorScheme={colorScheme.value}>
             <Speak assets={["app"]}>
-                <div style={{
-                    "background": "var(--color-background-tint)"
-                }}>
-                    <div>
-                        <img alt="Website logo" src="/asset/logo.png" style={{
+                <Container>
+                    <Paper>
+                        <img align="center" alt="Website logo" src="/asset/logo.png" style={{
                             "minHeight": 0,
-                            "height": "100%"
+                            "width": "100%"
                         }}/>
-                        <h1 style={{
-                            "fontFamily": "Courier Prime",
-                            "fontWeight": "bold",
-                            "fontSize": "100%"
-                        }}>flags.sh</h1>
-                    </div>
-                    <h3>{t("app.description")}</h3>
-                </div>
-                <Slot/>
-                <div>
-                    <ChangeColorScheme/>
-                    <ChangeLocale/>
-                </div>
+                        <h3 align="center">{t("app.description")}</h3>
+                    </Paper>
+                    <Paper>
+                        <Slot/>
+                    </Paper>
+                    <Paper>
+                        <ChangeColorScheme/>
+                        <ChangeLocale/>
+                    </Paper>
+                </Container>
             </Speak>
         </ColorScheme>
     );

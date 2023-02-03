@@ -1,0 +1,5 @@
+.paper {
+    background: var(--color-background-shade);
+    padding: 16px;
+    border-radius: 6px
+}

@@ -1,0 +1,8 @@
+h3 {
+    filter: brightness(90%)
+}
+
+p {
+    filter: brightness(75%);
+    font-size: 0.9rem
+}
