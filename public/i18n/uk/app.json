@@ -3,13 +3,13 @@
         "description": "Простий генератор скриптів для запуску серверів Minecraft з оптимальними прапорцями.",
         "changeLocale": "Змінити локацію",
         "colorScheme": {
-            "label": "Color Scheme",
-            "dark": "Dark",
-            "light": "Light",
-            "system": "System"
+            "label": "Схема кольорів",
+            "dark": "Темна",
+            "light": "Світла",
+            "system": "Системна"
         },
-        "support": "Support community",
-        "source": "Source code",
-        "about": "About"
+        "support": "Підтримка спільноти",
+        "source": "Вихідний код",
+        "about": "Про застосунок"
     }
 }
