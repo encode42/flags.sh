@@ -6,7 +6,7 @@
         },
         "config": {
             "label": "Konfiguracija",
-            "description": "Razni dodaci i modifikacije koje se mogu primjeniti vašoj start skripti"
+            "description": "Razni dodaci i modifikacije koje se mogu primjeniti vašoj start skripti."
         },
         "operatingSystem": {
             "label": "Operativni sistem",
@@ -37,35 +37,35 @@
             },
             "aikars": {
                 "label": "Aikarovi parametri",
-                "description": "Klasični, pouzdani parametri za poboljšanje performansi vašeg servera."
+                "description": "Klasični i pouzdani parametri za poboljšanje performansi vašeg servera."
             },
             "proxy": {
                 "label": "Proksi",
-                "description": "Univerzalni parametri za perfomanse, idu uz većinu proksi server softvera"
+                "description": "Univerzalni parametri za perfomanse, idu uz većinu proksi server softvera."
             },
             "benchmarkedG1GC": {
-                "label": "Benchmarked (G1GC)",
-                "description": "Performance flags backed by benchmarks. Uses G1GC, similar to Aikar's flags."
+                "label": "Testirani (G1GC)",
+                "description": "Parametri za performanse dokazani testiranjem. Koriste G1GC, slično Aikarovim parametrima."
             },
             "benchmarkedZGC": {
-                "label": "Benchmarked (ZGC)",
-                "description": "Performance flags backed by benchmarks. Uses ZGC, which is quite unreliable between different systems."
+                "label": "Testirani (ZGC)",
+                "description": "Parametri za performanse dokazani testiranjem. Koriste ZGC, koji zna biti dosta nepouzdan kroz razne sisteme."
             },
             "benchmarkedShenandoah": {
-                "label": "Benchmarked (Shenandoah)",
-                "description": "Performance flags backed by benchmarks. Uses Shenandoah, similar to hilltty's flags."
+                "label": "Testirani (Shenandoah)",
+                "description": "Parametri za performanse dokazani testiranjem. Koriste Shenandoah, slično hilltty parametrima."
             },
             "hillttys": {
-                "label": "hilltty's Flags",
-                "description": "Experimental performance flags based on Shenandoah GC. May require additional setup."
+                "label": "hilltty parametri",
+                "description": "Eksperimentalni parametri za performanse bazirani na Shenandoah GC-u. Može zahtijevati dodatno postavljanje."
             },
             "obyduxs": {
-                "label": "Obydux's Flags",
-                "description": "Experimental performance flags based on Etil's Flags and Benchmarked (G1GC), exclusive to Linux users. May require additional setup."
+                "label": "Obydux parametri",
+                "description": "Eksperimentalni parametri za performanse bazirani na Etilovim i Testiranim (G1GC) parametrima, ekskluzivno Linux korisnicima. Može zahtijevati dodatno postavljanje."
             },
             "etils": {
-                "label": "Etil's Flags",
-                "description": "Modified version of Aikar's Flags, exclusive to Linux users."
+                "label": "Etilovi parametri",
+                "description": "Eksperimentalni i arhivirani parametri za performanse bazirani na Aikarovim parametrima, ekskluzivno Linux korisnicima."
             }
         },
         "extraFlags": {
@@ -76,16 +76,16 @@
                 "description": "Omogućava SIMD operacije da bi se optimiziralo renderanje karata (predmeta) na Pufferfishu i njegovim fork-ovima."
             },
             "benchmarkedGraalVM": {
-                "label": "Benchmarked (GraalVM)",
-                "description": "Additional performance flags for Benchmarked (G1GC) exclusive to GraalVM users."
+                "label": "Testirani (GraalVM)",
+                "description": "Dodatni parametri za performanse koji idu uz Testirane (G1GC), ekskluzivno GraalVM korisnicima."
             }
         },
         "memory": {
             "label": "Memorija",
             "description": "Količina memorije (RAM-a) koja će biti dodijeljena serveru.",
             "warning": {
-                "low": "It's recommended to allocate more memory to your server.",
-                "high": "It's recommended to allocate less memory to your server."
+                "low": "Preporučeno je povećati količinu memorije koja je dodijeljena serveru.",
+                "high": "Preporučeno je smanjiti količinu memorije koja je dodijeljena serveru."
             }
         },
         "gui": {
