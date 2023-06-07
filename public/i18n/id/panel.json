@@ -1,0 +1,112 @@
+{
+    "panel": {
+        "environment": {
+            "label": "Lingkungan",
+            "description": "Lingkungan tempat server Minecraft Anda akan beroperasi."
+        },
+        "config": {
+            "label": "Konfigurasi",
+            "description": "Berbagai penambahan dan modifikasi yang dapat dilakukan pada skrip awal Anda."
+        },
+        "operatingSystem": {
+            "label": "Sistem Operasi",
+            "description": "Sistem operasi yang digunakan server.",
+            "linux": "Linux",
+            "windows": "Windows",
+            "pterodactyl": "Pterodactyl",
+            "command": "Perintah"
+        },
+        "serverType": {
+            "label": "Tipe Server",
+            "description": "Perangkat lunak server yang Anda gunakan.",
+            "paper": "Paper",
+            "purpur": "Purpur",
+            "velocity": "Velocity",
+            "waterfall": "Waterfall"
+        },
+        "fileName": {
+            "label": "Nama File",
+            "description": "Nama file yang akan digunakan untuk memulai server Anda."
+        },
+        "flags": {
+            "label": "Flags",
+            "description": "Kumpulan argumen awal yang biasanya mengoptimalkan kinerja server.",
+            "none": {
+                "label": "Tidak ada",
+                "description": "Lembar kosong untuk server Anda."
+            },
+            "aikars": {
+                "label": "Aikar's Flags",
+                "description": "Flags klasik dan andal untuk meningkatkan performa server Anda."
+            },
+            "benchmarkedG1GC": {
+                "label": "Benchmarked (G1GC)",
+                "description": "Flags kinerja yang didukung oleh benchmark. Menggunakan G1GC, mirip dengan flags Aikar."
+            },
+            "benchmarkedZGC": {
+                "label": "Benchmarked (ZGC)",
+                "description": "Flags kinerja yang didukung oleh benchmark. Menggunakan ZGC, yang tidak dapat diandalkan di antara sistem yang berbeda."
+            },
+            "benchmarkedShenandoah": {
+                "label": "Benchmarked (Shenandoah)",
+                "description": "Flags kinerja yang didukung oleh benchmark. Menggunakan Shenandoah, mirip dengan flags Hilltty."
+            },
+            "hillttys": {
+                "label": "hilltty's Flags",
+                "description": "Flags kinerja eksperimental berdasarkan Shenandoah GC. Mungkin memerlukan penyiapan tambahan."
+            },
+            "obyduxs": {
+                "label": "Obydux's Flags",
+                "description": "Flags performa eksperimental berdasarkan pada Etil's Flags dan Benchmarked (G1GC), eksklusif untuk pengguna Linux. Mungkin memerlukan pengaturan tambahan."
+            },
+            "etils": {
+                "label": "Etil's Flags",
+                "description": "Flags performa eksperimental dan sudah diarsipkan berdasarkan Flags Aikar, eksklusif untuk pengguna Linux."
+            },
+            "proxy": {
+                "label": "Proksi",
+                "description": "Flags performa umum untuk sebagian besar perangkat lunak server proksi."
+            }
+        },
+        "extraFlags": {
+            "label": "Flags ekstra",
+            "description": "Flags tambahan yang dapat meningkatkan kinerja atau mengubah fungsionalitas.",
+            "vectors": {
+                "label": "Vektor Modern",
+                "description": "Mengaktifkan operasi SIMD untuk mengoptimalkan rendering item map pada Pufferfish dan fork-nya."
+            },
+            "benchmarkedGraalVM": {
+                "label": "Benchmarked (GraalVM)",
+                "description": "Additional performance flags for Benchmarked (G1GC) exclusive to GraalVM users."
+            }
+        },
+        "memory": {
+            "label": "Memory",
+            "description": "The amount of memory (RAM) to allocate to your server.",
+            "warning": {
+                "low": "It's recommended to increase the amount of memory allocated to the server.",
+                "high": "It's recommended to decrease the amount of memory allocated to the server."
+            }
+        },
+        "gui": {
+            "label": "Use GUI",
+            "description": "Whether to display the built-in server management GUI."
+        },
+        "autoRestart": {
+            "label": "Auto-restart",
+            "description": "Whether to automatically restart after it is stopped."
+        },
+        "variables": {
+            "label": "Use Variables",
+            "description": "Whether to use environment variables within the script to define memory, file name, and other commonly changed elements."
+        },
+        "script": {
+            "label": "Script",
+            "description": "The resulting script that can be used to start your server. Place this file in the same location as {{fileName}}, then execute it!"
+        },
+        "download": "Download",
+        "copy": "Copy",
+        "share": "Share",
+        "advanced": "Advanced"
+    }
+}
