@@ -1,7 +1,7 @@
 {
     "app": {
         "description": "Generator skrip sederhana untuk menjalankan server Minecraft Anda dengan flag yang optimal.",
-        "changeLocale": "Change Locale",
+        "changeLocale": "Ubah Bahasa",
         "colorScheme": {
             "label": "Skema Warna",
             "dark": "Gelap",
