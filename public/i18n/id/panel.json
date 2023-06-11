@@ -19,7 +19,7 @@
         "serverType": {
             "label": "Tipe Server",
             "description": "Perangkat lunak server yang Anda gunakan.",
-            "paper": "Paper",
+            "paper": "Kertas",
             "purpur": "Purpur",
             "velocity": "Velocity",
             "waterfall": "Waterfall"
