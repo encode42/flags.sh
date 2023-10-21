@@ -6,11 +6,11 @@
         },
         "config": {
             "label": "Configuración",
-            "description": "Las diversas adiciones y modificaciones que se pueden hacer a tu script de iniciar."
+            "description": "Las diversas adiciones y modificaciones que se pueden hacer a tu script de inicio."
         },
         "operatingSystem": {
             "label": "Sistema Operativo",
-            "description": "El sistema operativo en que el servidor ejecuta.",
+            "description": "El sistema operativo en que el servidor opera.",
             "linux": "Linux",
             "windows": "Windows",
             "pterodactyl": "Pterodactyl",
@@ -26,7 +26,7 @@
         },
         "fileName": {
             "label": "Nombre de Archivo",
-            "description": "El nombre del archivo que se usará para iniciar el servidor."
+            "description": "El nombre del archivo que se usará para iniciar tu servidor."
         },
         "flags": {
             "label": "Indicadores",
@@ -41,43 +41,43 @@
             },
             "proxy": {
                 "label": "Proxy",
-                "description": "Los indicadores genéricos de rendimiento para la mayoría del software de servidor proxy."
+                "description": "Indicadores genéricos de rendimiento para la mayoría de software de servidor proxy."
             },
             "benchmarkedG1GC": {
                 "label": "Benchmarked (G1GC)",
-                "description": "Performance flags backed by benchmarks. Uses G1GC, similar to Aikar's flags."
+                "description": "Indicadores de rendimiento respaldados por pruebas de referencia. Utiliza G1GC, similares a los indicadores de Aikar."
             },
             "benchmarkedZGC": {
                 "label": "Benchmarked (ZGC)",
-                "description": "Performance flags backed by benchmarks. Uses ZGC, which is quite unreliable between different systems."
+                "description": "Indicadores de rendimiento respaldados por pruebas de referencia. Utiliza ZGC, el cual puede ser bastante poco confiable entre diferentes sistemas."
             },
             "benchmarkedShenandoah": {
                 "label": "Benchmarked (Shenandoah)",
-                "description": "Performance flags backed by benchmarks. Uses Shenandoah, similar to hilltty's flags."
+                "description": "Indicadores de rendimiento respaldados por pruebas de referencia. Utiliza Shenandoah, similares a los indicadores de hilltty."
             },
             "hillttys": {
-                "label": "hilltty's Flags",
-                "description": "Experimental performance flags based on Shenandoah GC. May require additional setup."
+                "label": "Indicadores de hilltty",
+                "description": "Indicadores de rendimiento experimentales basados en Shenandoah GC. Puede requerir configuración adicional."
             },
             "obyduxs": {
-                "label": "Obydux's Flags",
-                "description": "Experimental performance flags based on Etil's Flags and Benchmarked (G1GC), exclusive to Linux users. May require additional setup."
+                "label": "Indicadores de Obydux",
+                "description": "Indicadores experimentales de rendimiento basados en los indicadores de Etil y las pruebas de referencia (G1GC), exclusivos para usuarios de Linux. Puede requerir configuración adicional."
             },
             "etils": {
-                "label": "Etil's Flags",
-                "description": "Modified version of Aikar's Flags, exclusive to Linux users."
+                "label": "Indicadores de Etil",
+                "description": "Indicadores de rendimiento experimentales y archivados basados en los indicadores de Aikar, exclusivos para usuarios de Linux."
             }
         },
         "extraFlags": {
             "label": "Indicadores Extra",
-            "description": "Los indicadores adicionales que pueden mejorar el rendimiento o cambiar la funcionalidad.",
+            "description": "Indicadores adicionales que pueden mejorar el rendimiento o cambiar la funcionalidad.",
             "vectors": {
                 "label": "Vectores Modernos",
-                "description": "Habilitar las operaciones SIMD para optimizar el renderizado de los artículos del mapas en Pufferfish y sus bifurcaciones."
+                "description": "Habilita las operaciones SIMD para optimizar el renderizado de los mapas en Pufferfish y sus alternativas."
             },
             "benchmarkedGraalVM": {
                 "label": "Benchmarked (GraalVM)",
-                "description": "Additional performance flags for Benchmarked (G1GC) exclusive to GraalVM users."
+                "description": "Indicadores de rendimiento adicionales para Benchmarked (G1GC), exclusivos para usuarios de GraalVM."
             }
         },
         "memory": {
@@ -90,19 +90,19 @@
         },
         "gui": {
             "label": "Usar GUI",
-            "description": "Si mostrar la GUI de manejar del servidor incorporada."
+            "description": "Si mostrar la GUI de manejo del servidor incorporada."
         },
         "autoRestart": {
             "label": "Reinicio Automático",
-            "description": "Si se reinicia automáticamente después de que se ha termiado."
+            "description": "Si reiniciar automáticamente después de apagarse."
         },
         "variables": {
             "label": "Usar Variables",
-            "description": "Si usar variables de entorno en el script para definir la memoria, nombre de archivo, y otras elementos comúnmente cambiados."
+            "description": "Si usar variables de entorno en el script para definir la memoria, nombre de archivo y otros elementos comúnmente cambiados."
         },
         "script": {
             "label": "Script",
-            "description": "El script resultante te puede usar para inicia tu servidor. Poner el archivo en el lugar mismo que {{fileName}}, luego ejecútelo!"
+            "description": "El script resultante que se puede usar para iniciar tu servidor. Ponga el archivo en el lugar mismo que {{fileName}}, luego ejecútelo!"
         },
         "download": "Descargar",
         "copy": "Copiar",

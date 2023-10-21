@@ -1,0 +1,112 @@
+{
+    "panel": {
+        "environment": {
+            "label": "Environnement",
+            "description": "L'environnement dans lequel votre serveur Minecraft fonctionnera."
+        },
+        "config": {
+            "label": "Configuration",
+            "description": "Les différents ajouts et modifications qui peuvent être apportés à votre script de démarrage."
+        },
+        "operatingSystem": {
+            "label": "Système d'exploitation",
+            "description": "Le système d'exploitation sur lequel le serveur fonctionne.",
+            "linux": "Linux",
+            "windows": "Windows",
+            "pterodactyl": "Pterodactyl",
+            "command": "Commande"
+        },
+        "serverType": {
+            "label": "Type de serveur",
+            "description": "Le logiciel serveur que vous utilisez.",
+            "paper": "Paper",
+            "purpur": "Purpur",
+            "velocity": "Velocity",
+            "waterfall": "Waterfall"
+        },
+        "fileName": {
+            "label": "Nom du fichier",
+            "description": "Le nom du fichier qui sera utilisé pour démarrer votre serveur."
+        },
+        "flags": {
+            "label": "Flags",
+            "description": "Ensemble d'arguments de démarrage qui optimisent généralement les performances du serveur.",
+            "none": {
+                "label": "Aucun",
+                "description": "Une page blanche pour votre serveur."
+            },
+            "aikars": {
+                "label": "Flags d'Aikar",
+                "description": "Les flags classiques et fiables qui améliorent les performances de votre serveur."
+            },
+            "benchmarkedG1GC": {
+                "label": "Evalué (G1GC)",
+                "description": "Flags performants basés sur des benchmarks. Utilisation de G1GC, comme pour les flags d'Aikar."
+            },
+            "benchmarkedZGC": {
+                "label": "Evalué (ZGC)",
+                "description": "Flags performants basés sur des benchmarks. Utilisation de ZGC, qui n'est pas toujours fiable d'un système à l'autre."
+            },
+            "benchmarkedShenandoah": {
+                "label": "Evalué (Shenandoah)",
+                "description": "Flags performants basés sur des benchmarks. Utilisation de Shenandoah, comme dans les flags d'hilltty."
+            },
+            "hillttys": {
+                "label": "Flags d'hilltty",
+                "description": "Flags expérimentaux basés sur Shenandoah GC. Peut nécessiter des configurations supplémentaires."
+            },
+            "obyduxs": {
+                "label": "Flags d'Obydux",
+                "description": "Flags performants expérimentaux basés sur les flags d'Etil et sur le benchmark (G1GC), exclusifs aux utilisateurs de Linux. Peut nécessiter une configuration supplémentaire."
+            },
+            "etils": {
+                "label": "Flags d'Etil",
+                "description": "Flags performants expérimentaux archivés basés sur les flags d'Aikar, exclusifs aux utilisateurs de Linux."
+            },
+            "proxy": {
+                "label": "Proxy",
+                "description": "Flags performants pour la plupart des logiciels de serveur proxy."
+            }
+        },
+        "extraFlags": {
+            "label": "Flags supplémentaires",
+            "description": "Flags supplémentaires qui peuvent améliorer les performances ou modifier des fonctionnalités.",
+            "vectors": {
+                "label": "Modern Vectors",
+                "description": "Permet aux opérations SIMD d'optimiser le rendu des cartes sur Pufferfish et ses dérivés."
+            },
+            "benchmarkedGraalVM": {
+                "label": "Evalué (GraalVM)",
+                "description": "Flags performants supplémentaires pour Evalué (G1GC) exclusifs aux utilisateurs de GraalVM."
+            }
+        },
+        "memory": {
+            "label": "Mémoire",
+            "description": "La quantité de mémoire (RAM) à attribuer à votre serveur.",
+            "warning": {
+                "low": "Il est recommandé d'augmenter la quantité de mémoire allouée au serveur.",
+                "high": "Il est recommandé de réduire la quantité de mémoire allouée au serveur."
+            }
+        },
+        "gui": {
+            "label": "Utiliser le GUI",
+            "description": "Afficher le GUI de gestion intégrée au serveur."
+        },
+        "autoRestart": {
+            "label": "Auto-redémarrage",
+            "description": "Redémarrer automatiquement après l'arrêt du serveur."
+        },
+        "variables": {
+            "label": "Utiliser les variables",
+            "description": "Utiliser des variables d'environnement dans le script pour définir la mémoire, le nom de fichier et d'autres éléments couramment changés."
+        },
+        "script": {
+            "label": "Script",
+            "description": "Le script résultant qui peut être utilisé pour démarrer votre serveur. Placez ce fichier dans le même endroit que {{fileName}}, puis exécutez-le !"
+        },
+        "download": "Télécharger",
+        "copy": "Copier",
+        "share": "Partager",
+        "advanced": "Avancé"
+    }
+}

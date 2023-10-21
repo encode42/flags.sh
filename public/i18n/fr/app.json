@@ -1,0 +1,15 @@
+{
+    "app": {
+        "description": "Un simple générateur de script pour démarrer vos serveurs Minecraft avec des flags optimaux.",
+        "changeLocale": "Changer la langue",
+        "colorScheme": {
+            "label": "Set de couleurs",
+            "dark": "Sombre",
+            "light": "Clair",
+            "system": "Système"
+        },
+        "support": "Supporter la communauté",
+        "source": "Code source",
+        "about": "À Propos"
+    }
+}

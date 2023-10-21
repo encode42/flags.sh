@@ -19,7 +19,7 @@
         "serverType": {
             "label": "Tipe Server",
             "description": "Perangkat lunak server yang Anda gunakan.",
-            "paper": "Kertas",
+            "paper": "Paper",
             "purpur": "Purpur",
             "velocity": "Velocity",
             "waterfall": "Waterfall"
@@ -36,7 +36,7 @@
                 "description": "Lembar kosong untuk server Anda."
             },
             "aikars": {
-                "label": "Aikar's Flags",
+                "label": "Flags Aikar",
                 "description": "Flags klasik dan andal untuk meningkatkan performa server Anda."
             },
             "benchmarkedG1GC": {
@@ -52,15 +52,15 @@
                 "description": "Flags kinerja yang didukung oleh benchmark. Menggunakan Shenandoah, mirip dengan flags Hilltty."
             },
             "hillttys": {
-                "label": "hilltty's Flags",
+                "label": "Flags hilltty",
                 "description": "Flags kinerja eksperimental berdasarkan Shenandoah GC. Mungkin memerlukan penyiapan tambahan."
             },
             "obyduxs": {
-                "label": "Obydux's Flags",
+                "label": "Flags Obydux",
                 "description": "Flags performa eksperimental berdasarkan pada Etil's Flags dan Benchmarked (G1GC), eksklusif untuk pengguna Linux. Mungkin memerlukan pengaturan tambahan."
             },
             "etils": {
-                "label": "Etil's Flags",
+                "label": "Flags Etil",
                 "description": "Flags performa eksperimental dan sudah diarsipkan berdasarkan Flags Aikar, eksklusif untuk pengguna Linux."
             },
             "proxy": {
@@ -77,7 +77,7 @@
             },
             "benchmarkedGraalVM": {
                 "label": "Benchmarked (GraalVM)",
-                "description": "Additional performance flags for Benchmarked (G1GC) exclusive to GraalVM users."
+                "description": "Flags performa tambahan untuk Benchmarked (G1GC) yang khusus untuk pengguna GraalVM."
             }
         },
         "memory": {
