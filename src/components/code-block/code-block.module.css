@@ -1,0 +1,8 @@
+.codeBlock {
+    border: 0.1rem solid var(--color-primary);
+    border-radius: 0.25rem;
+    padding: 1rem;
+    font-size: var(--font-size-content);
+    white-space: pre-line;
+    color: var(--color-primary);
+}

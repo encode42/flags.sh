@@ -1,29 +1,187 @@
-@import url("@fontsource/montserrat/variable.css") /* (prefers-reduced-data: no-preference) */;
+@import "@catppuccin/palette/style";
 
 :root {
-    --color-primary: hsl(131deg 53% 46%);
-    --color-secondary: hsl(85deg 79% 40%);
-    --color-scheme: dark;
-    --color-background-shade: hsl(210deg 11% 9%);
-    --color-background: hsl(210deg 10% 15%);
-    --color-text: hsl(210deg 17% 98%)
+    --color-background: var(--ctp-macchiato-base-hsl);
+    --color-text: var(--ctp-macchiato-text-hsl);
+    --color-primary: var(--ctp-macchiato-green-hsl);
+    --color-primary-raw: var(--ctp-macchiato-green-raw);
+
+    --font-size-header: 3rem;
+    --font-size-text: 1.5rem;
+    --font-size-content: 1.25rem;
+    --font-size-caption: 1rem;
+
+    --font-header: "Montserrat Variable", sans-serif;
+    --font-text: "Noto Sans", sans-serif;
+
+    accent-color: var(--color-primary);
+    color-scheme: dark;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 html {
-    color-scheme: var(--color-scheme);
     background: var(--color-background);
+}
+
+p {
     color: var(--color-text);
-    accent-color: var(--color-primary);
-    font-family: MontserratVariable, Helvetica, sans-serif
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        --color-scheme: light;
-        --color-background-shade: hsl(210deg 16% 93%);
-        --color-background: hsl(210deg 17% 98%);
-        --color-text: hsl(210deg 11% 15%)
-    }
+p, a {
+    font-size: var(--font-size-content);
+    font-family: var(--font-text);
 }
 
-/* accessibility: prefers-contrast, prefers-reduced-motion, forced-colors */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-header);
+}
+
+h1, h2, h3, h4, h5, h6, a {
+    color: var(--color-primary);
+}
+
+h1 {
+    font-size: var(--font-size-header);
+}
+
+h2 {
+    font-size: calc(var(--font-size-header) - 0.5rem);
+}
+
+h3 {
+    font-size: calc(var(--font-size-header) - 1rem);
+}
+
+h4 {
+    font-size: calc(var(--font-size-header) - 1.5rem);
+}
+
+h5 {
+    font-size: calc(var(--font-size-header) - 2rem);
+}
+
+h6 {
+    font-size: calc(var(--font-size-header) - 2.5rem);
+}
+
+button {
+    border: 0.1rem solid var(--color-primary);
+    border-radius: 0.2rem;
+    background: rgba(var(--color-primary-raw), 0.25);
+    color: var(--color-primary);
+    font-size: var(--font-size-text);
+    font-family: var(--font-header);
+    font-weight: bold;
+    padding: 1rem 2rem;
+    box-shadow: 0 0 3rem 0 rgba(var(--color-primary-raw), 0.5) inset;
+    transition-timing-function: ease-out;
+    transition-duration: 0.15s;
+    transition-property: filter, color, background-color;
+    cursor: pointer;
+
+    --header-color: var(--color-primary);
+    --content-color: var(--color-text)
+}
+
+button h4 {
+    color: var(--header-color);
+}
+
+button p {
+    color: var(--content-color);
+    font-size: var(--font-size-caption);
+    font-weight: 100;
+}
+
+button:hover, button:focus-visible {
+    --header-color: var(--color-text);
+    filter: brightness(150%);
+    background: none;
+    box-shadow: none;
+    border-color: var(--color-text);
+}
+
+button.filled {
+    --header-color: var(--color-background);
+    --content-color: var(--color-background);
+    background: var(--color-primary);
+}
+
+select {
+    width: 100%;
+    border: 0.1rem solid var(--color-primary);
+    border-radius: 0.2rem;
+    background: rgba(var(--color-primary-raw), 0.25);
+    color: var(--color-primary);
+    font-size: var(--font-size-text);
+    font-family: var(--font-header);
+    font-weight: bold;
+    padding: 1rem 2rem;
+    box-shadow: 0 0 3rem 0 rgba(var(--color-primary-raw), 0.5) inset;
+    transition-timing-function: ease-out;
+    transition-duration: 0.15s;
+    transition-property: filter, color, background-color;
+    cursor: pointer;
+
+    --header-color: var(--color-primary);
+    --content-color: var(--color-text)
+}
+
+select:hover, select:focus-visible {
+    --header-color: var(--color-text);
+    filter: brightness(150%);
+    background: none;
+    box-shadow: none;
+    border-color: var(--color-text);
+}
+
+input {
+    width: 100%;
+    border: 0.1rem solid var(--color-primary);
+    border-radius: 0.2rem;
+    background: transparent;
+    color: var(--color-primary);
+    font-size: var(--font-size-text);
+    padding: 1rem 2rem;
+    font-family: var(--font-text);
+    transition-timing-function: ease-out;
+    transition-duration: 0.15s;
+    transition-property: filter, color, border-color;
+}
+
+input:hover, input:focus-visible {
+    border-color: var(--color-text);
+    color: var(--color-text);
+    filter: brightness(150%);
+}
+
+input::selection {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+input[type="range"] {
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    height: 100%;
+    padding: 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 100%;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    background-color: var(--color-primary);
+    height: 100%;
+    width: 2rem;
+ }
+
+:focus-visible {
+    outline: none;
+}

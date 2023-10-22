@@ -1,7 +1,7 @@
 import type { Generate } from "~/util/interface/generate/Generate";
 
 export interface GenerateOperatingSystemResult {
-    "result": string,
+    "script": string,
     "flags": string[]
 }
 

@@ -4,7 +4,7 @@ import { serverType } from "~/data/environment/serverType";
 import { operatingSystem } from "~/data/environment/operatingSystem";
 
 interface GenerateResult {
-    "result"?: string,
+    "script"?: string,
     "flags"?: string[]
 }
 
@@ -39,7 +39,7 @@ export function generateResult(schema: ZodType, parsed: z.infer<typeof schema>):
     const data: GenerateResult = {};
 
     if (parsed.withResult) {
-        data.result = result.result;
+        data.script = result.script;
     }
 
     if (parsed.withFlags) {

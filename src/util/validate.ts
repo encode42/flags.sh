@@ -15,7 +15,9 @@ const operatingSystemKeys = Object.keys(operatingSystem);
 const serverTypeKeys = Object.keys(serverType);
 
 export const BaseConfigValidation = z.object({
+    //@ts-ignore
     "operatingSystem": z.enum(operatingSystemKeys).default(defaultOperatingSystem), // todo: types
+    //@ts-ignore
     "serverType": z.enum(serverTypeKeys).default(defaultServerType), // todo: types
     "withHTML": z.boolean().default(false),
     "withFlags": z.boolean().default(true),
@@ -39,9 +41,11 @@ export function generateConfigSchema(requestOperatingSystem: AvailableOperatingS
     }
 
     // Server type's accepted flags
+    //@ts-ignore
     schema.flags = z.nativeEnum(selectedServerType.flags).default(selectedServerType.default.flags); // todo: types
 
     // Server type's accepted extra flags
+    //@ts-ignore
     schema.extraFlags = (!selectedServerType.extraFlags || selectedServerType.extraFlags.length === 0) ? z.never().optional() : z.array(z.nativeEnum(selectedServerType.extraFlags)).default(selectedServerType.default.extraFlags ?? []); // todo: types
 
     return BaseConfigValidation.extend(schema);

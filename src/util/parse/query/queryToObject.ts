@@ -5,6 +5,7 @@ export function queryToObject(query: URLSearchParams) {
 
     for (const [key, value] of Object.entries(object)) {
         if (value === "") {
+            //@ts-ignore
             object[key] = true; // todo: type
             continue;
         }

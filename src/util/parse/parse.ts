@@ -6,5 +6,5 @@ export function parse(schema: ZodType, object: any) {
         throw parsed.error;
     }
 
-    return parsed.data;
+    return parsed.data
 }

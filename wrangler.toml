@@ -1,7 +1,0 @@
-name = "flags-sh"
-compatibility_date = "2023-01-25"
-
-[[r2_buckets]]
-binding = "CLOUDFLARE_BUCKET"
-bucket_name = "flags-sh"
-preview_bucket_name = "flags-sh-dev"

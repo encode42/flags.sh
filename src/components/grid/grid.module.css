@@ -1,0 +1,14 @@
+.grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1rem;
+    flex-grow: 1;
+    flex-wrap: wrap;
+}
+
+.grid > * {
+    flex: 1 1 30%;
+    flex-grow: 1;
+    width: 100%;
+}

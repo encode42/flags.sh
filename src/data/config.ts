@@ -24,9 +24,11 @@ export const config: Config = {
         "default": "server.jar"
     },
     "flags": {
+        //@ts-ignore
         "type": z.nativeEnum(Object.keys(flags)) // todo: types
     },
     "extraFlags": {
+        //@ts-ignore
         "type": z.array(z.nativeEnum(Object.keys(extraFlags))) // todo: types
     },
     "memory": {

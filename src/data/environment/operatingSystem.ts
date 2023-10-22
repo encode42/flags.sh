@@ -45,6 +45,63 @@ function getJava(config: Record<AvailableConfig | "existingFlags", any>): string
     return base.join(" ");
 }
 
+import type { Generate } from "~/util/interface/generate/Generate";
+
+interface GenerateNixResult {
+    "script": string[],
+    "flags": string[]
+}
+
+type NixScript = Generate<AvailableConfig | "existingFlags", GenerateNixResult>; // todo: dedupe
+
+const nixScript: NixScript = (config) => {
+    const base = [
+        "#!/usr/bin/env bash",
+        ""
+    ];
+
+    let fileName = config.fileName;
+    let memory: number | string = getMemory(config.memory);
+
+    if (config.variables) {
+        base.push(
+            `fileName="${fileName}"`,
+            `memory=${memory}`,
+            "",
+            "declare -i memory",
+            ""
+        );
+
+        fileName = "\"$fileName\"";
+        memory = "\"$memory\"";
+    }
+
+    const java = getJava({
+        ...config,
+        fileName,
+        memory
+    });
+
+    if (config.autoRestart) {
+        base.push(
+            "while true; do",
+            java, // todo: tab
+            "",
+            "echo Restarting in 5 seconds...",
+            "echo Press CTRL + C to cancel.",
+            "sleep 5",
+            "done"
+        );
+    } else {
+        base.push(java);
+    }
+
+    return {
+        "script": base,
+        "flags": config.existingFlags
+    };
+} 
+
 export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
     "linux": {
         "icon": "IconBrandDebian",
@@ -58,51 +115,12 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
             ...sharedScriptConfig
         ],
         "generate": config => {
-            const base = [
-                "#!/bin/bash",
-                ""
-            ];
-
-            let fileName = config.fileName;
-            let memory: number | string = getMemory(config.memory);
-
-            if (config.variables) {
-                base.push(
-                    `fileName="${fileName}"`,
-                    `memory=${memory}`,
-                    "",
-                    "declare -i memory",
-                    ""
-                );
-
-                fileName = "\"$fileName\"";
-                memory = "\"$memory\"";
-            }
-
-            const java = getJava({
-                ...config,
-                fileName,
-                memory
-            });
-
-            if (config.autoRestart) {
-                base.push(
-                    "while true; do",
-                    java, // todo: tab
-                    "",
-                    "echo Restarting in 5 seconds...",
-                    "echo Press CTRL + C to cancel.",
-                    "sleep 5",
-                    "done"
-                );
-            } else {
-                base.push(java);
-            }
+            const nix = nixScript(config);
 
             return {
-                "result": base.join("\n"),
-                "flags": config.existingFlags
-            };
+                "script": nix.script.join("\n"),
+                "flags": nix.flags
+            }
         }
     },
     "windows": {
@@ -154,9 +172,32 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
             }
 
             return {
-                "result": base.join("\n"),
+                "script": base.join("\n"),
                 "flags": config.existingFlags
             };
+        }
+    },
+    "macOS": {
+        "icon": "IconBrandApple",
+        "file": {
+            "name": "Command Script",
+            "mime": "text/plain",
+            "extension": ".command"
+        },
+        "config": [
+            ...sharedConfig,
+            ...sharedScriptConfig
+        ],
+        "generate": config => {
+            const nix = nixScript(config);
+
+            // First line of *nix files should contain shebang
+            nix.script.splice(1, 0, "cd \"`dirname $0`\"")
+
+            return {
+                "script": nix.script.join("\n"),
+                "flags": nix.flags
+            }
         }
     },
     "pterodactyl": {
@@ -174,7 +215,7 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
 
             if (config.variables) {
                 fileName = "{{SERVER_JARFILE}}";
-                memory = "({{SERVER_MEMORY}}*85/100)";
+                memory = "(({{SERVER_MEMORY}}*85/100))";
             }
 
             const flags = [
@@ -193,7 +234,7 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
             base.push(java);
 
             return {
-                "result": base.join("\n"),
+                "script": base.join("\n"),
                 flags
             };
         }
@@ -215,7 +256,7 @@ export const operatingSystem: EnvironmentOptions<OperatingSystemOption> = {
             base.push(java);
 
             return {
-                "result": base.join("\n"),
+                "script": base.join("\n"),
                 "flags": config.existingFlags
             };
         }
