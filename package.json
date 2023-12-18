@@ -16,6 +16,7 @@
     "@mantine/hooks": "^3.6.14",
     "@mantine/next": "3.6.14",
     "@mantine/prism": "^3.6.14",
+    "@tabler/icons": "2.44.0",
     "blitz": "0.45.3",
     "common-tags": "^1.8.2",
     "react": "^17.0.2",

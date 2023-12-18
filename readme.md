@@ -1,10 +1,10 @@
 # 🔒 Archival Notice
-This repository has been archived. However, the project is not dead! Instead, it lives on through [SimplyMC](https://www.simplymc.art/), where a team is able to maintain it, alongside many other useful Minecraft tools.
+This repository has been archived. However, the project is not dead! Instead, it lives on through [SimplyMC](https://www.simplymc.art/flags), where a team is able to maintain it, alongside many other useful Minecraft tools.
 
 [Issues on this repository](https://github.com/encode42/flags.sh/issues) will still be worked on, and new features will be added to SimplyMC's rendition of the website.
 
 > [!WARNING]  
-> This means that the current domain, `flags.sh`, will eventually cease to function. It will redirect to `simplymc.art/flags` until expiry. It's strongly recommended to switch any `flags.sh` links over to `simplymc.art/flags` once the transfer is finished!
+> This means that the current domain, `flags.sh`, will eventually cease to function. It will redirect to `simplymc.art/flags` until expiry. It's strongly recommended to switch any `flags.sh` links over to `simplymc.art/flags` as soon as possible!
 
 ---
 
