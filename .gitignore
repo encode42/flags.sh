@@ -1,4 +1,6 @@
 /.next/
-.blitz.config.compiled.js
+/.blitz.config.compiled.js
+/.vscode
 
-/node_modules
+/node_modules/
+/out/
